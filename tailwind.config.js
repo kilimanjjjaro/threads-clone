@@ -5,7 +5,9 @@ module.exports = {
     extend: {
       colors: {
         'threads-black': '#101010',
-        'threads-white': '#f3f5f7'
+        'threads-white': '#f3f5f7',
+        'threads-light-gray': '#777',
+        'threads-dark-gray': '#1e1e1e'
       }
     }
   },
