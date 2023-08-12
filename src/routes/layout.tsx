@@ -1,6 +1,5 @@
 import { component$, Slot } from '@builder.io/qwik'
 import type { RequestHandler } from '@builder.io/qwik-city'
-
 import NavBar from '~/components/header/navbar'
 import Footer from '~/components/footer/footer'
 
