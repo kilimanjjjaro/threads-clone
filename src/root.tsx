@@ -24,7 +24,7 @@ export default component$(() => {
         <RouterHead />
         <ServiceWorkerRegister />
       </head>
-      <body class='bg-threads-black'>
+      <body class='bg-threads-black antialiased'>
         <div class='max-w-[620px] mx-auto px-6'>
           <RouterOutlet />
         </div>
