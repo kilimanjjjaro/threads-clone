@@ -1,6 +1,6 @@
 export const VerifyIcon = (props: { class?: string }) => (
   <svg
-    aria-label='Verificado'
+    aria-label='Verified'
     class={props.class}
     role='img'
     viewBox='-4 0 27 19'

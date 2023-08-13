@@ -5,25 +5,26 @@ import {
   GRAPHQL_ENDPOINT,
   THREADS_APP_ID
 } from '~/lib/constants'
-import { type FullUserData } from '~/lib/types'
+import { MapedUserData, type FullUserData } from '~/lib/types'
 
-const uploadAvatar = async (file: string) => {
-  const data = {
-    file,
+const uploadAvatar = async (avatarUrl: string) => {
+  const options = {
     upload_preset: 'wrkload-avatar',
     folder: 'threads-clone/avatars'
   }
 
-  cloudinary.v2.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET
-  })
-
   try {
-    const response = await cloudinary.v2.uploader.upload(file, data)
+    cloudinary.v2.config({
+      cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+      api_key: process.env.CLOUDINARY_API_KEY,
+      api_secret: process.env.CLOUDINARY_API_SECRET
+    })
 
-    return response.eager[0].secure_url
+    const response = await cloudinary.v2.uploader.upload(avatarUrl, options)
+
+    const optimizedAvatar = response.eager[0].secure_url
+
+    return optimizedAvatar
   } catch (error) {
     console.log(error)
   }
@@ -36,12 +37,27 @@ const mapUserData = async (rawResponse: FullUserData) => {
 
   const hasBioLinks = userApiResponse.bio_links.some((link) => link.url !== '')
 
-  const data = {
+  const formatFollowers = (number: number) => {
+    if (number >= 1000000) {
+      return Math.round(number / 1000000) + ' mill. of followers'
+    } else if (number >= 1000) {
+      return Math.round(number / 1000) + ' k of followers'
+    } else {
+      return number + ' of followers'
+    }
+  }
+
+  const followerCount = {
+    count: userApiResponse.follower_count,
+    label: formatFollowers(userApiResponse.follower_count)
+  }
+
+  const data: MapedUserData = {
     id: userApiResponse.pk,
     username: userApiResponse.username,
     biography: userApiResponse.biography,
     isVerified: userApiResponse.is_verified,
-    followerCount: userApiResponse.follower_count,
+    followerCount: followerCount,
     bioLinks: hasBioLinks ? userApiResponse.bio_links : [],
     fullName: userApiResponse.full_name,
     profilePicture: await uploadAvatar(userApiResponse.profile_pic_url)
@@ -57,6 +73,10 @@ const fetchData = async ({
   documentId: number
   variables: { userID: string }
 }) => {
+  const body = `lsd=jdFoLBsUcm9h-j90PeanuC&jazoest=21926&variables=${JSON.stringify(
+    variables
+  )}&doc_id=${documentId}`
+
   const headers = {
     'content-type': 'application/x-www-form-urlencoded',
     'user-agent': 'Threads clone by kilimanjjjaro.com',
@@ -64,12 +84,9 @@ const fetchData = async ({
     'x-fb-lsd': 'jdFoLBsUcm9h-j90PeanuC'
   }
 
-  const body = `lsd=jdFoLBsUcm9h-j90PeanuC&jazoest=21926&variables=${JSON.stringify(
-    variables
-  )}&doc_id=${documentId}`
-
   try {
     const response = await axios.post(GRAPHQL_ENDPOINT, body, { headers })
+
     return response.data
   } catch (error) {
     console.log(error)

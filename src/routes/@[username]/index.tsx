@@ -26,7 +26,7 @@ export default component$(() => {
   if (user.value === null) {
     return (
       <div class='flex justify-center items-center h-screen text-threads-white'>
-        Loading...
+        User not found
       </div>
     )
   }

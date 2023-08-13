@@ -36,6 +36,11 @@ type Extensions = {
   is_final: boolean
 }
 
+type followerCount = {
+  count: number
+  label: string
+}
+
 export interface FullUserData {
   data: Data
   extensions: Extensions
@@ -46,7 +51,7 @@ export interface MapedUserData {
   username: string
   biography: string
   isVerified: boolean
-  followerCount: number
+  followerCount: followerCount
   bioLinks: BioLink[]
   fullName: string
   profilePicture: string

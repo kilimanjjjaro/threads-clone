@@ -47,7 +47,9 @@ export default component$(() => {
               cdn='cloudinary'
             />
           </button>
-          <VerifyIcon class='w-6 h-6 absolute left-[1.5px] bottom-[1.5px]' />
+          {user.isVerified && (
+            <VerifyIcon class='w-6 h-6 absolute left-[1.5px] bottom-[1.5px]' />
+          )}
         </div>
       </div>
       <p class='text-threads-white whitespace-pre-line break-words'>
@@ -59,8 +61,9 @@ export default component$(() => {
             class='hover:underline'
             onClick$={() => console.log('clicked')}
           >
-            <span title='3.260.299'>3,3 mill.</span>
-            seguidores
+            <span title={user.followerCount.count.toString()}>
+              {user.followerCount.label}
+            </span>
           </button>
           {user.bioLinks.length > 0 && (
             <>
