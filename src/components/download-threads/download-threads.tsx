@@ -1,8 +1,11 @@
-import { component$ } from '@builder.io/qwik'
+import { component$, useContext } from '@builder.io/qwik'
 import { Image } from '@unpic/qwik'
 import { ThreadsLogo } from '~/components/icons/threads-logo'
+import { UserContext } from '~/routes/@[username]'
 
 export default component$(() => {
+  const user = useContext(UserContext)
+
   return (
     <div class='flex flex-col items-center py-11 px-4 bg-[#0a0a0a] rounded-2xl'>
       <div class='relative w-20 h-20 mb-4'>
@@ -11,11 +14,12 @@ export default component$(() => {
         </div>
         <Image
           class='rounded-full absolute bottom-0 right-0 border-4 border-[#0a0a0a]'
-          src='http://localhost:5173/images/avatar.jpg'
+          src={user.profilePicture}
           layout='constrained'
           width={58}
           height={58}
-          alt={'Foto de perfil de zuck'}
+          alt={`Foto de perfil de ${user.fullName}`}
+          cdn='cloudinary'
         />
       </div>
       <span class='text-threads-light-gray mb-6'>

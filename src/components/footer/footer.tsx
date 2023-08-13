@@ -1,5 +1,5 @@
 import { component$ } from '@builder.io/qwik'
-import { FOOTER_LINKS } from '~/constants/general'
+import { FOOTER_LINKS } from '~/lib/constants'
 
 export default component$(() => {
   return (

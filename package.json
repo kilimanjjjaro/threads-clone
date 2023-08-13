@@ -42,6 +42,8 @@
     "node": "18.17.1"
   },
   "dependencies": {
-    "@unpic/qwik": "^0.0.25"
+    "@unpic/qwik": "^0.0.25",
+    "axios": "^1.4.0",
+    "cloudinary": "^1.40.0"
   }
 }
