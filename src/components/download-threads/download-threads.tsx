@@ -1,24 +1,29 @@
-import { component$, useContext } from '@builder.io/qwik'
+import { component$, useContext, useComputed$ } from '@builder.io/qwik'
 import { Image } from '@unpic/qwik'
-import { ThreadsLogo } from '~/components/icons/threads-logo'
-import { UserContext } from '~/routes/@[username]'
+import ThreadsSymbolLogo from '~/components/icons/threads-symbol-logo'
+import { UserContext } from '~/lib/context'
+import uploadAvatar from '~/lib/services/uploadAvatar'
 
 export default component$(() => {
-  const user = useContext(UserContext)
+  const { userData: user } = useContext(UserContext)
+
+  const avatarUrl = useComputed$(async () => {
+    return (await uploadAvatar(user.profile_pic_url)) as string
+  })
 
   return (
     <div class='flex flex-col items-center py-11 px-4 bg-[#0a0a0a] rounded-2xl'>
       <div class='relative w-20 h-20 mb-4'>
         <div class='bg-black p-2 w-14 h-14 rounded-xl'>
-          <ThreadsLogo class=' text-threads-white' />
+          <ThreadsSymbolLogo classes='text-threads-white' />
         </div>
         <Image
           class='rounded-full absolute bottom-0 right-0 border-4 border-[#0a0a0a]'
-          src={user.profilePicture}
+          src={avatarUrl.value}
           layout='constrained'
           width={58}
           height={58}
-          alt={`Foto de perfil de ${user.fullName}`}
+          alt={`Foto de perfil de ${user.full_name}`}
           cdn='cloudinary'
         />
       </div>
