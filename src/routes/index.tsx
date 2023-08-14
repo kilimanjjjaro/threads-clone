@@ -24,7 +24,7 @@ export default component$(() => {
 
     if (username === '') return
 
-    nav(`@${username}`)
+    nav(`/@${username}`)
   })
 
   return (
