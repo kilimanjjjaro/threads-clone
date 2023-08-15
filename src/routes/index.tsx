@@ -60,8 +60,8 @@ export default component$(() => {
                   class='text-threads-light-gray text-center'
                   style={'text-wrap:balance'}
                 >
-                  For testing purposes, you can enter the username of an
-                  existing account.
+                  For testing purposes, you can access a user's profile using
+                  their username.
                 </p>
                 <div class='flex rounded-full border border-threads-white/[0.15] h-10 overflow-hidden'>
                   <span class='pl-[14px] pr-3 flex justify-center items-center text-threads-light-gray border-r border-threads-white/[0.15] cursor-not-allowed'>
@@ -77,7 +77,7 @@ export default component$(() => {
                 </div>
               </div>
               <button class='h-12 flex justify-center items-center border-t w-full text-threads-white border-threads-white/[0.15] active:bg-threads-dark-gray hover:bg-threads-dark-gray transition-colors ease-in-out duration-200'>
-                Enter
+                Search
               </button>
             </Form>
           </section>
