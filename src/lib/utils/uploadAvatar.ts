@@ -1,6 +1,7 @@
+import { server$ } from '@builder.io/qwik-city'
 import cloudinary from 'cloudinary'
 
-export default async function uploadAvatar(avatarUrl: string) {
+export const uploadAvatar = server$(async (avatarUrl: string) => {
   const options = {
     upload_preset: 'wrkload-avatar',
     folder: 'threads-clone/avatars'
@@ -21,4 +22,4 @@ export default async function uploadAvatar(avatarUrl: string) {
   } catch (error) {
     console.error(error)
   }
-}
+})

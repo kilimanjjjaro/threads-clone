@@ -1,30 +1,24 @@
-import {
-  $,
-  component$,
-  useSignal,
-  type QwikSubmitEvent
-} from '@builder.io/qwik'
-import { useNavigate, type DocumentHead } from '@builder.io/qwik-city'
+import { $, component$, useSignal } from '@builder.io/qwik'
+import { type DocumentHead, routeAction$, Form } from '@builder.io/qwik-city'
 import ThreadsTextLogo from '~/components/icons/threads-text-logo'
 import QrIcon from '~/components/icons/qr-icon'
 import AppleLogo from '~/components/icons/apple-logo'
 import AndroidLogo from '~/components/icons/android-logo'
 
+export const useRedirect = routeAction$(async (data, requestEvent) => {
+  const { username } = data
+
+  if (username === '') return
+
+  requestEvent.redirect(301, `/@${username}`)
+})
+
 export default component$(() => {
   const showKilimanjjjaroVersion = useSignal(true)
-  const nav = useNavigate()
+  const action = useRedirect()
 
   const toggleVersion = $(() => {
     showKilimanjjjaroVersion.value = !showKilimanjjjaroVersion.value
-  })
-
-  const handleSubmit = $((event: QwikSubmitEvent<HTMLFormElement>) => {
-    const form = event.target as HTMLFormElement
-    const username = form.username.value
-
-    if (username === '') return
-
-    nav(`/@${username}`)
   })
 
   return (
@@ -50,7 +44,7 @@ export default component$(() => {
       <main>
         {showKilimanjjjaroVersion.value && (
           <section class='rounded-[18px] max-w-[260px] overflow-hidden bg-[#181818] border border-threads-white/[0.15]'>
-            <form preventdefault:submit onSubmit$={handleSubmit}>
+            <Form action={action}>
               <div class='p-6 flex flex-col gap-6'>
                 <label
                   for='username'
@@ -70,7 +64,7 @@ export default component$(() => {
                     @
                   </span>
                   <input
-                    class='w-full px-4 bg-transparent active:bg-threads-dark-gray focus:bg-threads-dark-gray outline-none text-threads-light-gray placeholder:text-threads-light-gray'
+                    class='w-full px-4 bg-transparent active:bg-threads-dark-gray focus:bg-threads-dark-gray outline-none text-threads-white placeholder:text-threads-light-gray'
                     type='text'
                     name='username'
                     id='username'
@@ -81,7 +75,7 @@ export default component$(() => {
               <button class='h-12 flex justify-center items-center border-t w-full text-threads-white border-threads-white/[0.15] active:bg-threads-dark-gray'>
                 Enter
               </button>
-            </form>
+            </Form>
           </section>
         )}
         {!showKilimanjjjaroVersion.value && (

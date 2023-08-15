@@ -1,7 +1,7 @@
 import { component$, useComputed$ } from '@builder.io/qwik'
 import { Image } from '@unpic/qwik'
 import VerifyIcon from '~/components/icons/verify-icon'
-import uploadAvatar from '~/lib/services/uploadAvatar'
+import { uploadAvatar } from '~/lib/utils/uploadAvatar'
 
 interface Props {
   avatar: string

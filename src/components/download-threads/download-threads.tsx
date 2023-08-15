@@ -2,7 +2,7 @@ import { component$, useContext, useComputed$ } from '@builder.io/qwik'
 import { Image } from '@unpic/qwik'
 import ThreadsSymbolLogo from '~/components/icons/threads-symbol-logo'
 import { UserContext } from '~/lib/context'
-import uploadAvatar from '~/lib/services/uploadAvatar'
+import { uploadAvatar } from '~/lib/utils/uploadAvatar'
 
 export default component$(() => {
   const { userData: user } = useContext(UserContext)

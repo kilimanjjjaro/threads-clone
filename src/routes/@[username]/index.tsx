@@ -5,7 +5,8 @@ import Filters from '~/components/threads/filters'
 import Threads from '~/components/threads/threads'
 import DownloadThreads from '~/components/download-threads/download-threads'
 import Footer from '~/components/footer/footer'
-import { getUserData, getUserThreads } from '~/lib/services/getUserData'
+import { getUserData } from '~/lib/services/getUserData'
+import { getUserThreads } from '~/lib/services/getUserThreads'
 import { UserContext } from '~/lib/context'
 
 export const useUser = routeLoader$(async (requestEvent) => {
