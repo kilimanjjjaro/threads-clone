@@ -54,7 +54,7 @@ export default component$(() => {
                   for='username'
                   class='text-threads-white text-2xl font-bold text-center cursor-pointer'
                 >
-                  Search user
+                  Welcome!
                 </label>
                 <p
                   class='text-threads-light-gray text-center'
