@@ -5,11 +5,11 @@ import { uploadAvatar } from '~/lib/utils/uploadAvatar'
 
 interface Props {
   avatar: string
-  fullName: string
+  username: string
   isVerified: boolean
 }
 
-export default component$(({ avatar, fullName, isVerified }: Props) => {
+export default component$(({ avatar, username, isVerified }: Props) => {
   const avatarUrl = useComputed$(async () => {
     return (await uploadAvatar(avatar)) as string
   })
@@ -23,8 +23,7 @@ export default component$(({ avatar, fullName, isVerified }: Props) => {
           layout='constrained'
           width={84}
           height={84}
-          alt={`Foto de perfil de ${fullName}`}
-          cdn='cloudinary'
+          alt={`${username}'s profile picture`}
         />
       </button>
       {isVerified && (

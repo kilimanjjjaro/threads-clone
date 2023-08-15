@@ -1,10 +1,10 @@
 export const FOOTER_LINKS = [
   {
-    name: 'Condiciones de Threads',
+    name: 'Threads Terms',
     href: 'https://help.instagram.com/769983657850450'
   },
   {
-    name: 'Política de privacidad',
+    name: 'Privacy Policy',
     href: 'https://help.instagram.com/515230437301944'
   },
   {

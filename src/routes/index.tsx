@@ -29,13 +29,13 @@ export default component$(() => {
       <ThreadsTextLogo classes='absolute left-9 top-9 w-[90px] fill-threads-white' />
       <div class='absolute top-9 h-10 flex bg-threads-dark-gray border border-threads-white/[0.15] rounded-full overflow-hidden'>
         <button
-          class='px-4 active:opacity-60 bg-threads-dark-gray text-threads-light-gray'
+          class='px-4 active:opacity-60 bg-threads-dark-gray text-threads-light-gray hover:bg-[#181818] transition-colors ease-in-out duration-300'
           onClick$={toggleVersion}
         >
           Kilimanjjjaro version
         </button>
         <button
-          class='px-4 active:opacity-60 bg-[#181818] text-threads-light-gray'
+          class='px-4 active:opacity-60 bg-[#181818] text-threads-light-gray hover:bg-threads-dark-gray transition-colors ease-in-out duration-300'
           onClick$={toggleVersion}
         >
           Threads version
@@ -72,7 +72,7 @@ export default component$(() => {
                   />
                 </div>
               </div>
-              <button class='h-12 flex justify-center items-center border-t w-full text-threads-white border-threads-white/[0.15] active:bg-threads-dark-gray'>
+              <button class='h-12 flex justify-center items-center border-t w-full text-threads-white border-threads-white/[0.15] active:bg-threads-dark-gray hover:bg-threads-dark-gray transition-colors ease-in-out duration-300'>
                 Enter
               </button>
             </Form>
@@ -86,21 +86,23 @@ export default component$(() => {
               </div>
               <div class='flex border-t border-threads-white/[0.15]'>
                 <a
-                  class='w-full flex justify-center items-center py-4 active:bg-threads-dark-gray'
-                  href=''
+                  class='w-full flex justify-center items-center py-4 active:bg-threads-dark-gray hover:bg-threads-dark-gray transition-colors ease-in-out duration-300'
+                  href='https://apps.apple.com/us/app/threads-an-instagram-app/id6446901002'
+                  aria-label='Get it on App Store'
                 >
                   <AppleLogo classes='w-5 fill-threads-white' />
                 </a>
                 <a
-                  class='w-full flex justify-center items-center py-4 active:bg-threads-dark-gray'
-                  href=''
+                  class='w-full flex justify-center items-center py-4 active:bg-threads-dark-gray hover:bg-threads-dark-gray transition-colors ease-in-out duration-300'
+                  href='https://play.google.com/store/apps/details?id=com.instagram.barcelona&pli=1'
+                  aria-label='Get it on Google Play'
                 >
                   <AndroidLogo classes='w-5 fill-threads-white' />
                 </a>
               </div>
             </div>
             <p class='text-threads-white font-bold text-center mt-4'>
-              Descargar la app Threads
+              Get the Threads app
             </p>
           </section>
         )}

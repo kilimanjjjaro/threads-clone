@@ -54,7 +54,10 @@ export default component$(() => {
 export const head: DocumentHead = ({ resolveValue }) => {
   const user = resolveValue(useUser)
 
+  const fullName = user.userData?.full_name
+  const username = user.userData?.username
+
   return {
-    title: `Threads Clone - ${user.userData?.full_name}`
+    title: `${fullName} (@${username}) on Threads Clone`
   }
 }

@@ -23,20 +23,20 @@ export default component$(() => {
           layout='constrained'
           width={58}
           height={58}
-          alt={`Foto de perfil de ${user.full_name}`}
+          alt={`${user.username}'s profile picture`}
           cdn='cloudinary'
         />
       </div>
       <span class='text-threads-light-gray mb-6'>
-        Descarga la app Threads para ver más contenido de zuck.
+        Get the Threads app to like, reply and see more from {user.username}.
       </span>
       <a
-        class='px-4 pt-1 pb-[6px] rounded-[10px] text-threads-white font-semibold border border-threads-white/[0.15] transition-transform duration-200 active:scale-95'
+        class='px-4 pt-1 pb-[6px] rounded-[10px] text-threads-white font-semibold border border-threads-white/[0.15] duration-300 ease-in-out active:scale-95 hover:border-threads-white/40'
         href='https://www.threads.net/download/redirect'
         target='_blank'
         rel='noopener noreferrer'
       >
-        Descargar Threads
+        Get Threads
       </a>
     </div>
   )

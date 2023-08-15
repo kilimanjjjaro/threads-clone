@@ -3,7 +3,7 @@ export default function AppleLogo({ classes }: { classes?: string }) {
     <svg
       class={classes}
       xmlns='http://www.w3.org/2000/svg'
-      aria-label='Logotipo de Apple'
+      aria-label='Apple logo'
       viewBox='0 0 16 16'
       fill='currentColor'
     >
