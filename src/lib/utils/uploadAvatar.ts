@@ -1,22 +1,23 @@
 import { server$ } from '@builder.io/qwik-city'
-import cloudinary from 'cloudinary'
+import axios from 'axios'
 
 export const uploadAvatar = server$(async (avatarUrl: string) => {
-  const options = {
+  const data = {
+    file: avatarUrl,
     upload_preset: 'wrkload-avatar',
     folder: 'threads-clone/avatars'
   }
 
   try {
-    cloudinary.v2.config({
-      cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-      api_key: process.env.CLOUDINARY_API_KEY,
-      api_secret: process.env.CLOUDINARY_API_SECRET
-    })
+    const response = await axios.post(
+      'https://api.cloudinary.com/v1_1/dfzzgyj7r/image/upload',
+      data,
+      {
+        withCredentials: false
+      }
+    )
 
-    const response = await cloudinary.v2.uploader.upload(avatarUrl, options)
-
-    const optimizedAvatar = response.eager[0].secure_url
+    const optimizedAvatar = response.data.secure_url
 
     return optimizedAvatar
   } catch (error) {
