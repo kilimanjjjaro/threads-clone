@@ -1,4 +1,4 @@
-import { $, component$, useSignal } from '@builder.io/qwik'
+import { component$, useSignal } from '@builder.io/qwik'
 import { type DocumentHead, routeAction$, Form } from '@builder.io/qwik-city'
 import ThreadsTextLogo from '~/components/icons/threads-text-logo'
 import QrIcon from '~/components/icons/qr-icon'
@@ -17,10 +17,6 @@ export default component$(() => {
   const showKilimanjjjaroVersion = useSignal(true)
   const action = useRedirect()
 
-  const toggleVersion = $(() => {
-    showKilimanjjjaroVersion.value = !showKilimanjjjaroVersion.value
-  })
-
   return (
     <div
       class='relative flex justify-center items-center w-full h-screen bg-cover bg-center'
@@ -29,14 +25,22 @@ export default component$(() => {
       <ThreadsTextLogo classes='absolute left-9 top-9 w-[90px] fill-threads-white' />
       <div class='absolute top-9 h-10 flex bg-threads-dark-gray border border-threads-white/[0.15] rounded-full overflow-hidden'>
         <button
-          class='px-4 active:opacity-60 bg-threads-dark-gray text-threads-light-gray hover:bg-[#181818] transition-colors ease-in-out duration-300'
-          onClick$={toggleVersion}
+          class={`px-4 text-threads-light-gray ease-in-out duration-200 hover:opacity-60 ${
+            showKilimanjjjaroVersion.value
+              ? 'bg-threads-dark-gray'
+              : 'bg-[#181818]'
+          }`}
+          onClick$={() => (showKilimanjjjaroVersion.value = true)}
         >
           Kilimanjjjaro version
         </button>
         <button
-          class='px-4 active:opacity-60 bg-[#181818] text-threads-light-gray hover:bg-threads-dark-gray transition-colors ease-in-out duration-300'
-          onClick$={toggleVersion}
+          class={`px-4 text-threads-light-gray ease-in-out duration-200 hover:opacity-60 ${
+            showKilimanjjjaroVersion.value
+              ? 'bg-[#181818]'
+              : 'bg-threads-dark-gray'
+          }`}
+          onClick$={() => (showKilimanjjjaroVersion.value = false)}
         >
           Threads version
         </button>
@@ -72,7 +76,7 @@ export default component$(() => {
                   />
                 </div>
               </div>
-              <button class='h-12 flex justify-center items-center border-t w-full text-threads-white border-threads-white/[0.15] active:bg-threads-dark-gray hover:bg-threads-dark-gray transition-colors ease-in-out duration-300'>
+              <button class='h-12 flex justify-center items-center border-t w-full text-threads-white border-threads-white/[0.15] active:bg-threads-dark-gray hover:bg-threads-dark-gray transition-colors ease-in-out duration-200'>
                 Enter
               </button>
             </Form>
@@ -86,14 +90,14 @@ export default component$(() => {
               </div>
               <div class='flex border-t border-threads-white/[0.15]'>
                 <a
-                  class='w-full flex justify-center items-center py-4 active:bg-threads-dark-gray hover:bg-threads-dark-gray transition-colors ease-in-out duration-300'
+                  class='w-full flex justify-center items-center py-4 active:bg-threads-dark-gray hover:bg-threads-dark-gray transition-colors ease-in-out duration-200'
                   href='https://apps.apple.com/us/app/threads-an-instagram-app/id6446901002'
                   aria-label='Get it on App Store'
                 >
                   <AppleLogo classes='w-5 fill-threads-white' />
                 </a>
                 <a
-                  class='w-full flex justify-center items-center py-4 active:bg-threads-dark-gray hover:bg-threads-dark-gray transition-colors ease-in-out duration-300'
+                  class='w-full flex justify-center items-center py-4 active:bg-threads-dark-gray hover:bg-threads-dark-gray transition-colors ease-in-out duration-200'
                   href='https://play.google.com/store/apps/details?id=com.instagram.barcelona&pli=1'
                   aria-label='Get it on Google Play'
                 >
