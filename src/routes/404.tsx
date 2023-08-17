@@ -19,7 +19,7 @@ export default component$(() => {
               class='text-threads-light-gray text-center'
               style={'text-wrap:balance'}
             >
-              Please, be sure that account exists.
+              Please check the URL in the address bar and try again.
             </p>
           </div>
         </section>
