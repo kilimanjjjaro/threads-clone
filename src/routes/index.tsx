@@ -1,17 +1,26 @@
 import { component$, useSignal } from '@builder.io/qwik'
-import { type DocumentHead, routeAction$, Form } from '@builder.io/qwik-city'
+import {
+  type DocumentHead,
+  routeAction$,
+  Form,
+  z,
+  zod$
+} from '@builder.io/qwik-city'
 import ThreadsTextLogo from '~/components/icons/threads-text-logo'
 import QrIcon from '~/components/icons/qr-icon'
 import AppleLogo from '~/components/icons/apple-logo'
 import AndroidLogo from '~/components/icons/android-logo'
 
-export const useRedirect = routeAction$(async (data, requestEvent) => {
-  const { username } = data
+export const useRedirect = routeAction$(
+  async (data, requestEvent) => {
+    const { username } = data
 
-  if (username === '') return
-
-  requestEvent.redirect(301, `/@${username}`)
-})
+    requestEvent.redirect(301, `/@${username}`)
+  },
+  zod$({
+    username: z.string().nonempty()
+  })
+)
 
 export default component$(() => {
   const showKilimanjjjaroVersion = useSignal(true)
@@ -68,16 +77,24 @@ export default component$(() => {
                     @
                   </span>
                   <input
-                    class='w-full px-4 bg-transparent active:bg-threads-dark-gray focus:bg-threads-dark-gray outline-none text-threads-white placeholder:text-threads-light-gray'
+                    class={`w-full px-4 bg-transparent active:bg-threads-dark-gray focus:bg-threads-dark-gray outline-none text-threads-white placeholder:text-threads-light-gray ${
+                      action.isRunning && 'disabled:cursor-not-allowed'
+                    }`}
                     type='text'
                     name='username'
                     id='username'
                     placeholder='zuck'
+                    disabled={action.isRunning}
                   />
                 </div>
               </div>
-              <button class='h-12 flex justify-center items-center border-t w-full text-threads-white border-threads-white/[0.15] active:bg-threads-dark-gray hover:bg-threads-dark-gray transition-colors ease-in-out duration-200'>
-                Search
+              <button
+                class={`h-12 flex justify-center items-center border-t w-full text-threads-white border-threads-white/[0.15] active:bg-threads-dark-gray hover:bg-threads-dark-gray transition-colors ease-in-out duration-200 ${
+                  action.isRunning && 'animate-pulse'
+                }`}
+                disabled={action.isRunning}
+              >
+                {action.isRunning ? 'Searching...' : 'Search'}
               </button>
             </Form>
           </section>
