@@ -6,7 +6,7 @@ export default component$(() => {
   const nav = useNavigate()
 
   const handleClick = $(() => {
-    nav()
+    nav('/')
   })
 
   return (
