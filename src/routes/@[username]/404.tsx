@@ -1,8 +1,14 @@
-import { component$ } from '@builder.io/qwik'
-import { type DocumentHead } from '@builder.io/qwik-city'
+import { $, component$ } from '@builder.io/qwik'
+import { useNavigate, type DocumentHead } from '@builder.io/qwik-city'
 import ThreadsTextLogo from '~/components/icons/threads-text-logo'
 
 export default component$(() => {
+  const nav = useNavigate()
+
+  const handleClick = $(() => {
+    nav('/')
+  })
+
   return (
     <div
       class='relative flex justify-center items-center w-full h-screen bg-cover bg-center'
@@ -21,6 +27,12 @@ export default component$(() => {
             >
               Please, be sure that account exists.
             </p>
+            <button
+              class='h-12 flex justify-center items-center border-t w-full text-threads-white border-threads-white/[0.15] active:bg-threads-dark-gray hover:bg-threads-dark-gray transition-colors ease-in-out duration-200'
+              onClick$={handleClick}
+            >
+              Try again
+            </button>
           </div>
         </section>
       </main>
