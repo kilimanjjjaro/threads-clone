@@ -27,10 +27,7 @@ export default component$(() => {
   const action = useRedirect()
 
   return (
-    <div
-      class='relative flex justify-center items-center w-full h-screen bg-cover bg-center'
-      style={{ backgroundImage: 'url(/images/home-bg.png)' }}
-    >
+    <div class='relative flex justify-center items-center w-full h-screen'>
       <ThreadsTextLogo classes='absolute left-9 top-9 w-[90px] fill-threads-white' />
       <div class='absolute top-9 h-10 flex bg-threads-dark-gray border border-threads-white/[0.15] rounded-full overflow-hidden'>
         <button

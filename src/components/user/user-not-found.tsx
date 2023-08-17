@@ -10,10 +10,7 @@ export default component$(() => {
   })
 
   return (
-    <div
-      class='relative flex justify-center items-center w-full h-screen bg-cover bg-center'
-      style={{ backgroundImage: 'url(/images/home-bg.png)' }}
-    >
+    <div class='relative flex justify-center items-center w-full h-screen'>
       <ThreadsTextLogo classes='absolute left-9 top-9 w-[90px] fill-threads-white' />
       <main>
         <section class='rounded-[18px] overflow-hidden bg-[#181818] border border-threads-white/[0.15]'>
