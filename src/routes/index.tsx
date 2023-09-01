@@ -36,7 +36,7 @@ export default component$(() => {
         </h2>
         <p
           class='text-threads-light-gray text-center mb-4'
-          style={{ 'text-wrap': 'balance' }}
+          // style={{ 'text-wrap': 'balance' }}
         >
           For testing purposes, you can enter the username of a real account and
           view the profile <u>without logging in</u>.

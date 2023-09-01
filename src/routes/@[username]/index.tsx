@@ -15,6 +15,8 @@ export const useUser = routeLoader$(async (requestEvent) => {
   const userData = await getUserData({ username: username })
   const userThreads = await getUserThreads({ username: username })
 
+  console.log(userThreads)
+
   if (!userData) {
     requestEvent.status(404)
   }

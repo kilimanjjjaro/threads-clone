@@ -5,13 +5,10 @@ import BioLinks from '~/components/header/bio-links'
 import Avatar from '~/components/header/avatar'
 import MoreIcon from '~/components/icons/more-icon'
 import InstagramIcon from '~/components/icons/instagram-icon'
-import { ModalsContext, UserContext } from '~/lib/context'
+import { UserContext } from '~/lib/context'
 
 export default component$(() => {
   const { userData: user } = useContext(UserContext)
-  const modal = useContext(ModalsContext)
-
-  console.log('modal', modal)
 
   const darkMode = useSignal(true)
 
