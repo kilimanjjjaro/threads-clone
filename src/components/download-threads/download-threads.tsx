@@ -1,15 +1,10 @@
-import { component$, useContext, useComputed$ } from '@builder.io/qwik'
+import { component$, useContext } from '@builder.io/qwik'
 import { Image } from '@unpic/qwik'
 import ThreadsLogo from '~/components/icons/threads-logo'
 import { UserContext } from '~/lib/context'
-import { uploadAvatar } from '~/lib/utils/uploadAvatar'
 
 export default component$(() => {
   const { userData: user } = useContext(UserContext)
-
-  const avatarUrl = useComputed$(async () => {
-    return (await uploadAvatar(user.profile_pic_url)) as string
-  })
 
   return (
     <div class='flex flex-col items-center py-11 px-4 bg-[#0a0a0a] rounded-2xl'>
@@ -19,7 +14,7 @@ export default component$(() => {
         </div>
         <Image
           class='rounded-full absolute bottom-0 right-0 border-4 border-[#0a0a0a]'
-          src={avatarUrl.value}
+          src={user.profile_pic_url}
           layout='constrained'
           width={58}
           height={58}

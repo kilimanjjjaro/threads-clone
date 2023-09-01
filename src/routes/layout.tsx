@@ -5,9 +5,8 @@ import {
   useSignal
 } from '@builder.io/qwik'
 import Footer from '~/components/footer/footer'
-import type { RequestHandler } from '@builder.io/qwik-city'
-import Modals from '~/components/modals/modals'
 import { ModalContext } from '~/lib/context'
+import type { RequestHandler } from '@builder.io/qwik-city'
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
@@ -29,7 +28,6 @@ export default component$(() => {
     <>
       <Slot />
       <Footer />
-      <Modals />
     </>
   )
 })

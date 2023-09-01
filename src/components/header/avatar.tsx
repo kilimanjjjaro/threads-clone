@@ -1,7 +1,8 @@
-import { component$, useComputed$ } from '@builder.io/qwik'
+import { $, component$, useContext } from '@builder.io/qwik'
 import { Image } from '@unpic/qwik'
 import VerifyIcon from '~/components/icons/verify-icon'
-import { uploadAvatar } from '~/lib/utils/uploadAvatar'
+import { MODAL_CODES } from '~/lib/constants'
+import { ModalContext } from '~/lib/context'
 
 interface Props {
   avatar: string
@@ -10,16 +11,16 @@ interface Props {
 }
 
 export default component$(({ avatar, username, isVerified }: Props) => {
-  const avatarUrl = useComputed$(async () => {
-    return (await uploadAvatar(avatar)) as string
-  })
+  const { modalCode } = useContext(ModalContext)
+
+  const handleClick = $(() => (modalCode.value = MODAL_CODES.AVATAR))
 
   return (
     <div class='relative'>
-      <button onClick$={() => console.log('clicked')}>
+      <button onClick$={handleClick}>
         <Image
           class='rounded-full'
-          src={avatarUrl.value}
+          src={avatar}
           layout='constrained'
           width={84}
           height={84}

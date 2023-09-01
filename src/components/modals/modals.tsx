@@ -3,6 +3,7 @@ import { ModalContext } from '~/lib/context'
 import ReportAProblemModal from './report-a-problem-modal'
 import CloseIcon from '../icons/close-icon'
 import { MODAL_CODES } from '~/lib/constants'
+import AvatarModal from './avatar-modal'
 
 export default component$(() => {
   const { modalCode } = useContext(ModalContext)
@@ -14,7 +15,7 @@ export default component$(() => {
   if (modalCode.value === MODAL_CODES.HIDDEN) return null
 
   return (
-    <div class='fixed inset-0 flex justify-center items-center'>
+    <div class='fixed inset-0 flex justify-center items-center z-50'>
       <div
         onClick$={handleClose}
         class='absolute w-full h-full bg-threads-black/[.97] backdrop-blur-xl cursor-pointer'
@@ -25,11 +26,12 @@ export default component$(() => {
       >
         <CloseIcon classes='w-4 h-4 stroke-threads-light-gray' />
       </button>
-      {modalCode.value === MODAL_CODES.REPORT_PROBLEM && (
-        <div role='dialog' class='z-10 px-6 md:px-0 w-full md:w-auto'>
+      <div role='dialog' class='z-10 px-6 md:px-0 w-full md:w-auto'>
+        {modalCode.value === MODAL_CODES.REPORT_PROBLEM && (
           <ReportAProblemModal />
-        </div>
-      )}
+        )}
+        {modalCode.value === MODAL_CODES.AVATAR && <AvatarModal />}
+      </div>
     </div>
   )
 })

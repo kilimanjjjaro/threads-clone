@@ -4,7 +4,7 @@ import { CLOUDINARY_URL } from '~/lib/constants'
 export const uploadAvatar = server$(async (avatarUrl: string) => {
   const body = {
     file: avatarUrl,
-    upload_preset: 'wrkload-avatar',
+    upload_preset: 'threads-clone',
     folder: 'threads-clone/avatars'
   }
 
@@ -19,7 +19,7 @@ export const uploadAvatar = server$(async (avatarUrl: string) => {
 
     const data = await response.json()
 
-    const optimizedAvatar = data.secure_url
+    const optimizedAvatar: string = data.secure_url
 
     return optimizedAvatar
   } catch (error) {
