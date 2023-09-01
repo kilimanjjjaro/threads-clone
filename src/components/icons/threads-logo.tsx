@@ -1,4 +1,4 @@
-export default function ThreadsSymbolLogo({ classes }: { classes: string }) {
+export default function ThreadsLogo({ classes }: { classes: string }) {
   return (
     <svg
       class={classes}

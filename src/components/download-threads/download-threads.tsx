@@ -1,6 +1,6 @@
 import { component$, useContext, useComputed$ } from '@builder.io/qwik'
 import { Image } from '@unpic/qwik'
-import ThreadsSymbolLogo from '~/components/icons/threads-symbol-logo'
+import ThreadsLogo from '~/components/icons/threads-logo'
 import { UserContext } from '~/lib/context'
 import { uploadAvatar } from '~/lib/utils/uploadAvatar'
 
@@ -15,7 +15,7 @@ export default component$(() => {
     <div class='flex flex-col items-center py-11 px-4 bg-[#0a0a0a] rounded-2xl'>
       <div class='relative w-20 h-20 mb-4'>
         <div class='bg-black p-2 w-14 h-14 rounded-xl'>
-          <ThreadsSymbolLogo classes='text-threads-white' />
+          <ThreadsLogo classes='text-threads-white' />
         </div>
         <Image
           class='rounded-full absolute bottom-0 right-0 border-4 border-[#0a0a0a]'

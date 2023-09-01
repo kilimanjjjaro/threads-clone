@@ -3,7 +3,7 @@ import { FOOTER_LINKS } from '~/lib/constants'
 
 export default component$(() => {
   return (
-    <footer class='flex text-xs text-threads-light-gray py-7 justify-center gap-3'>
+    <footer class='flex fixed left-0 right-0 bottom-0 text-xs text-threads-light-gray py-7 justify-center gap-3'>
       © 2023
       {FOOTER_LINKS.map((link) => (
         <a
@@ -16,6 +16,7 @@ export default component$(() => {
           {link.name}
         </a>
       ))}
+      <button>Report a problem</button>
     </footer>
   )
 })

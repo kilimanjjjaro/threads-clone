@@ -1,14 +1,17 @@
 import { $, component$, useSignal, useContext } from '@builder.io/qwik'
-import ThreadsSymbolLogo from '~/components/icons/threads-symbol-logo'
+import ThreadsLogo from '~/components/icons/threads-logo'
 import FollowerCount from '~/components/header/follower-count'
 import BioLinks from '~/components/header/bio-links'
 import Avatar from '~/components/header/avatar'
 import MoreIcon from '~/components/icons/more-icon'
 import InstagramIcon from '~/components/icons/instagram-icon'
-import { UserContext } from '~/lib/context'
+import { ModalsContext, UserContext } from '~/lib/context'
 
 export default component$(() => {
   const { userData: user } = useContext(UserContext)
+  const modal = useContext(ModalsContext)
+
+  console.log('modal', modal)
 
   const darkMode = useSignal(true)
 
@@ -24,7 +27,7 @@ export default component$(() => {
           aria-label='Change theme color'
           onClick$={toggleDarkMode}
         >
-          <ThreadsSymbolLogo classes='w-6 h-6 text-threads-white' />
+          <ThreadsLogo classes='w-6 h-6 text-threads-white' />
         </button>
       </div>
       <div class='flex justify-between items-center gap-2'>
@@ -45,9 +48,11 @@ export default component$(() => {
           isVerified={user.is_verified}
         />
       </div>
-      <p class='text-threads-white whitespace-pre-line break-words'>
-        {user.biography}
-      </p>
+      {user.biography && (
+        <p class='text-threads-white whitespace-pre-line break-words'>
+          {user.biography}
+        </p>
+      )}
       <div class='flex justify-between items-center'>
         <div class='flex gap-1 items-center text-threads-light-gray'>
           <FollowerCount count={user.follower_count} />

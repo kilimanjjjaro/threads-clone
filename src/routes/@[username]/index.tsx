@@ -5,7 +5,6 @@ import Filters from '~/components/threads/filters'
 import Threads from '~/components/threads/threads'
 import DownloadThreads from '~/components/download-threads/download-threads'
 import UserNotFound from '~/components/user/user-not-found'
-import Footer from '~/components/footer/footer'
 import { getUserData } from '~/lib/services/getUserData'
 import { getUserThreads } from '~/lib/services/getUserThreads'
 import { UserContext } from '~/lib/context'
@@ -43,7 +42,6 @@ export default component$(() => {
         <Threads />
       </main>
       <DownloadThreads />
-      <Footer />
     </div>
   )
 })

@@ -1,7 +1,7 @@
 import { ThreadInterface } from './threads'
 import { UserInterface } from './users'
 
-export interface ContextInterface {
+export interface UserContextInterface {
   userData: UserInterface
   userThreads: ThreadInterface[]
 }

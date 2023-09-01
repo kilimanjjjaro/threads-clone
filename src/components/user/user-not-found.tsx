@@ -1,6 +1,6 @@
 import { $, component$ } from '@builder.io/qwik'
 import { useNavigate } from '@builder.io/qwik-city'
-import ThreadsTextLogo from '~/components/icons/threads-text-logo'
+import ThreadsLogo from '~/components/icons/threads-logo'
 
 export default component$(() => {
   const nav = useNavigate()
@@ -11,7 +11,7 @@ export default component$(() => {
 
   return (
     <div class='relative flex justify-center items-center w-full h-screen'>
-      <ThreadsTextLogo classes='absolute left-9 top-9 w-[90px] fill-threads-white' />
+      <ThreadsLogo classes='absolute left-9 top-9 w-[90px] fill-threads-white' />
       <main>
         <section class='rounded-[18px] overflow-hidden bg-[#181818] border border-threads-white/[0.15]'>
           <div class='p-6 flex flex-col gap-6'>
