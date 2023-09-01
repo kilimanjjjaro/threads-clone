@@ -23,21 +23,12 @@ export default component$(() => {
   const action = useRedirect()
 
   return (
-    <main
-      class='w-full flex min-h-screen justify-center items-center bg-top bg-no-repeat'
-      style={{
-        backgroundImage: 'url(/images/bg-dark.webp)',
-        backgroundSize: '93%'
-      }}
-    >
+    <main class='w-full flex min-h-screen justify-center items-center bg-no-repeat bg-top bg-[length:140vh] xl:bg-[length:93%] bg-[url(/images/bg-dark.webp)]'>
       <section class='w-80'>
         <h2 class='text-threads-white font-bold text-center mb-2'>
           Log in with username
         </h2>
-        <p
-          class='text-threads-light-gray text-center mb-4'
-          // style={{ 'text-wrap': 'balance' }}
-        >
+        <p class='text-threads-light-gray text-center mb-4 text-balance'>
           For testing purposes, you can enter the username of a real account and
           view the profile <u>without logging in</u>.
         </p>
