@@ -23,14 +23,14 @@ export default component$(() => {
   const action = useRedirect()
 
   return (
-    <main class='w-full flex min-h-screen justify-center items-center bg-no-repeat bg-top bg-[length:140vh] xl:bg-[length:93%] bg-[url(/images/bg-dark.webp)]'>
-      <section class='w-80'>
+    <main class='w-full flex min-h-screen justify-center items-center px-6 xl:px-0 bg-no-repeat bg-top bg-[length:140vh] xl:bg-[length:93%] bg-[url(/images/bg-dark.webp)]'>
+      <section class='md:w-80'>
         <h2 class='text-threads-white font-bold text-center mb-2'>
           Log in with username
         </h2>
         <p class='text-threads-light-gray text-center mb-4 text-balance'>
           For testing purposes, you can enter the username of a real account and
-          view the profile <u>without logging in</u>.
+          visit the profile <u>without logging in</u>.
         </p>
         <Form action={action} class='mb-8'>
           <div class='flex rounded-full overflow-hidden border border-threads-white/[0.15] h-14 mb-4'>
@@ -38,12 +38,11 @@ export default component$(() => {
               @
             </span>
             <input
-              class={`w-full px-6 bg-transparent active:bg-threads-dark-gray focus:bg-threads-dark-gray outline-none text-threads-white placeholder:text-threads-light-gray ${
+              class={`w-full px-6 bg-transparent active:bg-threads-dark-gray focus:bg-threads-dark-gray hover:bg-threads-dark-gray outline-none text-threads-white placeholder:text-threads-light-gray ${
                 action.isRunning && 'disabled:cursor-not-allowed'
               }`}
               type='text'
               name='username'
-              id='username'
               placeholder='zuck'
               disabled={action.isRunning}
               autoFocus
@@ -51,7 +50,8 @@ export default component$(() => {
             />
           </div>
           <button
-            class={`h-14 flex justify-center items-center border w-full rounded-full bg-threads-dark-gray text-threads-light-gray border-threads-white/[0.15] active:scale-95 hover:bg-threads-white hover:text-threads-black hover:border-threads-white ease-in-out duration-200 ${
+            type='submit'
+            class={`h-14 flex justify-center items-center border w-full rounded-full bg-threads-dark-gray text-threads-light-gray border-threads-white/[0.15] active:scale-95 hover:bg-threads-white hover:text-threads-black hover:border-threads-white ease-in-out duration-300 ${
               action.isRunning && 'animate-pulse'
             }`}
             disabled={action.isRunning}

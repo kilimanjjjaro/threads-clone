@@ -1,6 +1,13 @@
-import { component$, Slot } from '@builder.io/qwik'
+import {
+  component$,
+  Slot,
+  useContextProvider,
+  useSignal
+} from '@builder.io/qwik'
 import Footer from '~/components/footer/footer'
 import type { RequestHandler } from '@builder.io/qwik-city'
+import Modals from '~/components/modals/modals'
+import { ModalContext } from '~/lib/context'
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
@@ -14,10 +21,15 @@ export const onGet: RequestHandler = async ({ cacheControl }) => {
 }
 
 export default component$(() => {
+  const modalCode = useSignal(0)
+
+  useContextProvider(ModalContext, { modalCode })
+
   return (
     <>
       <Slot />
       <Footer />
+      <Modals />
     </>
   )
 })

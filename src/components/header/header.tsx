@@ -20,7 +20,7 @@ export default component$(() => {
     <header class='flex flex-col gap-4 justify-center mb-4'>
       <div class='py-6 self-center'>
         <button
-          class='transition-transform duration-200 ease-in-out hover:scale-[1.07]'
+          class='transition-transform duration-300 ease-in-out hover:scale-[1.07]'
           aria-label='Change theme color'
           onClick$={toggleDarkMode}
         >
@@ -34,7 +34,7 @@ export default component$(() => {
           </h2>
           <div class='flex gap-2'>
             <span class='text-threads-white'>{user.username}</span>
-            <button class='text-xs bg-threads-dark-gray text-threads-light-gray px-2 py-[6px] rounded-[30px] active:scale-90 hover:bg-threads-dark-gray/50 ease-in-out duration-200'>
+            <button class='text-xs bg-threads-dark-gray text-threads-light-gray px-2 py-[6px] rounded-[30px] active:scale-90 hover:bg-threads-dark-gray/50 ease-in-out duration-300'>
               threads.net
             </button>
           </div>
@@ -57,19 +57,19 @@ export default component$(() => {
         </div>
         <div class='flex gap-4'>
           <a
-            class='relative flex justify-center items-center group transition-transform duration-200 ease-in-out active:scale-90'
+            class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
             aria-label='Instagram'
             href={`https://instagram.com/${user.username}`}
           >
-            <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-[150%] h-[150%] transition-transform duration-200 ease-in-out group-hover:scale-100'></div>
+            <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-[150%] h-[150%] transition-transform duration-300 ease-in-out group-hover:scale-100'></div>
             <InstagramIcon classes='z-10 w-6 h-6 text-threads-white' />
           </a>
           <a
-            class='relative flex justify-center items-center group transition-transform duration-200 ease-in-out active:scale-90'
+            class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
             aria-label='More'
             href=''
           >
-            <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-[150%] h-[150%] transition-transform duration-200 ease-in-out group-hover:scale-100'></div>
+            <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-[150%] h-[150%] transition-transform duration-300 ease-in-out group-hover:scale-100'></div>
             <MoreIcon classes='z-10 w-6 h-6 text-threads-white' />
           </a>
         </div>

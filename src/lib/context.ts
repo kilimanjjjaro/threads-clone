@@ -1,6 +1,9 @@
-import { createContextId, useContextProvider } from '@builder.io/qwik'
-import type { UserContextInterface } from '~/lib/interfaces/general'
+import { createContextId } from '@builder.io/qwik'
+import type {
+  ModalContextInterface,
+  UserContextInterface
+} from '~/lib/interfaces/general'
 
 export const UserContext = createContextId<UserContextInterface>('user')
 
-export const ModalsContext = createContextId<UserContextInterface>('modals')
+export const ModalContext = createContextId<ModalContextInterface>('modals')
