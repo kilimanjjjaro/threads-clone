@@ -51,7 +51,7 @@ export default component$(() => {
         <Header />
         <main class='flex flex-col gap-4 mb-4'>
           <Filters />
-          <Threads threads={user.value.userThreads} />
+          <Threads />
         </main>
         <DownloadThreads />
       </div>

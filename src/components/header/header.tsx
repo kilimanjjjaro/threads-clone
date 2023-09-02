@@ -50,8 +50,8 @@ export default component$(() => {
           {user.biography}
         </p>
       )}
-      <div class='flex justify-between items-center'>
-        <div class='flex gap-1 items-center text-threads-light-gray'>
+      <div class='flex justify-between gap-4 items-center'>
+        <div class='flex gap-1 items-center text-threads-light-gray overflow-hidden'>
           <FollowerCount count={user.follower_count} />
           <BioLinks links={user.bio_links} />
         </div>
