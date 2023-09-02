@@ -15,8 +15,8 @@ export const useUser = routeLoader$(async (requestEvent) => {
   const username = requestEvent.params.username
 
   const userData = await getUserData({ username: username })
-  const userThreads = await getUserThreads({ username: username })
 
+  const userThreads = await getUserThreads({ username: username })
   if (userData === null) {
     requestEvent.status(404)
 
@@ -39,7 +39,7 @@ export const useUser = routeLoader$(async (requestEvent) => {
 export default component$(() => {
   const user = useUser()
 
-  if (user.value.userData === null) {
+  if (user.value.userData === null || user.value.userThreads === null) {
     return <UserNotFound />
   }
 
@@ -51,7 +51,7 @@ export default component$(() => {
         <Header />
         <main class='flex flex-col gap-4 mb-4'>
           <Filters />
-          <Threads />
+          <Threads threads={user.value.userThreads} />
         </main>
         <DownloadThreads />
       </div>
