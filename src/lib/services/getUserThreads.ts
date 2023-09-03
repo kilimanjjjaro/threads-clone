@@ -1,8 +1,8 @@
 import { server$ } from '@builder.io/qwik-city'
 import { getUserId } from '~/lib/services/getUserId'
 import { fetchData } from '~/lib/utils/fetchData'
-import type { UserThreadsInterface } from '~/lib/interfaces/threads'
 import { ENDPOINTS_DOCUMENT_ID } from '~/lib/constants'
+import type { UserThreadsInterface } from '~/lib/interfaces/threads'
 
 export const getUserThreads = server$(
   async ({ username }: { username?: string }) => {
@@ -20,6 +20,8 @@ export const getUserThreads = server$(
       documentId
     })
 
-    return data.data.mediaData.threads
+    const threads = data?.data?.mediaData?.threads
+
+    return threads
   }
 )

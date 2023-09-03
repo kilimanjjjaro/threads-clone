@@ -1,9 +1,9 @@
 import { $, component$, useContext } from '@builder.io/qwik'
 import { ModalContext } from '~/lib/context'
-import ReportAProblemModal from './report-a-problem-modal'
-import CloseIcon from '../icons/close-icon'
+import ReportAProblemModal from '~/components/modals/report-a-problem-modal'
+import AvatarModal from '~/components/modals/avatar-modal'
+import CloseIcon from '~/components/icons/close-icon'
 import { MODAL_CODES } from '~/lib/constants'
-import AvatarModal from './avatar-modal'
 
 export default component$(() => {
   const { modalCode } = useContext(ModalContext)

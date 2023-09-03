@@ -1,8 +1,8 @@
 import { $, component$, useContext } from '@builder.io/qwik'
 import { Image } from '@unpic/qwik'
 import VerifyIcon from '~/components/icons/verify-icon'
-import { MODAL_CODES } from '~/lib/constants'
 import { ModalContext } from '~/lib/context'
+import { MODAL_CODES } from '~/lib/constants'
 
 interface Props {
   avatar: string

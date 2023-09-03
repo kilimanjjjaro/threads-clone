@@ -3,13 +3,28 @@ import { Image } from '@unpic/qwik'
 import VerifyIcon from '~/components/icons/verify-icon'
 import { UserContext } from '~/lib/context'
 import formatDate from '~/lib/utils/formatDate'
+import { CLOUDINARY_URL } from '~/lib/constants'
+
+const uploadMedia = (mediaUrl: string) => {
+  const body = {
+    file: mediaUrl,
+    upload_preset: 'wrkload-avatar',
+    folder: 'threads-clone/threads-media'
+  }
+
+  return fetch(CLOUDINARY_URL, {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      'content-type': 'application/json'
+    }
+  })
+    .then((response) => response.json())
+    .then((data) => data.secure_url)
+}
 
 export default component$(() => {
   const { userData: user, userThreads: threads } = useContext(UserContext)
-
-  const uploadMedia = (url: string) => {
-    return url
-  }
 
   return (
     <div class='flex flex-col gap-3'>
