@@ -35,7 +35,7 @@ interface Post {
   pk: string
   has_audio: null
   text_post_app_info: PostTextPostAppInfo
-  caption: Caption
+  caption: Caption | null
   taken_at: number
   like_count: number
   code: string
@@ -90,7 +90,7 @@ interface QuotedPost {
   pk: string
   media_overlay_info: null
   code: string
-  caption: Caption
+  caption: Caption | null
   image_versions2: ImageVersions2
   original_width: number
   original_height: number

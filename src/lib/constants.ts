@@ -31,3 +31,6 @@ export const ENDPOINTS_DOCUMENT_ID = {
 
 export const CLOUDINARY_URL =
   'https://api.cloudinary.com/v1_1/dfzzgyj7r/image/upload'
+
+export const DEFAULT_THREAD_IMAGE =
+  'https://source.unsplash.com/random/800x800/?city,night'

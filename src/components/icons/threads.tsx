@@ -6,9 +6,6 @@ import formatDate from '~/lib/utils/formatDate'
 import { DEFAULT_THREAD_IMAGE } from '~/lib/constants'
 import { Link } from '@builder.io/qwik-city'
 import LikeIcon from '../icons/like-icon'
-import CommentIcon from '../icons/comment-icon'
-import RepostIcon from '../icons/repost-icon'
-import ShareIcon from '../icons/share-icon'
 
 export default component$(() => {
   const { userData: user, userThreads: threads } = useContext(UserContext)
@@ -60,22 +57,17 @@ export default component$(() => {
                     </p>
                   )}
                   <div class='flex relative aspect-square overflow-hidden border border-threads-light-gray/20 rounded-lg mb-2'>
-                    {item.post.image_versions2.candidates.length > 0 && (
-                      <Image
-                        class='w-full h-full object-cover object-center'
-                        src={DEFAULT_THREAD_IMAGE}
-                        layout='constrained'
-                        alt={`${item.post.user.username}'s thread image`}
-                        width={600}
-                        aspectRatio={1}
-                      />
-                    )}
+                    <Image
+                      class='w-full h-full object-cover object-center'
+                      src={DEFAULT_THREAD_IMAGE}
+                      layout='constrained'
+                      alt={`${item.post.user.username}'s thread image`}
+                      width={600}
+                      aspectRatio={1}
+                    />
                   </div>
                   <div class='flex gap-2'>
-                    <LikeIcon classes='w-5 h-5 text-threads-white' />
-                    <CommentIcon classes='w-5 h-5 text-threads-white' />
-                    <RepostIcon classes='w-5 h-5 fill-threads-white' />
-                    <ShareIcon classes='w-5 h-5 text-threads-white' />
+                    <LikeIcon classes='w-5 h-5' />
                   </div>
                 </div>
               </div>
