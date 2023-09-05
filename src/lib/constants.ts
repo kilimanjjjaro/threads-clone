@@ -32,5 +32,21 @@ export const ENDPOINTS_DOCUMENT_ID = {
 export const CLOUDINARY_URL =
   'https://api.cloudinary.com/v1_1/dfzzgyj7r/image/upload'
 
-export const DEFAULT_THREAD_IMAGE =
-  'https://source.unsplash.com/random/800x800/?city,night'
+export const DEFAULT_THREAD_IMAGE = '/images/thread-image.webp'
+
+export const DEFAULT_THREAD_FACEPILE_AVATARS = [
+  '/images/default-avatar-1.webp',
+  '/images/default-avatar-2.webp',
+  '/images/default-avatar-3.webp',
+  '/images/default-avatar-4.webp',
+  '/images/default-avatar-5.webp'
+]
+
+export const THREAD_TYPES = {
+  IMAGE: 'image',
+  VIDEO: 'video',
+  TEXT: 'text',
+  REPOSTED: 'reposted',
+  QUOTED: 'quoted',
+  CAROUSEL: 'carousel'
+}

@@ -6,15 +6,6 @@ interface MediaData {
   threads: ThreadInterface[]
 }
 
-interface ThreadItem {
-  post: Post
-  line_type: LineType
-  view_replies_cta_string: string
-  reply_facepile_users: ReplyFacepileUser[]
-  should_show_replies_cta: boolean
-  __typename: ThreadItemTypename
-}
-
 enum ThreadItemTypename {
   XDTThreadItem = 'XDTThreadItem'
 }
@@ -134,6 +125,15 @@ enum ReplyFacepileUserTypename {
 
 interface Extensions {
   is_final: boolean
+}
+
+export interface ThreadItem {
+  post: Post
+  line_type: LineType
+  view_replies_cta_string: string
+  reply_facepile_users: ReplyFacepileUser[]
+  should_show_replies_cta: boolean
+  __typename: ThreadItemTypename
 }
 
 export interface ThreadInterface {
