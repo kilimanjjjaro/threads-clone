@@ -8,7 +8,6 @@ import QuotedItem from '~/components/threads/quoted-item'
 import { CarouselItem } from '~/components/threads/CarouselItem'
 import { UserContext } from '~/lib/context'
 import formatDate from '~/lib/utils/formatDate'
-import getRandomIndex from '~/lib/utils/getRandomIndex'
 import { AVATARS } from '~/lib/constants'
 import type { ThreadItem } from '~/lib/interfaces/threads'
 
