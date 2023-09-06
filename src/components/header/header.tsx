@@ -61,7 +61,7 @@ export default component$(() => {
             aria-label='Instagram'
             href={`https://instagram.com/${user.username}`}
           >
-            <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-[150%] h-[150%] transition-transform duration-300 ease-in-out group-hover:scale-100'></div>
+            <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-[150%] h-[150%] transition-transform duration-300 ease-in-out group-hover:scale-100' />
             <InstagramIcon classes='z-10 w-6 h-6 text-threads-white' />
           </a>
           <a
@@ -69,7 +69,7 @@ export default component$(() => {
             aria-label='More'
             href=''
           >
-            <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-[150%] h-[150%] transition-transform duration-300 ease-in-out group-hover:scale-100'></div>
+            <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-[150%] h-[150%] transition-transform duration-300 ease-in-out group-hover:scale-100' />
             <MoreIcon classes='z-10 w-6 h-6 text-threads-white' />
           </a>
         </div>

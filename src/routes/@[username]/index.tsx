@@ -38,7 +38,7 @@ export default component$(() => {
 
   return (
     <>
-      <div class='max-w-[620px] mx-auto px-6'>
+      <div class='w-full max-w-[620px] mx-auto px-6'>
         <Header />
         <main class='flex flex-col gap-4 mb-4'>
           <Filters />

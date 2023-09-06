@@ -1,6 +1,6 @@
 import { $, component$ } from '@builder.io/qwik'
 import { useNavigate } from '@builder.io/qwik-city'
-import ThreadsLogo from '~/components/icons/threads-logo'
+import Modals from '~/components/modals/modals'
 
 export default component$(() => {
   const nav = useNavigate()
@@ -10,29 +10,27 @@ export default component$(() => {
   })
 
   return (
-    <div class='relative flex justify-center items-center w-full h-screen'>
-      <ThreadsLogo classes='absolute left-9 top-9 w-[90px] fill-threads-white' />
-      <main>
-        <section class='rounded-[18px] overflow-hidden bg-[#181818] border border-threads-white/[0.15]'>
-          <div class='p-6 flex flex-col gap-6'>
-            <h2 class='text-threads-white text-2xl font-bold text-center cursor-pointer'>
-              User not found
-            </h2>
-            <p
-              class='text-threads-light-gray text-center'
-              style={'text-wrap:balance'}
-            >
-              Please, be sure that account exists.
-            </p>
-          </div>
+    <>
+      <main class='flex w-full h-full justify-center items-center px-6 xl:px-0 pt-[100px] xl:pt-[72px] bg-no-repeat bg-top bg-[length:140vh] xl:bg-[length:93%] bg-[url(/images/bg-dark.webp)]'>
+        <section class='md:w-80'>
+          <h2 class='text-threads-white font-bold text-center mb-2'>
+            User not found
+          </h2>
+          <p class='text-threads-light-gray text-center mb-4 text-balance'>
+            Please make sure that the username you entered is from a real
+            account.
+          </p>
+
           <button
-            class='h-12 flex justify-center items-center border-t w-full text-threads-white border-threads-white/[0.15] active:bg-threads-dark-gray hover:bg-threads-dark-gray transition-colors ease-in-out duration-300'
+            type='submit'
+            class='h-14 flex justify-center items-center border w-full rounded-full bg-threads-dark-gray text-threads-light-gray border-threads-white/[0.15] active:scale-95 hover:bg-threads-white hover:text-threads-black hover:border-threads-white ease-in-out duration-300'
             onClick$={handleClick}
           >
             Try again
           </button>
         </section>
       </main>
-    </div>
+      <Modals />
+    </>
   )
 })

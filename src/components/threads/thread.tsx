@@ -2,15 +2,12 @@ import { component$, useComputed$, useContext } from '@builder.io/qwik'
 import { Image } from '@unpic/qwik'
 import { Link } from '@builder.io/qwik-city'
 import VerifyIcon from '~/components/icons/verify-icon'
-import LikeIcon from '~/components/icons/like-icon'
-import CommentIcon from '~/components/icons/comment-icon'
-import RepostIcon from '~/components/icons/repost-icon'
-import ShareIcon from '~/components/icons/share-icon'
 import ImageItem from '~/components/threads/image-item'
 import { UserContext } from '~/lib/context'
 import formatDate from '~/lib/utils/formatDate'
 import type { ThreadItem } from '~/lib/interfaces/threads'
 import { DEFAULT_THREAD_FACEPILE_AVATARS } from '~/lib/constants'
+import Buttons from './buttons'
 
 interface Props {
   thread: ThreadItem
@@ -36,7 +33,7 @@ export default component$(({ thread }: Props) => {
 
   return (
     <article key={thread.post.id}>
-      <div class='flex gap-3'>
+      <div class='flex gap-3 mb-1'>
         <Image
           class='rounded-full'
           src={user.profile_pic_url}
@@ -45,13 +42,15 @@ export default component$(({ thread }: Props) => {
           height={36}
           alt={`${thread.post.user.username}'s profile picture`}
         />
-        <div class='w-full'>
+        <div class='w-full -mt-1'>
           <div class='flex justify-between items-center mb-1'>
             <div class='flex gap-1 items-center'>
               <span class='text-threads-white font-semibold'>
                 {thread.post.user.username}
               </span>
-              {thread.post.user.is_verified && <VerifyIcon classes='w-4 h-4' />}
+              {thread.post.user.is_verified && (
+                <VerifyIcon classes='w-[16px] h-[16px] pt-[2px]' />
+              )}
             </div>
             <div class='flex gap-3 items-center'>
               <span class='text-threads-light-gray'>
@@ -72,12 +71,7 @@ export default component$(({ thread }: Props) => {
             <p class='text-threads-white mb-2'>{thread.post.caption.text}</p>
           )}
           {isImagePost && <ImageItem username={thread.post.user.username} />}
-          <div class='flex gap-2'>
-            <LikeIcon classes='w-5 h-5 text-threads-white' />
-            <CommentIcon classes='w-5 h-5 text-threads-white' />
-            <RepostIcon classes='w-5 h-5 fill-threads-white' />
-            <ShareIcon classes='w-5 h-5 text-threads-white' />
-          </div>
+          <Buttons />
         </div>
       </div>
       <div class='flex gap-3 items-center'>

@@ -19,4 +19,14 @@ html {
   .text-balance {
     text-wrap: balance;
   }
+
+  .compatible-screen-height {
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  .compatible-screen-min-height {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
 }

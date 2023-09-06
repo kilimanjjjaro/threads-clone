@@ -5,6 +5,7 @@ export default function LikeIcon({ classes }: { classes?: string }) {
       xmlns='http://www.w3.org/2000/svg'
       aria-label='Like'
       viewBox='0 0 24 22'
+      fill='none'
     >
       <path
         stroke='currentColor'

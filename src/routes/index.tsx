@@ -25,7 +25,7 @@ export default component$(() => {
 
   return (
     <>
-      <main class='w-full flex min-h-screen justify-center items-center px-6 xl:px-0 bg-no-repeat bg-top bg-[length:140vh] xl:bg-[length:93%] bg-[url(/images/bg-dark.webp)]'>
+      <main class='w-full h-full flex justify-center items-center px-6 xl:px-0 pt-[100px] xl:pt-[72px] bg-no-repeat bg-top bg-[length:140vh] xl:bg-[length:93%] bg-[url(/images/bg-dark.webp)]'>
         <section class='md:w-80'>
           <h2 class='text-threads-white font-bold text-center mb-2'>
             Log in with username

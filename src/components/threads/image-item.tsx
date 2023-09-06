@@ -8,7 +8,7 @@ interface Props {
 
 export default component$(({ username }: Props) => {
   return (
-    <div class='relative aspect-square overflow-hidden border border-threads-light-gray/20 rounded-lg mb-2'>
+    <div class='relative aspect-square overflow-hidden border border-threads-light-gray/20 rounded-lg'>
       <Image
         class='absolute w-full h-full object-cover'
         src={DEFAULT_THREAD_IMAGE}
