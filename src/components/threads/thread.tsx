@@ -3,11 +3,14 @@ import { Image } from '@unpic/qwik'
 import { Link } from '@builder.io/qwik-city'
 import VerifyIcon from '~/components/icons/verify-icon'
 import ImageItem from '~/components/threads/image-item'
+import Buttons from '~/components/threads/buttons'
+import QuotedItem from '~/components/threads/quoted-item'
+import { CarouselItem } from '~/components/threads/CarouselItem'
 import { UserContext } from '~/lib/context'
 import formatDate from '~/lib/utils/formatDate'
+import getRandomIndex from '~/lib/utils/getRandomIndex'
+import { AVATARS } from '~/lib/constants'
 import type { ThreadItem } from '~/lib/interfaces/threads'
-import { DEFAULT_THREAD_FACEPILE_AVATARS } from '~/lib/constants'
-import Buttons from './buttons'
 
 interface Props {
   thread: ThreadItem
@@ -16,16 +19,20 @@ interface Props {
 export default component$(({ thread }: Props) => {
   const { userData: user } = useContext(UserContext)
 
-  const isImagePost = thread.post.image_versions2.candidates.length > 0
-  // const isQuotedPost =
-  //   thread.post.text_post_app_info.share_info.quoted_post !== null
+  const isQuotedPost =
+    thread.post.text_post_app_info.share_info.quoted_post !== null
 
   // const isRepostedPost =
   //   thread.post.text_post_app_info.share_info.reposted_post !== null
 
-  // const isVideoPost = thread.post.video_versions.length > 0
+  // const isVideoPost = thread.post.video_versions.length ? true : false
 
-  // const isCarouselPost = thread.post.carousel_media !== null
+  const isCarouselPost = thread.post.carousel_media?.length ? true : false
+
+  const isImagePost =
+    thread.post.image_versions2.candidates.length && !isCarouselPost
+      ? true
+      : false
 
   const facepileAvatarCount = useComputed$(() => {
     return thread.reply_facepile_users.length
@@ -33,7 +40,7 @@ export default component$(({ thread }: Props) => {
 
   return (
     <article key={thread.post.id}>
-      <div class='flex gap-3 mb-1'>
+      <div class='flex gap-3 mb-1 w-full'>
         <Image
           class='rounded-full'
           src={user.profile_pic_url}
@@ -42,7 +49,7 @@ export default component$(({ thread }: Props) => {
           height={36}
           alt={`${thread.post.user.username}'s profile picture`}
         />
-        <div class='w-full -mt-1'>
+        <div class='w-full overflow-hidden -mt-1'>
           <div class='flex justify-between items-center mb-1'>
             <div class='flex gap-1 items-center'>
               <span class='text-threads-white font-semibold'>
@@ -71,6 +78,18 @@ export default component$(({ thread }: Props) => {
             <p class='text-threads-white mb-2'>{thread.post.caption.text}</p>
           )}
           {isImagePost && <ImageItem username={thread.post.user.username} />}
+
+          {isQuotedPost && (
+            <QuotedItem
+              thread={thread.post.text_post_app_info.share_info.quoted_post}
+            />
+          )}
+          {isCarouselPost && (
+            <CarouselItem
+              images={thread.post.carousel_media}
+              imagesCount={thread.post.carousel_media_count}
+            />
+          )}
           <Buttons />
         </div>
       </div>
@@ -88,7 +107,7 @@ export default component$(({ thread }: Props) => {
   
                   ${index === 2 && 'bottom-0 left-[13px]'}
                 `}
-                  src={DEFAULT_THREAD_FACEPILE_AVATARS[index]}
+                  src={AVATARS[index]}
                   layout='constrained'
                   width={index === 0 ? 20 : index === 1 ? 16 : 12}
                   height={index === 0 ? 20 : index === 1 ? 16 : 12}
@@ -109,7 +128,7 @@ export default component$(({ thread }: Props) => {
                     'top-0 left-[12px] border-[2.5px] border-threads-black'
                   }
                 `}
-                  src={DEFAULT_THREAD_FACEPILE_AVATARS[index]}
+                  src={AVATARS[index]}
                   layout='constrained'
                   width={index === 0 ? 16 : 20}
                   height={index === 0 ? 16 : 20}
@@ -122,7 +141,7 @@ export default component$(({ thread }: Props) => {
             <div class='relative w-8 h-8'>
               <Image
                 class='absolute object-cover object-center aspect-square overflow-hidden rounded-lg'
-                src={DEFAULT_THREAD_FACEPILE_AVATARS[1]}
+                src={AVATARS[1]}
                 layout='constrained'
                 width={36}
                 height={36}
@@ -131,7 +150,7 @@ export default component$(({ thread }: Props) => {
             </div>
           )}
         </div>
-        <div class='text-threads-light-gray flex gap-1'>
+        <div class='text-threads-light-gray flex gap-[6px]'>
           <Link href='#' class='xl:hover:underline'>
             {thread.view_replies_cta_string}
           </Link>

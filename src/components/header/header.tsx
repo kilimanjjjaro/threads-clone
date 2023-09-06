@@ -18,7 +18,8 @@ export default component$(() => {
     darkMode.value = !darkMode.value
   })
 
-  const handleClick = $(() => (modalCode.value = MODAL_CODES.SOON))
+  const openSoonModal = $(() => (modalCode.value = MODAL_CODES.SOON))
+  const openCloneModal = $(() => (modalCode.value = MODAL_CODES.CLONE))
 
   return (
     <header class='flex flex-col gap-4 justify-center mb-4'>
@@ -28,7 +29,7 @@ export default component$(() => {
           aria-label='Change theme color'
           onClick$={toggleDarkMode}
         >
-          <ThreadsLogo classes='w-6 h-6 text-threads-white' />
+          <ThreadsLogo classes='w-8 h-8 text-threads-white' />
         </button>
       </div>
       <div class='flex justify-between items-center gap-2'>
@@ -39,7 +40,7 @@ export default component$(() => {
           <div class='flex gap-2'>
             <span class='text-threads-white'>{user.username}</span>
             <button
-              onClick$={handleClick}
+              onClick$={openSoonModal}
               class='text-xs bg-threads-dark-gray text-threads-light-gray px-2 py-[6px] rounded-[30px] active:scale-90 xl:hover:bg-threads-dark-gray/50 ease-in-out duration-300'
             >
               threads.net
@@ -71,14 +72,14 @@ export default component$(() => {
             <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-[150%] h-[150%] transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
             <InstagramIcon classes='z-10 w-6 h-6 text-threads-white' />
           </a>
-          <a
+          <button
+            onClick$={openCloneModal}
             class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
             aria-label='More'
-            href=''
           >
             <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-[150%] h-[150%] transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
             <MoreIcon classes='z-10 w-6 h-6 text-threads-white' />
-          </a>
+          </button>
         </div>
       </div>
     </header>

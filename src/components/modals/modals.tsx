@@ -10,7 +10,7 @@ import { MODAL_CODES } from '~/lib/constants'
 export default component$(() => {
   const { modalCode } = useContext(ModalContext)
 
-  const handleClose = $(() => {
+  const closeModal = $(() => {
     modalCode.value = MODAL_CODES.HIDDEN
   })
 
@@ -19,11 +19,11 @@ export default component$(() => {
   return (
     <div class='fixed inset-0 flex justify-center items-center z-50'>
       <div
-        onClick$={handleClose}
+        onClick$={closeModal}
         class='absolute w-full h-full bg-threads-black/[.97] backdrop-blur-xl cursor-pointer'
       />
       <button
-        onClick$={handleClose}
+        onClick$={closeModal}
         class='absolute left-6 top-6 bg-threads-dark-gray w-11 h-11 flex justify-center items-center rounded-full xl:hover:scale-105 transition-transform ease-in-out duration-300 z-10'
       >
         <CloseIcon classes='w-4 h-4 stroke-threads-light-gray' />

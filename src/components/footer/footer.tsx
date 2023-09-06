@@ -5,7 +5,9 @@ import { FOOTER_LINKS, MODAL_CODES } from '~/lib/constants'
 export default component$(() => {
   const { modalCode } = useContext(ModalContext)
 
-  const handleClick = $(() => (modalCode.value = MODAL_CODES.REPORT_PROBLEM))
+  const openReportProblemModal = $(
+    () => (modalCode.value = MODAL_CODES.REPORT_PROBLEM)
+  )
 
   return (
     <footer class='flex flex-wrap px-4 text-xs text-threads-light-gray py-7 justify-center gap-3'>
@@ -21,7 +23,7 @@ export default component$(() => {
           {link.name}
         </a>
       ))}
-      <button onClick$={handleClick}>Report a problem</button>
+      <button onClick$={openReportProblemModal}>Report a problem</button>
     </footer>
   )
 })

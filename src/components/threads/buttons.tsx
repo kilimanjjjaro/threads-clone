@@ -9,12 +9,12 @@ import { MODAL_CODES } from '~/lib/constants'
 export default component$(() => {
   const { modalCode } = useContext(ModalContext)
 
-  const openModal = $(() => (modalCode.value = MODAL_CODES.CLONE))
+  const openCloneModal = $(() => (modalCode.value = MODAL_CODES.CLONE))
 
   return (
     <div class='flex gap-4 mt-3'>
       <button
-        onClick$={openModal}
+        onClick$={openCloneModal}
         class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
         aria-label='Like'
       >
@@ -22,7 +22,7 @@ export default component$(() => {
         <LikeIcon classes='z-10 w-5 h-5 text-threads-white' />
       </button>
       <button
-        onClick$={openModal}
+        onClick$={openCloneModal}
         class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
         aria-label='Comment'
       >
@@ -30,7 +30,7 @@ export default component$(() => {
         <CommentIcon classes='z-10 w-5 h-5 text-threads-white' />
       </button>
       <button
-        onClick$={openModal}
+        onClick$={openCloneModal}
         class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
         aria-label='Repost'
       >
@@ -38,6 +38,7 @@ export default component$(() => {
         <RepostIcon classes='z-10 w-5 h-5 fill-threads-white' />
       </button>
       <button
+        onClick$={openCloneModal}
         class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
         aria-label='Share'
       >

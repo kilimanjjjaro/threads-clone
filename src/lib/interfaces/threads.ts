@@ -21,7 +21,7 @@ interface Post {
   original_width: number
   original_height: number
   video_versions: any[]
-  carousel_media: null
+  carousel_media: CarouselMedia[] | null
   carousel_media_count: null
   pk: string
   has_audio: null
@@ -75,7 +75,17 @@ interface PurpleShareInfo {
   reposted_post: null
 }
 
-interface QuotedPost {
+export interface CarouselMedia {
+  image_versions2: ImageVersions2
+  video_versions: any[]
+  has_audio: null
+  original_width: number
+  original_height: number
+  pk: string
+  id: string
+}
+
+export interface QuotedPost {
   text_post_app_info: QuotedPostTextPostAppInfo
   user: User
   pk: string
@@ -86,7 +96,7 @@ interface QuotedPost {
   original_width: number
   original_height: number
   video_versions: any[]
-  carousel_media: null
+  carousel_media: CarouselMedia[] | null
   carousel_media_count: null
   has_audio: null
   like_count: number
