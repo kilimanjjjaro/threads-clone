@@ -16,7 +16,7 @@ export default component$(({ links }: Props) => {
       {links.map((link) => (
         <a
           key={link.url}
-          class='hover:underline overflow-ellipsis whitespace-nowrap overflow-hidden'
+          class='xl:hover:underline overflow-ellipsis whitespace-nowrap overflow-hidden'
           href={link.url}
           rel='nofollow noreferrer'
           target='_blank'

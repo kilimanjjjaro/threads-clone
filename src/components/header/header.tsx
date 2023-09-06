@@ -24,7 +24,7 @@ export default component$(() => {
     <header class='flex flex-col gap-4 justify-center mb-4'>
       <div class='py-6 self-center'>
         <button
-          class='transition-transform duration-300 ease-in-out hover:scale-[1.07]'
+          class='transition-transform duration-300 ease-in-out xl:hover:scale-[1.07]'
           aria-label='Change theme color'
           onClick$={toggleDarkMode}
         >
@@ -40,7 +40,7 @@ export default component$(() => {
             <span class='text-threads-white'>{user.username}</span>
             <button
               onClick$={handleClick}
-              class='text-xs bg-threads-dark-gray text-threads-light-gray px-2 py-[6px] rounded-[30px] active:scale-90 hover:bg-threads-dark-gray/50 ease-in-out duration-300'
+              class='text-xs bg-threads-dark-gray text-threads-light-gray px-2 py-[6px] rounded-[30px] active:scale-90 xl:hover:bg-threads-dark-gray/50 ease-in-out duration-300'
             >
               threads.net
             </button>
@@ -68,7 +68,7 @@ export default component$(() => {
             aria-label='Instagram'
             href={`https://instagram.com/${user.username}`}
           >
-            <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-[150%] h-[150%] transition-transform duration-300 ease-in-out group-hover:scale-100' />
+            <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-[150%] h-[150%] transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
             <InstagramIcon classes='z-10 w-6 h-6 text-threads-white' />
           </a>
           <a
@@ -76,7 +76,7 @@ export default component$(() => {
             aria-label='More'
             href=''
           >
-            <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-[150%] h-[150%] transition-transform duration-300 ease-in-out group-hover:scale-100' />
+            <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-[150%] h-[150%] transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
             <MoreIcon classes='z-10 w-6 h-6 text-threads-white' />
           </a>
         </div>

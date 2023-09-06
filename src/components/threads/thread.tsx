@@ -132,7 +132,7 @@ export default component$(({ thread }: Props) => {
           )}
         </div>
         <div class='text-threads-light-gray flex gap-1'>
-          <Link href='#' class='hover:underline'>
+          <Link href='#' class='xl:hover:underline'>
             {thread.view_replies_cta_string}
           </Link>
           <span>·</span>

@@ -26,7 +26,7 @@ export default component$(() => {
         Get the Threads app to like, reply and see more from {user.username}.
       </span>
       <a
-        class='px-4 pt-1 pb-[6px] rounded-[10px] text-threads-white font-semibold border border-threads-white/[0.15] duration-300 ease-in-out active:scale-95 hover:border-threads-white/40'
+        class='px-4 pt-1 pb-[6px] rounded-[10px] text-threads-white font-semibold border border-threads-white/[0.15] duration-300 ease-in-out active:scale-95 xl:hover:border-threads-white/40'
         href='https://www.threads.net/download/redirect'
         target='_blank'
         rel='noopener noreferrer'

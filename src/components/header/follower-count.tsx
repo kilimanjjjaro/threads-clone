@@ -24,7 +24,7 @@ export default component$(({ count }: Props) => {
 
   return (
     <button
-      class='hover:underline whitespace-nowrap'
+      class='xl:hover:underline whitespace-nowrap'
       onClick$={() => console.log('clicked')}
     >
       <span title={followerCountFormated.value.count}>

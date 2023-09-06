@@ -40,7 +40,7 @@ export default component$(() => {
                 @
               </span>
               <input
-                class={`w-full px-6 bg-transparent active:bg-threads-dark-gray focus:bg-threads-dark-gray hover:bg-threads-dark-gray outline-none text-threads-white placeholder:text-threads-light-gray ${
+                class={`w-full px-6 bg-transparent active:bg-threads-dark-gray focus:bg-threads-dark-gray xl:hover:bg-threads-dark-gray outline-none text-threads-white placeholder:text-threads-light-gray ${
                   action.isRunning && 'disabled:cursor-not-allowed'
                 }`}
                 type='text'
@@ -53,7 +53,7 @@ export default component$(() => {
             </div>
             <button
               type='submit'
-              class={`h-14 flex justify-center items-center border w-full rounded-full bg-threads-dark-gray text-threads-light-gray border-threads-white/[0.15] active:scale-95 hover:bg-threads-white hover:text-threads-black hover:border-threads-white ease-in-out duration-300 ${
+              class={`h-14 flex justify-center items-center border w-full rounded-full bg-threads-dark-gray text-threads-light-gray border-threads-white/[0.15] active:scale-95 xl:hover:bg-threads-white xl:hover:text-threads-black xl:hover:border-threads-white ease-in-out duration-300 ${
                 action.isRunning && 'animate-pulse'
               }`}
               disabled={action.isRunning}

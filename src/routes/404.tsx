@@ -12,7 +12,7 @@ export default component$(() => {
   return (
     <>
       <main class='flex w-full h-full justify-center items-center px-6 xl:px-0 pt-[100px] xl:pt-[72px] bg-no-repeat bg-top bg-[length:140vh] xl:bg-[length:93%] bg-[url(/images/bg-dark.webp)]'>
-        <section class='md:w-80'>
+        <section class='md:w-80 flex flex-col items-center'>
           <h2 class='text-threads-white font-bold text-center mb-2'>
             Page not found
           </h2>
@@ -22,7 +22,7 @@ export default component$(() => {
 
           <button
             type='submit'
-            class='h-14 flex justify-center items-center border w-full rounded-full bg-threads-dark-gray text-threads-light-gray border-threads-white/[0.15] active:scale-95 hover:bg-threads-white hover:text-threads-black hover:border-threads-white ease-in-out duration-300'
+            class='h-14 px-8 flex justify-center items-center border rounded-full bg-threads-dark-gray text-threads-light-gray border-threads-white/[0.15] active:scale-95 xl:hover:bg-threads-white xl:hover:text-threads-black xl:hover:border-threads-white ease-in-out duration-300'
             onClick$={handleClick}
           >
             Try again

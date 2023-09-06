@@ -13,7 +13,7 @@ export default component$(() => {
       {FOOTER_LINKS.map((link) => (
         <a
           key={link.name}
-          class='hover:underline'
+          class='xl:hover:underline'
           href={link.href}
           rel='nofollow noreferrer'
           target='_blank'
