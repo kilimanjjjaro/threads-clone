@@ -2,6 +2,8 @@ import { $, component$, useContext } from '@builder.io/qwik'
 import { ModalContext } from '~/lib/context'
 import ReportAProblemModal from '~/components/modals/report-a-problem-modal'
 import AvatarModal from '~/components/modals/avatar-modal'
+import SoonModal from '~/components/modals/soon-modal'
+import CloneModal from '~/components/modals/clone-modal'
 import CloseIcon from '~/components/icons/close-icon'
 import { MODAL_CODES } from '~/lib/constants'
 
@@ -31,6 +33,8 @@ export default component$(() => {
           <ReportAProblemModal />
         )}
         {modalCode.value === MODAL_CODES.AVATAR && <AvatarModal />}
+        {modalCode.value === MODAL_CODES.SOON && <SoonModal />}
+        {modalCode.value === MODAL_CODES.CLONE && <CloneModal />}
       </div>
     </div>
   )

@@ -16,7 +16,9 @@ export const FOOTER_LINKS = [
 export const MODAL_CODES = {
   HIDDEN: 0,
   REPORT_PROBLEM: 1,
-  AVATAR: 2
+  AVATAR: 2,
+  SOON: 3,
+  CLONE: 4
 }
 
 export const GRAPHQL_ENDPOINT = 'https://www.threads.net/api/graphql'

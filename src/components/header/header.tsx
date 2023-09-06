@@ -1,20 +1,24 @@
 import { $, component$, useSignal, useContext } from '@builder.io/qwik'
-import ThreadsLogo from '~/components/icons/threads-logo'
 import FollowerCount from '~/components/header/follower-count'
 import BioLinks from '~/components/header/bio-links'
 import Avatar from '~/components/header/avatar'
+import ThreadsLogo from '~/components/icons/threads-logo'
 import MoreIcon from '~/components/icons/more-icon'
 import InstagramIcon from '~/components/icons/instagram-icon'
-import { UserContext } from '~/lib/context'
+import { ModalContext, UserContext } from '~/lib/context'
+import { MODAL_CODES } from '~/lib/constants'
 
 export default component$(() => {
   const { userData: user } = useContext(UserContext)
+  const { modalCode } = useContext(ModalContext)
 
   const darkMode = useSignal(true)
 
   const toggleDarkMode = $(() => {
     darkMode.value = !darkMode.value
   })
+
+  const handleClick = $(() => (modalCode.value = MODAL_CODES.SOON))
 
   return (
     <header class='flex flex-col gap-4 justify-center mb-4'>
@@ -34,7 +38,10 @@ export default component$(() => {
           </h2>
           <div class='flex gap-2'>
             <span class='text-threads-white'>{user.username}</span>
-            <button class='text-xs bg-threads-dark-gray text-threads-light-gray px-2 py-[6px] rounded-[30px] active:scale-90 hover:bg-threads-dark-gray/50 ease-in-out duration-300'>
+            <button
+              onClick$={handleClick}
+              class='text-xs bg-threads-dark-gray text-threads-light-gray px-2 py-[6px] rounded-[30px] active:scale-90 hover:bg-threads-dark-gray/50 ease-in-out duration-300'
+            >
               threads.net
             </button>
           </div>
