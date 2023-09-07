@@ -1,4 +1,4 @@
-import { $, component$, useContext } from '@builder.io/qwik'
+import { $, component$, useComputed$, useContext } from '@builder.io/qwik'
 import { ModalContext } from '~/lib/context'
 import ReportAProblemModal from '~/components/modals/report-a-problem-modal'
 import AvatarModal from '~/components/modals/avatar-modal'
@@ -10,17 +10,23 @@ import { MODAL_CODES } from '~/lib/constants'
 export default component$(() => {
   const { modalCode } = useContext(ModalContext)
 
+  const modalStatus = useComputed$(() => {
+    return modalCode.value !== MODAL_CODES.HIDDEN
+  })
+
   const closeModal = $(() => {
     modalCode.value = MODAL_CODES.HIDDEN
   })
 
-  if (modalCode.value === MODAL_CODES.HIDDEN) return null
-
   return (
-    <div class='fixed inset-0 flex justify-center items-center z-50'>
+    <div
+      class={`fixed inset-0 justify-center bg-threads-black/[.97] backdrop-blur-xl items-center z-50 ${
+        modalStatus.value ? 'animate-fadeIn' : 'animate-fadeOut'
+      }`}
+    >
       <div
         onClick$={closeModal}
-        class='absolute w-full h-full bg-threads-black/[.97] backdrop-blur-xl cursor-pointer'
+        class='absolute w-full h-full bg-transparent cursor-pointer'
       />
       <button
         onClick$={closeModal}
