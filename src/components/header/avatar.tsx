@@ -19,7 +19,7 @@ export default component$(({ avatar, username, isVerified }: Props) => {
     <div class='relative'>
       <button onClick$={openAvatarModal}>
         <Image
-          class='rounded-full'
+          class='rounded-full mx-auto'
           src={avatar}
           layout='constrained'
           width={84}
