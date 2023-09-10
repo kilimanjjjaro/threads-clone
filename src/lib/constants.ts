@@ -34,26 +34,26 @@ export const ENDPOINTS_DOCUMENT_ID = {
 export const CLOUDINARY_URL =
   'https://api.cloudinary.com/v1_1/dfzzgyj7r/image/upload'
 
-export const AVATARS = [
-  '/images/avatars/avatar-1.webp',
-  '/images/avatars/avatar-2.webp',
-  '/images/avatars/avatar-3.webp',
-  '/images/avatars/avatar-4.webp',
-  '/images/avatars/avatar-5.webp'
-]
+// export const AVATARS = [
+//   '/images/avatars/avatar-1.webp',
+//   '/images/avatars/avatar-2.webp',
+//   '/images/avatars/avatar-3.webp',
+//   '/images/avatars/avatar-4.webp',
+//   '/images/avatars/avatar-5.webp'
+// ]
 
-export const THREAD_IMAGES = [
-  '/images/thread-images/thread-image-1.webp',
-  '/images/thread-images/thread-image-2.webp',
-  '/images/thread-images/thread-image-3.webp',
-  '/images/thread-images/thread-image-4.webp',
-  '/images/thread-images/thread-image-5.webp',
-  '/images/thread-images/thread-image-6.webp',
-  '/images/thread-images/thread-image-7.webp',
-  '/images/thread-images/thread-image-8.webp',
-  '/images/thread-images/thread-image-9.webp',
-  '/images/thread-images/thread-image-10.webp'
-]
+// export const THREAD_IMAGES = [
+//   '/images/thread-images/thread-image-1.webp',
+//   '/images/thread-images/thread-image-2.webp',
+//   '/images/thread-images/thread-image-3.webp',
+//   '/images/thread-images/thread-image-4.webp',
+//   '/images/thread-images/thread-image-5.webp',
+//   '/images/thread-images/thread-image-6.webp',
+//   '/images/thread-images/thread-image-7.webp',
+//   '/images/thread-images/thread-image-8.webp',
+//   '/images/thread-images/thread-image-9.webp',
+//   '/images/thread-images/thread-image-10.webp'
+// ]
 
 export const THREAD_TYPES = {
   IMAGE: 'image',
@@ -62,4 +62,10 @@ export const THREAD_TYPES = {
   REPOSTED: 'reposted',
   QUOTED: 'quoted',
   CAROUSEL: 'carousel'
+}
+
+export const MEDIA_TYPES = {
+  IMAGES: 'images',
+  VIDEOS: 'videos',
+  AVATARS: 'avatars'
 }

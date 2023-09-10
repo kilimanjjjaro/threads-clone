@@ -10,3 +10,9 @@ export interface UserContextInterface {
 export interface ModalContextInterface {
   modalCode: Signal<number>
 }
+
+export interface CloudinaryImageInterface {
+  url: string
+  width: number
+  height: number
+}

@@ -42,7 +42,7 @@ interface ImageVersions2 {
   candidates: Candidate[]
 }
 
-interface Candidate {
+export interface Candidate {
   height: number
   url: string
   width: number

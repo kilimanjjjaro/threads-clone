@@ -1,22 +1,31 @@
-import { component$ } from '@builder.io/qwik'
+import { component$, useComputed$ } from '@builder.io/qwik'
 import { Image } from '@unpic/qwik'
-import getRandomIndex from '~/lib/utils/getRandomIndex'
-import { THREAD_IMAGES } from '~/lib/constants'
+import { uploadMedia } from '~/lib/utils/uploadMedia'
 
 interface Props {
   username: string
+  imageUrl: string
 }
 
-export default component$(({ username }: Props) => {
+export default component$(({ imageUrl, username }: Props) => {
+  const image = useComputed$(async () => {
+    return await uploadMedia({ mediaUrl: imageUrl, type: 'images' })
+  })
+
   return (
-    <div class='relative aspect-square overflow-hidden border border-threads-light-gray/20 rounded-lg'>
+    <div
+      class='relative overflow-hidden border border-threads-light-gray/20 rounded-lg'
+      style={{
+        aspectRatio: image.value?.width / image.value?.height
+      }}
+    >
       <Image
-        class='absolute w-full h-full object-cover'
-        src={THREAD_IMAGES[getRandomIndex(THREAD_IMAGES.length)]}
+        class='absolute w-full h-full object-cover object-center'
+        src={image.value?.url}
         layout='constrained'
         alt={`${username}'s thread image`}
-        width={600}
-        aspectRatio={1}
+        width={640}
+        aspectRatio={image.value?.width / image.value?.height}
       />
     </div>
   )
