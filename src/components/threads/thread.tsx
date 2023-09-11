@@ -11,12 +11,14 @@ import formatDate from '~/lib/utils/formatDate'
 import { uploadMedia } from '~/lib/utils/uploadMedia'
 import type { ThreadItem } from '~/lib/interfaces/threads'
 import type { CloudinaryImageInterface } from '~/lib/interfaces/general'
+import BunIcon from '../icons/bun-icon'
 
 interface Props {
   thread: ThreadItem
+  nested: boolean
 }
 
-export default component$(({ thread }: Props) => {
+export default component$(({ thread, nested }: Props) => {
   const { userData: user } = useContext(UserContext)
 
   const isQuotedPost =
@@ -37,6 +39,8 @@ export default component$(({ thread }: Props) => {
   const facepileAvatarCount = useComputed$(() => {
     return thread.reply_facepile_users.length
   })
+
+  console.log(nested)
 
   const facepileImages = useComputed$(async () => {
     const cloudinaryImages = thread.reply_facepile_users.map(async (image) => {
@@ -62,14 +66,45 @@ export default component$(({ thread }: Props) => {
   return (
     <article key={thread.post.id}>
       <div class='flex gap-3 mb-1 w-full'>
-        <Image
-          class='rounded-full'
-          src={user.profile_pic_url}
-          layout='constrained'
-          width={36}
-          height={36}
-          alt={`${thread.post.user.username}'s profile picture`}
-        />
+        {!nested && (
+          <div class='flex flex-col items-center gap-2'>
+            <Image
+              class='rounded-full'
+              src={user.profile_pic_url}
+              layout='constrained'
+              width={36}
+              height={36}
+              alt={`${thread.post.user.username}'s profile picture`}
+            />
+            <div class='h-full relative w-full flex flex-col items-center'>
+              <div
+                class='w-[2px] bg-[#333638]'
+                style={{
+                  height: 'calc(100% - 26px)'
+                }}
+              />
+              <BunIcon classes='stroke-[#333638] absolute bottom-[1px] right-4' />
+            </div>
+          </div>
+        )}
+        {nested && (
+          <div class='flex flex-col items-center gap-2 pb-1'>
+            <Image
+              class='rounded-full'
+              src={user.profile_pic_url}
+              layout='constrained'
+              width={36}
+              height={36}
+              alt={`${thread.post.user.username}'s profile picture`}
+            />
+            <div
+              class='w-[2px] h-full bg-[#333638]'
+              style={{
+                height: 'calc(100% - 26px)'
+              }}
+            />
+          </div>
+        )}
         <div class='w-full overflow-hidden -mt-1'>
           <div class='flex justify-between items-center mb-1'>
             <div class='flex gap-1 items-center'>

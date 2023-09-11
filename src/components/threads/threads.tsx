@@ -7,16 +7,20 @@ export default component$(() => {
 
   return (
     <div class='flex flex-col gap-3'>
-      {threads.map((thread) => (
-        <article
-          key={thread.id}
-          class='flex flex-col gap-3 pb-3 border-b border-threads-white/[0.15]'
-        >
-          {thread.thread_items.map((item) => (
-            <Thread key={item.post.id} thread={item} />
-          ))}
-        </article>
-      ))}
+      {threads.map((thread) => {
+        return (
+          <article
+            key={thread.id}
+            class='flex flex-col gap-3 pb-3 border-b border-threads-white/[0.15]'
+          >
+            {thread.thread_items.map((item, index) => {
+              const nested = index > 0
+
+              return <Thread key={item.post.id} thread={item} nested={nested} />
+            })}
+          </article>
+        )
+      })}
     </div>
   )
 })
