@@ -65,7 +65,7 @@ export const THREAD_TYPES = {
 }
 
 export const MEDIA_TYPES = {
-  IMAGES: 'images',
-  VIDEOS: 'videos',
-  AVATARS: 'avatars'
+  IMAGE: 'image',
+  VIDEO: 'video',
+  AVATAR: 'avatar'
 }

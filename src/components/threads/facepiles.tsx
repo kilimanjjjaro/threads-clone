@@ -1,8 +1,9 @@
 import { component$, useComputed$ } from '@builder.io/qwik'
 import { Image } from '@unpic/qwik'
+import { uploadMedia } from '~/lib/utils/uploadMedia'
+import { MEDIA_TYPES } from '~/lib/constants'
 import type { CloudinaryImageInterface } from '~/lib/interfaces/general'
 import type { ThreadItem } from '~/lib/interfaces/threads'
-import { uploadMedia } from '~/lib/utils/uploadMedia'
 
 interface Props {
   thread: ThreadItem
@@ -16,7 +17,7 @@ export default component$(({ thread }: Props) => {
       try {
         const uploadedImage = await uploadMedia({
           mediaUrl: image.profile_pic_url,
-          type: 'avatars'
+          type: MEDIA_TYPES.AVATAR
         })
 
         return uploadedImage
@@ -33,7 +34,7 @@ export default component$(({ thread }: Props) => {
   })
 
   return (
-    <div class='w-9 flex mt-2 justify-center'>
+    <div class='w-9 flex justify-center'>
       {facepileCount >= 3 && (
         <div class='relative w-[40px] h-[35px]'>
           {facepiles.value.map((avatar, index) => (

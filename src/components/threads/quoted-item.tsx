@@ -5,6 +5,7 @@ import { CarouselItem } from '~/components/threads/CarouselItem'
 import VerifyIcon from '~/components/icons/verify-icon'
 import formatDate from '~/lib/utils/formatDate'
 import { uploadMedia } from '~/lib/utils/uploadMedia'
+import { MEDIA_TYPES } from '~/lib/constants'
 import type { QuotedPost } from '~/lib/interfaces/threads'
 
 interface Props {
@@ -17,7 +18,7 @@ export default component$(({ thread }: Props) => {
   const avatar = useComputed$(async () => {
     return await uploadMedia({
       mediaUrl: thread.user.profile_pic_url,
-      type: 'avatars'
+      type: MEDIA_TYPES.AVATAR
     })
   })
 

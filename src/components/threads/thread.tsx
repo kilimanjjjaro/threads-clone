@@ -1,9 +1,10 @@
 import { component$, useContext } from '@builder.io/qwik'
 import { Image } from '@unpic/qwik'
 import ImageItem from '~/components/threads/image-item'
-import Buttons from '~/components/threads/buttons'
+import VideoItem from '~/components/threads/video-item'
 import QuotedItem from '~/components/threads/quoted-item'
 import { CarouselItem } from '~/components/threads/CarouselItem'
+import Buttons from '~/components/threads/buttons'
 import Stats from '~/components/threads/stats'
 import Facepiles from '~/components/threads/facepiles'
 import NestedFacepiles from '~/components/threads/nestedFacepiles'
@@ -25,15 +26,14 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
   const isQuotedPost =
     thread.post.text_post_app_info.share_info.quoted_post !== null
 
-  // const isRepostedPost =
-  //   thread.post.text_post_app_info.share_info.reposted_post !== null
-
-  // const isVideoPost = thread.post.video_versions.length ? true : false
+  const isVideoPost = thread.post.video_versions.length ? true : false
 
   const isCarouselPost = thread.post.carousel_media?.length ? true : false
 
   const isImagePost =
-    thread.post.image_versions2.candidates.length && !isCarouselPost
+    thread.post.image_versions2.candidates.length &&
+    !isCarouselPost &&
+    !isVideoPost
       ? true
       : false
 
@@ -90,6 +90,7 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
           {thread.post.caption && (
             <p class='text-threads-white mb-2'>{thread.post.caption.text}</p>
           )}
+
           {isImagePost && (
             <ImageItem
               imageUrl={thread.post.image_versions2.candidates[0].url}
@@ -97,11 +98,16 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
             />
           )}
 
+          {isVideoPost && (
+            <VideoItem videoUrl={thread.post.video_versions[0].url} />
+          )}
+
           {isQuotedPost && (
             <QuotedItem
               thread={thread.post.text_post_app_info.share_info.quoted_post}
             />
           )}
+
           {isCarouselPost && (
             <CarouselItem
               images={thread.post.carousel_media}
@@ -109,6 +115,7 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
               username={thread.post.user.username}
             />
           )}
+
           <Buttons />
           {!nestedItem && multipleItems && (
             <footer class='flex gap-3 mt-3 mb-2 items-center'>
@@ -122,7 +129,7 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
         </div>
       </div>
       {(nestedItem || !multipleItems) && (
-        <footer class='flex gap-3 items-center'>
+        <footer class='flex gap-3 items-center mt-2'>
           <Facepiles thread={thread} />
           <Stats
             repliesCount={thread.view_replies_cta_string}

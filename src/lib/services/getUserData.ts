@@ -2,7 +2,7 @@ import { server$ } from '@builder.io/qwik-city'
 import { getUserId } from '~/lib/services/getUserId'
 import { fetchData } from '~/lib/utils/fetchData'
 import { uploadMedia } from '~/lib/utils/uploadMedia'
-import { ENDPOINTS_DOCUMENT_ID } from '~/lib/constants'
+import { ENDPOINTS_DOCUMENT_ID, MEDIA_TYPES } from '~/lib/constants'
 import type { UserDataInterface } from '~/lib/interfaces/users'
 
 export const getUserData = server$(
@@ -25,7 +25,7 @@ export const getUserData = server$(
 
     const avatarUrl = await uploadMedia({
       mediaUrl: user.profile_pic_url,
-      type: 'avatars'
+      type: MEDIA_TYPES.AVATAR
     })
 
     if (avatarUrl) user.profile_pic_url = avatarUrl.url

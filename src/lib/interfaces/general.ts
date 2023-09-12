@@ -15,4 +15,5 @@ export interface CloudinaryImageInterface {
   url: string
   width: number
   height: number
+  type: string
 }

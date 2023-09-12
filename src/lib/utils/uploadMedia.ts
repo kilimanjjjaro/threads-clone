@@ -1,29 +1,45 @@
 import { Cloudinary } from '@cloudinary/url-gen'
 import { format } from '@cloudinary/url-gen/actions/delivery'
 import { scale } from '@cloudinary/url-gen/actions/resize'
-import { webp } from '@cloudinary/url-gen/qualifiers/format'
+import { webp, videoWebm } from '@cloudinary/url-gen/qualifiers/format'
 import { CLOUDINARY_URL, MEDIA_TYPES } from '~/lib/constants'
 
 interface Props {
   mediaUrl: string
-  type: 'images' | 'videos' | 'avatars'
+  type: string
 }
 
 export const uploadMedia = async ({ mediaUrl, type }: Props) => {
+  let body = {}
+  let cloudinaryUrl = ''
   let folder = ''
 
-  if (type === MEDIA_TYPES.IMAGES) folder = 'threads-clone/thread-images'
-  if (type === MEDIA_TYPES.VIDEOS) folder = 'threads-clone/thread-videos'
-  if (type === MEDIA_TYPES.AVATARS) folder = 'threads-clone/user-avatars'
+  if (type === MEDIA_TYPES.IMAGE) folder = 'threads-clone/thread-images'
+  if (type === MEDIA_TYPES.VIDEO) folder = 'threads-clone/thread-videos'
+  if (type === MEDIA_TYPES.AVATAR) folder = 'threads-clone/user-avatars'
 
-  const body = {
-    file: mediaUrl,
-    upload_preset: 'threads-clone',
-    folder
+  if (type === MEDIA_TYPES.IMAGE || type === MEDIA_TYPES.AVATAR) {
+    cloudinaryUrl = 'https://api.cloudinary.com/v1_1/dfzzgyj7r/image/upload'
+
+    body = {
+      file: mediaUrl,
+      upload_preset: 'threads-clone-images',
+      folder
+    }
+  }
+
+  if (type === MEDIA_TYPES.VIDEO) {
+    cloudinaryUrl = 'https://api.cloudinary.com/v1_1/dfzzgyj7r/video/upload'
+
+    body = {
+      file: mediaUrl,
+      upload_preset: 'threads-clone-videos',
+      folder
+    }
   }
 
   try {
-    const response = await fetch(CLOUDINARY_URL, {
+    const response = await fetch(cloudinaryUrl, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
@@ -42,20 +58,40 @@ export const uploadMedia = async ({ mediaUrl, type }: Props) => {
       }
     })
 
-    const myImage = cloudinary.image(data.public_id)
+    if (type === MEDIA_TYPES.VIDEO) {
+      const video = cloudinary.video(data.public_id)
 
-    const transformedImage = myImage
-      .resize(
-        scale()
-          .width(640)
-          .aspectRatio(data.width / data.height)
-      )
-      .delivery(format(webp()))
+      const transformedVideo = video
+        .resize(
+          scale()
+            .width(640)
+            .aspectRatio(data.width / data.height)
+        )
+        .quality(90)
 
-    return {
-      url: transformedImage.toURL(),
-      width: data.width,
-      height: data.height
+      return {
+        url: transformedVideo.toURL(),
+        width: data.width,
+        height: data.height,
+        type: MEDIA_TYPES.VIDEO
+      }
+    } else {
+      const image = cloudinary.image(data.public_id)
+
+      const transformedImage = image
+        .resize(
+          scale()
+            .width(640)
+            .aspectRatio(data.width / data.height)
+        )
+        .quality(90)
+
+      return {
+        url: transformedImage.toURL(),
+        width: data.width,
+        height: data.height,
+        type: MEDIA_TYPES.IMAGE
+      }
     }
   } catch (error) {
     console.error(error)
