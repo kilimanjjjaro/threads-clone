@@ -1,4 +1,5 @@
-import { $, component$, useSignal, useContext } from '@builder.io/qwik'
+import { Link, useNavigate } from '@builder.io/qwik-city'
+import { $, component$, useContext } from '@builder.io/qwik'
 import FollowerCount from '~/components/header/follower-count'
 import BioLinks from '~/components/header/bio-links'
 import Avatar from '~/components/header/avatar'
@@ -11,11 +12,10 @@ import { MODAL_CODES } from '~/lib/constants'
 export default component$(() => {
   const { userData: user } = useContext(UserContext)
   const { modalCode } = useContext(ModalContext)
+  const nav = useNavigate()
 
-  const darkMode = useSignal(true)
-
-  const toggleDarkMode = $(() => {
-    darkMode.value = !darkMode.value
+  const handleClick = $(() => {
+    nav('/')
   })
 
   const openSoonModal = $(() => (modalCode.value = MODAL_CODES.SOON))
@@ -23,16 +23,22 @@ export default component$(() => {
 
   return (
     <header class='flex flex-col gap-4 justify-center mb-4'>
-      <div class='py-6 self-center'>
+      <div class='fixed top-0 left-0 flex justify-center w-full py-5 bg-threads-black/50 backdrop-blur-xl z-20'>
         <button
           class='transition-transform duration-300 ease-in-out xl:hover:scale-[1.07]'
           aria-label='Change theme color'
-          onClick$={toggleDarkMode}
+          onClick$={handleClick}
         >
           <ThreadsLogo classes='w-8 h-8 text-threads-white' />
         </button>
+        <Link
+          class='absolute right-4 px-4 h-[34px] flex items-center bg-threads-white text-threads-black font-semibold rounded-[10px] transition-transform ease-in-out duration-300 active:scale-95'
+          href='/'
+        >
+          Log in
+        </Link>
       </div>
-      <div class='flex justify-between items-center gap-2'>
+      <div class='flex justify-between items-center gap-2 mt-24'>
         <div>
           <h2 class='text-2xl text-threads-white font-bold mb-1'>
             {user.full_name}
