@@ -148,4 +148,4 @@ function ReactComponent({ images, imagesCount, username }: Props) {
   )
 }
 
-export const CarouselItem = qwikify$(ReactComponent, { eagerness: 'idle' })
+export const CarouselItem = qwikify$(ReactComponent, { eagerness: 'visible' })

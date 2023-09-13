@@ -10,7 +10,6 @@ export default function getThreadType(thread: ThreadItem) {
 
   const isImagePost =
     thread.post.image_versions2.candidates.length &&
-    !thread.post.image_versions2.candidates[0].url.search('null') &&
     !isCarouselPost &&
     !isVideoPost
       ? true
