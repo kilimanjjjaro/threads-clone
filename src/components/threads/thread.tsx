@@ -32,6 +32,7 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
 
   const isImagePost =
     thread.post.image_versions2.candidates.length &&
+    !thread.post.image_versions2.candidates[0].url.search('null') &&
     !isCarouselPost &&
     !isVideoPost
       ? true
@@ -63,7 +64,7 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
           </div>
         </div>
         <div class='w-full overflow-hidden'>
-          <header class='flex justify-between items-center mb-1 -mt-[6px]'>
+          <header class='flex justify-between items-center mb-1 -mt-[5px]'>
             <div class='flex gap-1 items-center'>
               <span class='text-threads-white font-semibold'>
                 {thread.post.user.username}
