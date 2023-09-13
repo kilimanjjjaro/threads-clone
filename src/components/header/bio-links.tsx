@@ -21,7 +21,7 @@ export default component$(({ links }: Props) => {
           rel='nofollow noreferrer'
           target='_blank'
         >
-          {link.url.replace(/(^\w+:|^)\/\//, '')}
+          {link.url.replace(/(^\w+:|^)\/\/(www\.)?/, '')}
         </a>
       ))}
     </>
