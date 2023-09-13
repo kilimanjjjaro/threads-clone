@@ -68,7 +68,7 @@ export default component$(({ thread }: Props) => {
             width={36}
             height={36}
             alt={`${thread.post.user.username}'s facepile avatar`}
-            loading={true}
+            loading='lazy'
           />
         </div>
       )}

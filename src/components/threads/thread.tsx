@@ -12,6 +12,7 @@ import VerifyIcon from '~/components/icons/verify-icon'
 import BunIcon from '~/components/icons/bun-icon'
 import { UserContext } from '~/lib/context'
 import formatDate from '~/lib/utils/formatDate'
+import getThreadType from '~/lib/utils/getThreadType'
 import type { ThreadItem } from '~/lib/interfaces/threads'
 
 interface Props {
@@ -23,20 +24,8 @@ interface Props {
 export default component$(({ thread, nestedItem, multipleItems }: Props) => {
   const { userData: user } = useContext(UserContext)
 
-  const isQuotedPost =
-    thread.post.text_post_app_info.share_info.quoted_post !== null
-
-  const isVideoPost = thread.post.video_versions.length ? true : false
-
-  const isCarouselPost = thread.post.carousel_media?.length ? true : false
-
-  const isImagePost =
-    thread.post.image_versions2.candidates.length &&
-    !thread.post.image_versions2.candidates[0].url.search('null') &&
-    !isCarouselPost &&
-    !isVideoPost
-      ? true
-      : false
+  const { isCarouselPost, isQuotedPost, isImagePost, isVideoPost } =
+    getThreadType(thread)
 
   return (
     <article key={thread.post.id}>

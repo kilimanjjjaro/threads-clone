@@ -43,7 +43,6 @@ export default component$(({ videoUrl }: Props) => {
         muted
         autoPlay
         loop
-        preload='none'
       />
       <button
         class='absolute right-4 w-7 h-7 flex justify-center items-center bottom-4 rounded-full backdrop-blur-xl bg-[#282828]/50'
