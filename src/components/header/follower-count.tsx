@@ -7,14 +7,15 @@ interface Props {
 export default component$(({ count }: Props) => {
   const followerCountFormated = useComputed$(() => {
     let label = ''
+    let formattedCount = ''
 
     if (count >= 1000000) {
-      label = Math.round(count / 1000000) + ' mill. of followers'
+      formattedCount = (count / 1000000).toFixed(1) + 'M'
     } else if (count >= 1000) {
-      label = Math.round(count / 1000) + ' k of followers'
-    } else {
-      label = count + ' of followers'
+      formattedCount = (count / 1000).toFixed(1) + 'K'
     }
+
+    label = formattedCount + ' followers'
 
     return {
       count: count.toString(),
