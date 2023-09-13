@@ -27,6 +27,7 @@ export default component$(({ imageUrl, username }: Props) => {
         alt={`${username}'s thread image`}
         width={640}
         aspectRatio={image.value?.width / image.value?.height}
+        loading='lazy'
       />
     </div>
   )

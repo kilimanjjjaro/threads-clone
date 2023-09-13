@@ -52,6 +52,7 @@ export default component$(({ thread }: Props) => {
               width={index === 0 ? 20 : index === 1 ? 16 : 12}
               height={index === 0 ? 20 : index === 1 ? 16 : 12}
               alt={`${thread.post.user.username}'s facepile avatar`}
+              loading='lazy'
             />
           ))}
         </div>
@@ -73,6 +74,7 @@ export default component$(({ thread }: Props) => {
               width={index === 0 ? 16 : 20}
               height={index === 0 ? 16 : 20}
               alt={`${thread.post.user.username}'s facepile avatar`}
+              loading='lazy'
             />
           ))}
         </div>
@@ -86,6 +88,7 @@ export default component$(({ thread }: Props) => {
             width={36}
             height={36}
             alt={`${thread.post.user.username}'s facepile avatar`}
+            loading='lazy'
           />
         </div>
       )}

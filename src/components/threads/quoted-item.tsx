@@ -35,6 +35,7 @@ export default component$(({ thread }: Props) => {
           width={22}
           height={22}
           alt={`${thread.user.username}'s profile picture`}
+          loading='lazy'
         />
         <div class='flex w-full -mt-1 justify-between items-center'>
           <div class='flex gap-1 items-center'>

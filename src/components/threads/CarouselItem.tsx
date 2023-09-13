@@ -92,6 +92,7 @@ function ReactComponent({ images, imagesCount, username }: Props) {
                 alt={`${username}'s thread image`}
                 width={'auto'}
                 height={'auto'}
+                loading='lazy'
               />
             )}
             {MEDIA_TYPES.VIDEO === media.type && (
@@ -147,4 +148,4 @@ function ReactComponent({ images, imagesCount, username }: Props) {
   )
 }
 
-export const CarouselItem = qwikify$(ReactComponent, { eagerness: 'load' })
+export const CarouselItem = qwikify$(ReactComponent, { eagerness: 'idle' })
