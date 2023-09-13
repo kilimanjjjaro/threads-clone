@@ -67,7 +67,7 @@ export const uploadMedia = async ({ mediaUrl, type }: Props) => {
             .width(640)
             .aspectRatio(data.width / data.height)
         )
-        .quality(90)
+        .quality(80)
 
       return {
         url: transformedVideo.toURL(),
@@ -84,7 +84,7 @@ export const uploadMedia = async ({ mediaUrl, type }: Props) => {
             .width(640)
             .aspectRatio(data.width / data.height)
         )
-        .quality(90)
+        .quality(80)
 
       return {
         url: transformedImage.toURL(),
