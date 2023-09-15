@@ -20,7 +20,7 @@ export const getUserThreads = server$(
       documentId
     })
 
-    const threads = data?.data?.mediaData?.threads
+    const threads = data?.data?.mediaData?.threads.slice(0, 6)
 
     return threads
   }

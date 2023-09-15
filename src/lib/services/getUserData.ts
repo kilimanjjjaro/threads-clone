@@ -24,7 +24,7 @@ export const getUserData = server$(
     const user = data?.data?.userData?.user
 
     const avatarUrl = await uploadMedia({
-      mediaUrl: user.profile_pic_url,
+      mediaUrl: user.hd_profile_pic_versions[0].url,
       type: MEDIA_TYPES.AVATAR
     })
 

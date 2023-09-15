@@ -109,7 +109,10 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
           <Buttons />
           {!nestedItem && multipleItems && (
             <footer class='flex gap-3 mt-3 mb-2 items-center'>
-              <NestedFacepiles thread={thread} />
+              <NestedFacepiles
+                facepiles={thread.reply_facepile_users}
+                username={thread.post.user.username}
+              />
               <Stats
                 repliesCount={thread.view_replies_cta_string}
                 likesCount={thread.post.like_count}
@@ -120,7 +123,10 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
       </div>
       {(nestedItem || !multipleItems) && (
         <footer class='flex gap-3 items-center mt-2'>
-          <Facepiles thread={thread} />
+          <Facepiles
+            facepiles={thread.reply_facepile_users}
+            username={thread.post.user.username}
+          />
           <Stats
             repliesCount={thread.view_replies_cta_string}
             likesCount={thread.post.like_count}

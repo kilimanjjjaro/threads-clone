@@ -123,7 +123,7 @@ interface User {
   pk?: string
 }
 
-interface ReplyFacepileUser {
+export interface ReplyFacepileUser {
   __typename: ReplyFacepileUserTypename
   id: null
   profile_pic_url: string
