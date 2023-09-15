@@ -11,23 +11,25 @@ export default component$(() => {
         const multipleItems = thread.thread_items.length > 1
 
         return (
-          <article
-            key={thread.id}
-            class='flex flex-col pb-4 gap-2 border-b border-threads-white/[0.15]'
-          >
-            {thread.thread_items.map((item, index) => {
-              const nestedItem = index > 0 && multipleItems
-
-              return (
-                <Thread
-                  key={item.post.id}
-                  thread={item}
-                  nestedItem={nestedItem}
-                  multipleItems={multipleItems}
-                />
-              )
-            })}
-          </article>
+          <>
+            {thread.thread_items
+              .filter((item) => item.post.caption !== null)
+              .map((item, index) => {
+                const nestedItem = index > 0 && multipleItems
+                return (
+                  <article
+                    key={item.post.id}
+                    class='flex flex-col pb-4 gap-2 border-b border-threads-white/[0.15]'
+                  >
+                    <Thread
+                      thread={item}
+                      nestedItem={nestedItem}
+                      multipleItems={multipleItems}
+                    />
+                  </article>
+                )
+              })}
+          </>
         )
       })}
     </div>
