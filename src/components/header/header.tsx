@@ -14,6 +14,11 @@ export default component$(() => {
   const { modalCode } = useContext(ModalContext)
   const nav = useNavigate()
 
+  const formatedBiography = user.biography.replace(
+    /@(\w+)/g,
+    '<a href="/@$1">@$1</a>'
+  )
+
   const handleClick = $(() => {
     nav('/')
   })
@@ -60,9 +65,10 @@ export default component$(() => {
         />
       </div>
       {user.biography && (
-        <p class='text-threads-white whitespace-pre-line break-words'>
-          {user.biography}
-        </p>
+        <p
+          class='text-threads-white whitespace-pre-line break-words blue-links'
+          dangerouslySetInnerHTML={formatedBiography}
+        />
       )}
       <div class='flex justify-between gap-4 items-center'>
         <div class='flex gap-1 items-center text-threads-light-gray overflow-hidden'>
