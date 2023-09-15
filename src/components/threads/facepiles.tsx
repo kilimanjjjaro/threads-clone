@@ -35,13 +35,13 @@ export default component$(({ facepiles, username }: Props) => {
   })
 
   return (
-    <div class='w-9 flex justify-center'>
+    <div class='flex justify-center'>
       {facepileCount >= 3 && (
         <div class='relative w-[40px] h-[35px]'>
           {images.value.map((avatar, index) => (
             <Image
               key={avatar.url}
-              class={`absolute object-cover object-center aspect-square overflow-hidden rounded-lg
+              class={`absolute object-cover w-full h-full object-center rounded-full overflow-hidden
                   ${index === 0 && 'top-0 right-0'}
   
                   ${index === 1 && 'top-[7px] left-0'}
@@ -62,7 +62,7 @@ export default component$(({ facepiles, username }: Props) => {
           {images.value.map((avatar, index) => (
             <Image
               key={avatar.url}
-              class={`absolute object-cover object-center aspect-square overflow-hidden rounded-lg
+              class={`absolute object-cover object-center rounded-full overflow-hidden
                   ${index === 0 && 'top-[2px] left-0'}
                   ${
                     index === 1 &&
@@ -81,7 +81,7 @@ export default component$(({ facepiles, username }: Props) => {
       {facepileCount === 1 && (
         <div class='relative w-8 h-8'>
           <Image
-            class='absolute object-cover object-center aspect-square overflow-hidden rounded-lg'
+            class='absolute object-cover object-center rounded-full overflow-hidden'
             src={images.value[0].url}
             layout='constrained'
             width={36}

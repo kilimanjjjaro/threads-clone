@@ -41,7 +41,7 @@ export default component$(({ facepiles, username }: Props) => {
           {images.value.map((avatar, index) => (
             <Image
               key={avatar.url}
-              class={`absolute object-cover object-center aspect-square overflow-hidden rounded-lg
+              class={`absolute object-cover object-center overflow-hidden rounded-full 
                   ${index === 0 && 'top-[2px] left-0'}
                   ${
                     index === 1 &&
@@ -60,7 +60,7 @@ export default component$(({ facepiles, username }: Props) => {
       {facepileCount === 1 && (
         <div class='relative w-8 h-8'>
           <Image
-            class='absolute object-cover object-center aspect-square overflow-hidden rounded-lg'
+            class='absolute object-cover object-center rounded-full overflow-hidden'
             src={images.value[0].url}
             layout='constrained'
             width={36}
