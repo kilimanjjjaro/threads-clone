@@ -7,6 +7,7 @@ import ThreadsLogo from '~/components/icons/threads-logo'
 import MoreIcon from '~/components/icons/more-icon'
 import InstagramIcon from '~/components/icons/instagram-icon'
 import { ModalContext, UserContext } from '~/lib/context'
+import formatLinks from '~/lib/utils/formatLinks'
 import { MODAL_CODES } from '~/lib/constants'
 
 export default component$(() => {
@@ -14,10 +15,7 @@ export default component$(() => {
   const { modalCode } = useContext(ModalContext)
   const nav = useNavigate()
 
-  const formatedBiography = user.biography.replace(
-    /@(\w+)/g,
-    '<a href="/@$1">@$1</a>'
-  )
+  const formattedBiography = formatLinks(user.biography)
 
   const handleClick = $(() => {
     nav('/')
@@ -67,7 +65,7 @@ export default component$(() => {
       {user.biography && (
         <p
           class='text-threads-white whitespace-pre-line break-words blue-links'
-          dangerouslySetInnerHTML={formatedBiography}
+          dangerouslySetInnerHTML={formattedBiography}
         />
       )}
       <div class='flex justify-between gap-4 items-center'>

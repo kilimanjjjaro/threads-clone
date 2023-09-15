@@ -1,5 +1,6 @@
 import { component$, useContext } from '@builder.io/qwik'
 import { Image } from '@unpic/qwik'
+import dayjs from 'dayjs'
 import ImageItem from '~/components/threads/image-item'
 import VideoItem from '~/components/threads/video-item'
 import QuotedItem from '~/components/threads/quoted-item'
@@ -13,6 +14,7 @@ import BunIcon from '~/components/icons/bun-icon'
 import { UserContext } from '~/lib/context'
 import formatDate from '~/lib/utils/formatDate'
 import getThreadType from '~/lib/utils/getThreadType'
+import formatLinks from '~/lib/utils/formatLinks'
 import type { ThreadItem } from '~/lib/interfaces/threads'
 
 interface Props {
@@ -26,6 +28,10 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
 
   const { isCarouselPost, isQuotedPost, isImagePost, isVideoPost } =
     getThreadType(thread)
+
+  const formattedCaption = thread.post.caption
+    ? formatLinks(thread.post.caption.text)
+    : ''
 
   return (
     <article key={thread.post.id}>
@@ -63,7 +69,12 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
               )}
             </div>
             <div class='flex gap-3 items-center'>
-              <span class='text-threads-light-gray'>
+              <span
+                class='text-threads-light-gray'
+                title={dayjs
+                  .unix(thread.post.taken_at)
+                  .format('MMM DD, YYYY, h:mm A')}
+              >
                 {formatDate(thread.post.taken_at)}
               </span>
               <svg
@@ -78,7 +89,10 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
             </div>
           </header>
           {thread.post.caption && (
-            <p class='text-threads-white mb-2'>{thread.post.caption.text}</p>
+            <p
+              class='text-threads-white mb-2 blue-links'
+              dangerouslySetInnerHTML={formattedCaption}
+            />
           )}
 
           {isImagePost && (
@@ -108,7 +122,7 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
 
           <Buttons />
           {!nestedItem && multipleItems && (
-            <footer class='flex gap-3 mt-3 mb-2 items-center'>
+            <div class='flex gap-3 mt-3 mb-2 items-center'>
               <NestedFacepiles
                 facepiles={thread.reply_facepile_users}
                 username={thread.post.user.username}
@@ -117,12 +131,12 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
                 repliesCount={thread.view_replies_cta_string}
                 likesCount={thread.post.like_count}
               />
-            </footer>
+            </div>
           )}
         </div>
       </div>
       {(nestedItem || !multipleItems) && (
-        <footer class='flex gap-3 items-center mt-2'>
+        <footer class='flex gap-2 items-center mt-2'>
           <Facepiles
             facepiles={thread.reply_facepile_users}
             username={thread.post.user.username}
