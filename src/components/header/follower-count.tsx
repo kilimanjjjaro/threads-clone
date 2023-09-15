@@ -18,7 +18,7 @@ export default component$(({ count }: Props) => {
     label = formattedCount + ' followers'
 
     return {
-      count: count.toString(),
+      count: count.toLocaleString('en-US'),
       label: label
     }
   })
