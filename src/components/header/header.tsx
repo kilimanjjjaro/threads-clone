@@ -17,10 +17,6 @@ export default component$(() => {
 
   const formattedBiography = formatLinks(user.biography)
 
-  const handleClick = $(() => {
-    nav('/')
-  })
-
   const openSoonModal = $(() => (modalCode.value = MODAL_CODES.SOON))
   const openCloneModal = $(() => (modalCode.value = MODAL_CODES.CLONE))
 
@@ -30,7 +26,7 @@ export default component$(() => {
         <button
           class='transition-transform duration-300 ease-in-out xl:hover:scale-[1.07]'
           aria-label='Change theme color'
-          onClick$={handleClick}
+          onClick$={() => nav('/')}
         >
           <ThreadsLogo classes='w-8 h-8 text-threads-white' />
         </button>

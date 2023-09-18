@@ -6,16 +6,16 @@ import Threads from '~/components/threads/threads'
 import DownloadThreads from '~/components/download-threads/download-threads'
 import UserNotFound from '~/components/user/user-not-found'
 import Modals from '~/components/modals/modals'
-import { getUserData } from '~/lib/services/getUserData'
-import { getUserThreads } from '~/lib/services/getUserThreads'
+import { getUser } from '~/lib/services/getUser'
+import { getThreads } from '~/lib/services/getThreads'
 import { UserContext } from '~/lib/context'
 
 export const useUser = routeLoader$(async (requestEvent) => {
   const username = requestEvent.params.username
 
-  const userData = await getUserData({ username: username })
+  const userData = await getUser({ username: username })
 
-  const userThreads = await getUserThreads({ username: username })
+  const userThreads = await getThreads({ username: username })
 
   if (userData === null || userThreads === null) {
     requestEvent.status(404)

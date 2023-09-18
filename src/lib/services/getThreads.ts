@@ -4,7 +4,7 @@ import { fetchData } from '~/lib/utils/fetchData'
 import { ENDPOINTS_DOCUMENT_ID } from '~/lib/constants'
 import type { UserThreadsInterface } from '~/lib/interfaces/threads'
 
-export const getUserThreads = server$(
+export const getThreads = server$(
   async ({ username }: { username?: string }) => {
     if (!username) return null
 
@@ -20,7 +20,7 @@ export const getUserThreads = server$(
       documentId
     })
 
-    const threads = data?.data?.mediaData?.threads.slice(0, 5)
+    const threads = data?.data?.mediaData?.threads.slice(0, 1)
 
     return threads
   }
