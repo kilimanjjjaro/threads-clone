@@ -1,10 +1,12 @@
 import { ThreadItem } from '../interfaces/threads'
 
 export default function getThreadType(thread: ThreadItem) {
+  console.log(thread.post.video_versions)
+
   const isQuotedPost =
     thread.post.text_post_app_info.share_info.quoted_post !== null
 
-  const isVideoPost = thread.post.video_versions.length ? true : false
+  const isVideoPost = thread.post.video_versions?.length ? true : false
 
   const isCarouselPost = thread.post.carousel_media?.length ? true : false
 
