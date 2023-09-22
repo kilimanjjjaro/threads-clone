@@ -18,7 +18,6 @@ export default component$(() => {
   const formattedBiography = formatLinks(user.biography)
 
   const openSoonModal = $(() => (modalCode.value = MODAL_CODES.SOON))
-  const openCloneModal = $(() => (modalCode.value = MODAL_CODES.CLONE))
 
   return (
     <header class='flex flex-col gap-4 justify-center mb-4'>
@@ -31,7 +30,7 @@ export default component$(() => {
           <ThreadsLogo classes='w-8 h-8 text-threads-white' />
         </button>
         <Link
-          class='absolute right-4 px-4 h-[34px] flex items-center bg-threads-white text-threads-black font-semibold rounded-[10px] transition-transform ease-in-out duration-300 active:scale-95'
+          class='absolute right-5 px-4 h-[34px] flex items-center bg-threads-white text-threads-black font-semibold rounded-[10px] transition-transform ease-in-out duration-300 active:scale-95'
           href='/'
         >
           Log in
@@ -79,7 +78,7 @@ export default component$(() => {
             <InstagramIcon classes='z-10 w-6 h-6 text-threads-white' />
           </a>
           <button
-            onClick$={openCloneModal}
+            onClick$={() => nav('/')}
             class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
             aria-label='More'
           >

@@ -7,11 +7,11 @@ export default component$(() => {
 
   return (
     <Image
-      class='rounded-full border-4 border-[#0a0a0a]'
+      class='rounded-full border-4 border-[#0a0a0a] mx-auto aspect-square w-64'
       src={user.profile_pic_url}
       layout='constrained'
-      width={262}
-      height={262}
+      width={256}
+      height={256}
       alt={`${user.username}'s profile picture`}
       cdn='cloudinary'
     />

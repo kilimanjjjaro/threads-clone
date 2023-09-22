@@ -25,14 +25,14 @@ export default component$(() => {
 
   return (
     <>
-      <main class='w-full h-full flex justify-center items-center px-6 xl:px-0 pt-[100px] xl:pt-[72px] bg-no-repeat bg-top bg-[length:140vh] xl:bg-[length:93%] bg-[url(/images/bg-dark.webp)]'>
+      <main class='w-full h-full flex justify-center items-center px-6 xl:px-0 pt-[100px] xl:pt-[72px] bg-no-repeat bg-top bg-[length:140vh] 2xl:bg-[length:93%] bg-[url(/images/bg-dark.webp)] animate-fadeIn'>
         <section class='md:w-80'>
           <h2 class='text-threads-white font-bold text-center mb-2'>
             Log in with username
           </h2>
           <p class='text-threads-light-gray text-center mb-4 text-balance'>
             For testing purposes, you can enter the username of a real account
-            and visit the profile <u>without logging in</u>.
+            and visit the profile <b>without logging in</b>.
           </p>
           <Form action={action} class='mb-8'>
             <div class='flex rounded-full overflow-hidden border border-threads-white/[0.15] h-14 mb-4'>

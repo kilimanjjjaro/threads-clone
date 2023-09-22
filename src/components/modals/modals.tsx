@@ -5,6 +5,7 @@ import AvatarModal from '~/components/modals/avatar-modal'
 import SoonModal from '~/components/modals/soon-modal'
 import CloneModal from '~/components/modals/clone-modal'
 import CloseIcon from '~/components/icons/close-icon'
+import QrModal from '~/components/modals/qr-modal'
 import { MODAL_CODES } from '~/lib/constants'
 
 export default component$(() => {
@@ -41,6 +42,7 @@ export default component$(() => {
         {modalCode.value === MODAL_CODES.AVATAR && <AvatarModal />}
         {modalCode.value === MODAL_CODES.SOON && <SoonModal />}
         {modalCode.value === MODAL_CODES.CLONE && <CloneModal />}
+        {modalCode.value === MODAL_CODES.QR && <QrModal />}
       </div>
     </div>
   )

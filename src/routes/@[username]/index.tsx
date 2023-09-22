@@ -3,9 +3,10 @@ import { type DocumentHead, routeLoader$ } from '@builder.io/qwik-city'
 import Header from '~/components/header/header'
 import Filters from '~/components/threads/filters'
 import Threads from '~/components/threads/threads'
-import DownloadThreads from '~/components/download-threads/download-threads'
-import UserNotFound from '~/components/user/user-not-found'
+import DownloadThreads from '~/components/download-threads'
+import UserNotFound from '~/components/user-not-found'
 import Modals from '~/components/modals/modals'
+import GetTheApp from '~/components/get-the-app'
 import { getUser } from '~/lib/services/getUser'
 import { getThreads } from '~/lib/services/getThreads'
 import { UserContext } from '~/lib/context'
@@ -40,12 +41,13 @@ export default component$(() => {
     <>
       <div class='w-full max-w-[620px] mx-auto px-6'>
         <Header />
-        <main class='flex flex-col gap-4 mb-4'>
+        <main class='flex flex-col gap-4 mb-6'>
           <Filters />
           <Threads />
         </main>
         <DownloadThreads />
       </div>
+      <GetTheApp />
       <Modals />
     </>
   )

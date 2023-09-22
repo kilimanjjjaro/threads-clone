@@ -1,6 +1,6 @@
 import { Signal } from '@builder.io/qwik'
-import { ThreadInterface } from './threads'
-import { UserInterface } from './users'
+import { ThreadInterface } from '~/lib/interfaces/threads'
+import { UserInterface } from '~/lib/interfaces/users'
 
 export interface UserContextInterface {
   userData: UserInterface

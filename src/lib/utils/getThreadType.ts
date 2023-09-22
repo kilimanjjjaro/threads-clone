@@ -1,8 +1,6 @@
-import { ThreadItem } from '../interfaces/threads'
+import { ThreadItem } from '~/lib/interfaces/threads'
 
 export default function getThreadType(thread: ThreadItem) {
-  console.log(thread.post.video_versions)
-
   const isQuotedPost =
     thread.post.text_post_app_info.share_info.quoted_post !== null
 
