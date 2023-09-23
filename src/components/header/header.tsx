@@ -23,7 +23,7 @@ export default component$(() => {
     <header class='flex flex-col gap-4 justify-center mb-4'>
       <div class='fixed top-0 left-0 flex justify-center w-full py-5 bg-threads-black/50 backdrop-blur-xl z-20'>
         <button
-          class='transition-transform duration-300 ease-in-out xl:hover:scale-[1.07]'
+          class='transition-transform duration-300 ease-in-out xl:hover:scale-105'
           aria-label='Change theme color'
           onClick$={() => nav('/')}
         >
@@ -45,7 +45,7 @@ export default component$(() => {
             <span class='text-threads-white'>{user.username}</span>
             <button
               onClick$={openSoonModal}
-              class='text-xs bg-threads-dark-gray text-threads-light-gray px-2 py-[6px] rounded-[30px] active:scale-90 xl:hover:bg-threads-dark-gray/50 ease-in-out duration-300'
+              class='text-xs bg-threads-dark-gray text-threads-light-gray px-2 py-[6px] rounded-[30px] active:scale-95 xl:hover:bg-threads-dark-gray/50 ease-in-out duration-300'
             >
               threads.net
             </button>
@@ -70,7 +70,7 @@ export default component$(() => {
         </div>
         <div class='flex gap-4'>
           <a
-            class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
+            class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-95'
             aria-label='Instagram'
             href={`https://instagram.com/${user.username}`}
           >
@@ -79,7 +79,7 @@ export default component$(() => {
           </a>
           <button
             onClick$={() => nav('/')}
-            class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
+            class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-95'
             aria-label='More'
           >
             <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-[150%] h-[150%] transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
