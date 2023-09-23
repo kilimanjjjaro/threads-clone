@@ -1,4 +1,4 @@
-import { component$ } from '@builder.io/qwik'
+import { component$, useSignal, useVisibleTask$ } from '@builder.io/qwik'
 import {
   type DocumentHead,
   routeAction$,
@@ -22,6 +22,11 @@ export const useRedirect = routeAction$(
 
 export default component$(() => {
   const action = useRedirect()
+  const inputRef = useSignal<HTMLInputElement>()
+
+  useVisibleTask$(() => {
+    inputRef.value?.focus()
+  })
 
   return (
     <>
@@ -40,12 +45,13 @@ export default component$(() => {
                 @
               </span>
               <input
+                ref={inputRef}
                 class={`w-full px-6 bg-transparent active:bg-threads-dark-gray focus:bg-threads-dark-gray xl:hover:bg-threads-dark-gray outline-none text-threads-white placeholder:text-threads-light-gray ${
                   action.isRunning && 'disabled:cursor-not-allowed'
                 }`}
                 type='text'
                 name='username'
-                placeholder='zuck'
+                placeholder='Username'
                 disabled={action.isRunning}
                 autoFocus
                 required
