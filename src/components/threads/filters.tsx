@@ -1,20 +1,27 @@
 import { component$ } from '@builder.io/qwik'
+import { Link } from '@builder.io/qwik-city'
 
 export default component$(() => {
   return (
     <div class='flex h-12'>
-      <a
+      <Link
         class='w-full flex justify-center items-center border-b border-threads-white bg-transparent text-threads-white active:opacity-60 xl:hover:opacity-60 transition-opacity ease-in-out duration-300'
-        href=''
+        href='#'
       >
         Threads
-      </a>
-      <a
-        class='w-full flex justify-center items-center border-b border-threads-white/[0.15] text-threads-light-gray active:opacity-60 xl:hover:opacity-60 transition-opacity ease-in-out duration-300'
-        href=''
+      </Link>
+      <Link
+        class='w-full flex justify-center items-center border-b border-threads-white/[0.15] text-threads-light-gray cursor-not-allowed'
+        href='#'
       >
         Replies
-      </a>
+      </Link>
+      <Link
+        class='w-full flex justify-center items-center border-b border-threads-white/[0.15] text-threads-light-gray cursor-not-allowed'
+        href='#'
+      >
+        Reposts
+      </Link>
     </div>
   )
 })
