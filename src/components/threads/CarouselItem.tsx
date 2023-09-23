@@ -26,7 +26,8 @@ function ReactComponent({ images, imagesCount, username }: Props) {
 
   useEffect(() => {
     const cloudinaryMedia = images.map(async (image) => {
-      const isVideoPost = image.video_versions.length ? true : false
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      const isVideoPost = image.video_versions?.length ? true : false
       let file = ''
 
       if (!isVideoPost) {
