@@ -40,8 +40,8 @@ export default component$(() => {
             and visit the profile <b>without logging in</b>.
           </p>
           <Form action={action} class='mb-8'>
-            <div class='flex rounded-full overflow-hidden border border-threads-white/[0.15] h-14 mb-4'>
-              <span class='pl-[18px] pr-4 flex justify-center items-center text-threads-light-gray border-r border-threads-white/[0.15] cursor-not-allowed'>
+            <div class='flex rounded-full overflow-hidden border border-threads-white/10 h-14 mb-4'>
+              <span class='pl-[18px] pr-4 flex justify-center items-center text-threads-light-gray border-r border-threads-white/10 cursor-not-allowed'>
                 @
               </span>
               <input
@@ -59,7 +59,7 @@ export default component$(() => {
             </div>
             <button
               type='submit'
-              class={`h-14 flex justify-center items-center border w-full rounded-full bg-threads-dark-gray text-threads-light-gray border-threads-white/[0.15] active:scale-90 xl:hover:bg-threads-white xl:hover:text-threads-black xl:hover:border-threads-white ease-in-out duration-300 ${
+              class={`h-14 flex justify-center items-center border w-full rounded-full bg-threads-dark-gray text-threads-light-gray border-threads-white/10 active:scale-90 xl:hover:bg-threads-white xl:hover:text-threads-black xl:hover:border-threads-white ease-in-out duration-300 ${
                 action.isRunning && 'animate-pulse'
               }`}
               disabled={action.isRunning}

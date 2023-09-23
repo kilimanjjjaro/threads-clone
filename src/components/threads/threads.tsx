@@ -15,7 +15,7 @@ export default component$(() => {
           <article
             key={thread.id}
             class={`flex flex-col gap-2 ${
-              index !== lastIndex && 'pb-4 border-b border-threads-white/[0.15]'
+              index !== lastIndex && 'pb-4 border-b border-threads-white/10'
             }`}
           >
             {thread.thread_items.map((item, index) => {

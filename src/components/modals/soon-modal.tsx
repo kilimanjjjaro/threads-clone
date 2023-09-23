@@ -7,7 +7,7 @@ export default component$(() => {
 
   return (
     <section class='md:w-[400px]'>
-      <div class='bg-threads-black border flex flex-col gap-4 p-6 border-threads-white/[0.15] rounded-2xl overflow-hidden'>
+      <div class='bg-threads-black border flex flex-col gap-4 p-6 border-threads-white/10 rounded-2xl overflow-hidden'>
         <div class='flex justify-between items-center'>
           <h2 class='text-2xl text-threads-white font-bold'>threads.net</h2>
           <div class='w-16 h-16 bg-black rounded-full flex justify-center items-center'>

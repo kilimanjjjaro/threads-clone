@@ -11,13 +11,13 @@ export default component$(() => {
         Threads
       </Link>
       <Link
-        class='w-full flex justify-center items-center border-b border-threads-white/[0.15] text-threads-light-gray cursor-not-allowed'
+        class='w-full flex justify-center items-center border-b border-threads-white/10 text-threads-light-gray cursor-not-allowed'
         href='#'
       >
         Replies
       </Link>
       <Link
-        class='w-full flex justify-center items-center border-b border-threads-white/[0.15] text-threads-light-gray cursor-not-allowed'
+        class='w-full flex justify-center items-center border-b border-threads-white/10 text-threads-light-gray cursor-not-allowed'
         href='#'
       >
         Reposts
