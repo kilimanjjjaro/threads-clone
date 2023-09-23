@@ -12,7 +12,7 @@ export default component$(() => {
     <div class='flex gap-4 mt-3'>
       <button
         onClick$={() => nav('/')}
-        class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-95'
+        class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
         aria-label='Like'
       >
         <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-9 h-9 transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
@@ -20,7 +20,7 @@ export default component$(() => {
       </button>
       <button
         onClick$={() => nav('/')}
-        class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-95'
+        class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
         aria-label='Comment'
       >
         <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-9 h-9 transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
@@ -28,7 +28,7 @@ export default component$(() => {
       </button>
       <button
         onClick$={() => nav('/')}
-        class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-95'
+        class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
         aria-label='Repost'
       >
         <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-9 h-9 transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
@@ -36,7 +36,7 @@ export default component$(() => {
       </button>
       <button
         onClick$={() => nav('/')}
-        class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-95'
+        class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
         aria-label='Share'
       >
         <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-9 h-9 transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />

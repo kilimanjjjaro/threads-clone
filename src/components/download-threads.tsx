@@ -11,7 +11,7 @@ export default component$(() => {
         Log in to see more from {user.username}.
       </span>
       <Link
-        class='px-4 pt-1 pb-[6px] rounded-[10px] text-threads-white font-semibold border border-threads-white/[0.15] duration-300 ease-in-out active:scale-95 xl:hover:border-threads-white/40'
+        class='px-4 pt-1 pb-[6px] rounded-[10px] text-threads-white font-semibold border border-threads-white/[0.15] duration-300 ease-in-out active:scale-90 xl:hover:border-threads-white/40'
         href='/'
       >
         Log in

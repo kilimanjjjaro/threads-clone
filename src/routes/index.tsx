@@ -59,7 +59,7 @@ export default component$(() => {
             </div>
             <button
               type='submit'
-              class={`h-14 flex justify-center items-center border w-full rounded-full bg-threads-dark-gray text-threads-light-gray border-threads-white/[0.15] active:scale-95 xl:hover:bg-threads-white xl:hover:text-threads-black xl:hover:border-threads-white ease-in-out duration-300 ${
+              class={`h-14 flex justify-center items-center border w-full rounded-full bg-threads-dark-gray text-threads-light-gray border-threads-white/[0.15] active:scale-90 xl:hover:bg-threads-white xl:hover:text-threads-black xl:hover:border-threads-white ease-in-out duration-300 ${
                 action.isRunning && 'animate-pulse'
               }`}
               disabled={action.isRunning}

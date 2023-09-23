@@ -1,5 +1,5 @@
 import { Link, useNavigate } from '@builder.io/qwik-city'
-import { $, component$, useContext } from '@builder.io/qwik'
+import { $, component$, useContext, useSignal } from '@builder.io/qwik'
 import FollowerCount from '~/components/header/follower-count'
 import BioLinks from '~/components/header/bio-links'
 import Avatar from '~/components/header/avatar'
@@ -13,6 +13,7 @@ import { MODAL_CODES } from '~/lib/constants'
 export default component$(() => {
   const { userData: user } = useContext(UserContext)
   const { modalCode } = useContext(ModalContext)
+  const dropdownStatus = useSignal(false)
   const nav = useNavigate()
 
   const formattedBiography = formatLinks(user.biography)
@@ -30,7 +31,7 @@ export default component$(() => {
           <ThreadsLogo classes='w-8 h-8 text-threads-white' />
         </button>
         <Link
-          class='absolute right-5 px-4 h-[34px] flex items-center bg-threads-white text-threads-black font-semibold rounded-[10px] transition-transform ease-in-out duration-300 active:scale-95'
+          class='absolute right-5 px-4 h-[34px] flex items-center bg-threads-white text-threads-black font-semibold rounded-[10px] transition-transform ease-in-out xl:hover:scale-105 duration-300 active:scale-90'
           href='/'
         >
           Log in
@@ -45,7 +46,7 @@ export default component$(() => {
             <span class='text-threads-white'>{user.username}</span>
             <button
               onClick$={openSoonModal}
-              class='text-xs bg-threads-dark-gray text-threads-light-gray px-2 py-[6px] rounded-[30px] active:scale-95 xl:hover:bg-threads-dark-gray/50 ease-in-out duration-300'
+              class='text-xs bg-threads-dark-gray text-threads-light-gray px-2 py-[6px] rounded-[30px] active:scale-90 xl:hover:bg-threads-dark-gray/50 ease-in-out duration-300'
             >
               threads.net
             </button>
@@ -70,7 +71,7 @@ export default component$(() => {
         </div>
         <div class='flex gap-4'>
           <a
-            class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-95'
+            class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
             aria-label='Instagram'
             href={`https://instagram.com/${user.username}`}
           >
@@ -78,12 +79,28 @@ export default component$(() => {
             <InstagramIcon classes='z-10 w-6 h-6 text-threads-white' />
           </a>
           <button
-            onClick$={() => nav('/')}
-            class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-95'
+            onClick$={() => (dropdownStatus.value = !dropdownStatus.value)}
+            class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
             aria-label='More'
           >
             <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-[150%] h-[150%] transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
             <MoreIcon classes='z-10 w-6 h-6 text-threads-white' />
+            <ul
+              class={`absolute right-0 top-full mt-3 bg-[#181818] border border-threads-white/10 rounded-2xl px-4 py-3 min-w-[140px] w-full transition-transform duration-300 ease-in-out origin-top-right z-10 ${
+                dropdownStatus.value ? 'scale-100' : 'scale-0'
+              }`}
+            >
+              <li class='text-left'>
+                <a
+                  class='block text-red-600'
+                  href={`https://help.instagram.com/contact/778323897161220?inputPosterUsername=${user.username}`}
+                  target='_blank'
+                  rel='nofollow noreferrer'
+                >
+                  Report
+                </a>
+              </li>
+            </ul>
           </button>
         </div>
       </div>
