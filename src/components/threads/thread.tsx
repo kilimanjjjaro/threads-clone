@@ -63,7 +63,7 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
               }}
             />
             {!nestedItem && multipleItems && (
-              <BunIcon classes='stroke-[#333638] absolute bottom-[1px] right-4' />
+              <BunIcon classes='stroke-[#333638] absolute bottom-[1px] right-[15px]' />
             )}
           </div>
         </div>
