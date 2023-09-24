@@ -67,7 +67,7 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
             )}
           </div>
         </div>
-        <div class='w-full overflow-hidden'>
+        <div class={`w-full ${isCarouselPost && 'overflow-hidden'}`}>
           <header class='flex justify-between items-center mb-1 -mt-[5px]'>
             <div class='flex gap-1 items-center'>
               <span class='text-threads-white font-semibold'>

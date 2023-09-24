@@ -6,7 +6,6 @@ import Threads from '~/components/threads/threads'
 import DownloadThreads from '~/components/download-threads'
 import UserNotFound from '~/components/user-not-found'
 import Modals from '~/components/modals/modals'
-import GetTheApp from '~/components/get-the-app'
 import { getUser } from '~/lib/services/getUser'
 import { getThreads } from '~/lib/services/getThreads'
 import { UserContext } from '~/lib/context'
@@ -47,7 +46,7 @@ export default component$(() => {
         </main>
         <DownloadThreads />
       </div>
-      <GetTheApp />
+
       <Modals />
     </>
   )

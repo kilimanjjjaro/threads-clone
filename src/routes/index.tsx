@@ -6,7 +6,6 @@ import {
   z,
   zod$
 } from '@builder.io/qwik-city'
-import QrIcon from '~/components/icons/qr-icon'
 import Modals from '~/components/modals/modals'
 
 export const useRedirect = routeAction$(
@@ -30,7 +29,7 @@ export default component$(() => {
 
   return (
     <>
-      <main class='w-full h-full flex justify-center items-center px-6 xl:px-0 pt-[100px] xl:pt-[72px] bg-no-repeat bg-top bg-[length:140vh] 2xl:bg-[length:93%] bg-[url(/images/bg-dark.webp)] animate-fadeIn'>
+      <main class='w-full h-full flex justify-center items-center px-6 xl:px-0 pt-[100px] xl:pt-[72px] bg-no-repeat bg-top bg-[length:140vh] xl:bg-[length:93%] bg-[url(/images/bg-dark.webp)]'>
         <section class='md:w-80'>
           <h2 class='text-threads-white font-bold text-center mb-2'>
             Log in with username
@@ -39,7 +38,7 @@ export default component$(() => {
             For testing purposes, you can enter the username of a real account
             and visit the profile <b>without logging in</b>.
           </p>
-          <Form action={action} class='mb-8'>
+          <Form action={action}>
             <div class='flex rounded-full overflow-hidden border border-threads-white/10 h-14 mb-4'>
               <span class='pl-[18px] pr-4 flex justify-center items-center text-threads-light-gray border-r border-threads-white/10 cursor-not-allowed'>
                 @
@@ -67,10 +66,6 @@ export default component$(() => {
               {action.isRunning ? 'Logging in...' : 'Log in'}
             </button>
           </Form>
-          <span class='flex items-center justify-center gap-4 text-threads-white'>
-            Scan to get the app
-            <QrIcon classes='w-16 p-1 bg-threads-dark-gray/40 rounded-md' />
-          </span>
         </section>
       </main>
       <Modals />

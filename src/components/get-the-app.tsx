@@ -13,7 +13,7 @@ export default component$(() => {
       class='fixed right-5 bottom-5 p-3 bg-[#181818] rounded-2xl border border-threads-white/10 xl:hover:scale-105 xl:hover:border-threads-white/40 transition duration-300 ease-in-out cursor-pointer hidden xl:block '
       onClick$={openGetTheAppModal}
     >
-      <QrIcon classes='w-28 h-28 2xl:w-36 2xl:h-36' />
+      <QrIcon classes='w-24 h-24 2xl:w-32 2xl:h-32' />
     </div>
   )
 })

@@ -19,12 +19,10 @@ export default component$(() => {
     modalCode.value = MODAL_CODES.HIDDEN
   })
 
+  if (!modalStatus.value) return null
+
   return (
-    <div
-      class={`fixed inset-0 justify-center bg-threads-black/[.97] backdrop-blur-xl items-center z-50 ${
-        modalStatus.value ? 'animate-fadeIn' : 'animate-fadeOut'
-      }`}
-    >
+    <div class='fixed items-center flex inset-0 justify-center bg-threads-black/[.97] backdrop-blur-xl z-50'>
       <div
         onClick$={closeModal}
         class='absolute w-full h-full bg-transparent cursor-pointer'
