@@ -25,7 +25,7 @@ export default component$(({ thread }: Props) => {
   return (
     <article
       key={thread.id}
-      class='border border-threads-white/[.15] rounded-lg p-4'
+      class='border border-threads-white/10 rounded-lg p-4'
     >
       <div class='flex gap-3 mb-1'>
         <Image

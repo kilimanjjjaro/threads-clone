@@ -1,4 +1,4 @@
-import { component$ } from '@builder.io/qwik'
+import { component$, useSignal, useVisibleTask$ } from '@builder.io/qwik'
 import {
   type DocumentHead,
   routeAction$,
@@ -6,7 +6,6 @@ import {
   z,
   zod$
 } from '@builder.io/qwik-city'
-import QrIcon from '~/components/icons/qr-icon'
 import Modals from '~/components/modals/modals'
 
 export const useRedirect = routeAction$(
@@ -22,6 +21,11 @@ export const useRedirect = routeAction$(
 
 export default component$(() => {
   const action = useRedirect()
+  const inputRef = useSignal<HTMLInputElement>()
+
+  useVisibleTask$(() => {
+    inputRef.value?.focus()
+  })
 
   return (
     <>
@@ -32,20 +36,21 @@ export default component$(() => {
           </h2>
           <p class='text-threads-light-gray text-center mb-4 text-balance'>
             For testing purposes, you can enter the username of a real account
-            and visit the profile <u>without logging in</u>.
+            and visit the profile <b>without logging in</b>.
           </p>
-          <Form action={action} class='mb-8'>
-            <div class='flex rounded-full overflow-hidden border border-threads-white/[0.15] h-14 mb-4'>
-              <span class='pl-[18px] pr-4 flex justify-center items-center text-threads-light-gray border-r border-threads-white/[0.15] cursor-not-allowed'>
+          <Form action={action}>
+            <div class='flex rounded-full overflow-hidden border border-threads-white/10 h-14 mb-4'>
+              <span class='pl-[18px] pr-4 flex justify-center items-center text-threads-light-gray border-r border-threads-white/10 cursor-not-allowed'>
                 @
               </span>
               <input
+                ref={inputRef}
                 class={`w-full px-6 bg-transparent active:bg-threads-dark-gray focus:bg-threads-dark-gray xl:hover:bg-threads-dark-gray outline-none text-threads-white placeholder:text-threads-light-gray ${
                   action.isRunning && 'disabled:cursor-not-allowed'
                 }`}
                 type='text'
                 name='username'
-                placeholder='zuck'
+                placeholder='Username'
                 disabled={action.isRunning}
                 autoFocus
                 required
@@ -53,7 +58,7 @@ export default component$(() => {
             </div>
             <button
               type='submit'
-              class={`h-14 flex justify-center items-center border w-full rounded-full bg-threads-dark-gray text-threads-light-gray border-threads-white/[0.15] active:scale-95 xl:hover:bg-threads-white xl:hover:text-threads-black xl:hover:border-threads-white ease-in-out duration-300 ${
+              class={`h-14 flex justify-center items-center border w-full rounded-full bg-threads-dark-gray text-threads-light-gray border-threads-white/10 active:scale-90 xl:hover:bg-threads-white xl:hover:text-threads-black xl:hover:border-threads-white ease-in-out duration-300 ${
                 action.isRunning && 'animate-pulse'
               }`}
               disabled={action.isRunning}
@@ -61,10 +66,6 @@ export default component$(() => {
               {action.isRunning ? 'Logging in...' : 'Log in'}
             </button>
           </Form>
-          <span class='flex items-center justify-center gap-4 text-threads-white'>
-            Scan to get the app
-            <QrIcon classes='w-16 p-1 bg-threads-dark-gray/40 rounded-md' />
-          </span>
         </section>
       </main>
       <Modals />

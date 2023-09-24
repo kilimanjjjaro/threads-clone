@@ -8,7 +8,7 @@ export const FOOTER_LINKS = [
     href: 'https://help.instagram.com/515230437301944'
   },
   {
-    name: 'Cookies',
+    name: 'Cookies Policy',
     href: 'https://help.instagram.com/1896641480634370'
   }
 ]
@@ -18,7 +18,8 @@ export const MODAL_CODES = {
   REPORT_PROBLEM: 1,
   AVATAR: 2,
   SOON: 3,
-  CLONE: 4
+  CLONE: 4,
+  QR: 5
 }
 
 export const THREADS_ENDPOINT = 'https://www.threads.net/api/graphql'

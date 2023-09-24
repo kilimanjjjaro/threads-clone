@@ -1,5 +1,5 @@
 import { Link, useNavigate } from '@builder.io/qwik-city'
-import { $, component$, useContext } from '@builder.io/qwik'
+import { $, component$, useContext, useSignal } from '@builder.io/qwik'
 import FollowerCount from '~/components/header/follower-count'
 import BioLinks from '~/components/header/bio-links'
 import Avatar from '~/components/header/avatar'
@@ -13,25 +13,25 @@ import { MODAL_CODES } from '~/lib/constants'
 export default component$(() => {
   const { userData: user } = useContext(UserContext)
   const { modalCode } = useContext(ModalContext)
+  const dropdownStatus = useSignal(false)
   const nav = useNavigate()
 
   const formattedBiography = formatLinks(user.biography)
 
   const openSoonModal = $(() => (modalCode.value = MODAL_CODES.SOON))
-  const openCloneModal = $(() => (modalCode.value = MODAL_CODES.CLONE))
 
   return (
     <header class='flex flex-col gap-4 justify-center mb-4'>
       <div class='fixed top-0 left-0 flex justify-center w-full py-5 bg-threads-black/50 backdrop-blur-xl z-20'>
         <button
-          class='transition-transform duration-300 ease-in-out xl:hover:scale-[1.07]'
+          class='transition-transform duration-300 ease-in-out xl:hover:scale-105'
           aria-label='Change theme color'
           onClick$={() => nav('/')}
         >
           <ThreadsLogo classes='w-8 h-8 text-threads-white' />
         </button>
         <Link
-          class='absolute right-4 px-4 h-[34px] flex items-center bg-threads-white text-threads-black font-semibold rounded-[10px] transition-transform ease-in-out duration-300 active:scale-95'
+          class='absolute right-5 px-4 h-[34px] flex items-center bg-threads-white text-threads-black font-semibold rounded-[10px] transition-transform ease-in-out xl:hover:scale-105 duration-300 active:scale-90'
           href='/'
         >
           Log in
@@ -79,12 +79,28 @@ export default component$(() => {
             <InstagramIcon classes='z-10 w-6 h-6 text-threads-white' />
           </a>
           <button
-            onClick$={openCloneModal}
+            onClick$={() => (dropdownStatus.value = !dropdownStatus.value)}
             class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
             aria-label='More'
           >
             <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-[150%] h-[150%] transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
             <MoreIcon classes='z-10 w-6 h-6 text-threads-white' />
+            <ul
+              class={`absolute right-0 top-full mt-3 bg-[#181818] border border-threads-white/10 rounded-2xl px-4 py-3 min-w-[140px] w-full transition-transform duration-300 ease-in-out origin-top-right z-10 ${
+                dropdownStatus.value ? 'scale-100' : 'scale-0'
+              }`}
+            >
+              <li class='text-left'>
+                <a
+                  class='block text-red-600'
+                  href={`https://help.instagram.com/contact/778323897161220?inputPosterUsername=${user.username}`}
+                  target='_blank'
+                  rel='nofollow noreferrer'
+                >
+                  Report
+                </a>
+              </li>
+            </ul>
           </button>
         </div>
       </div>

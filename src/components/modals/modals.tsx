@@ -5,6 +5,7 @@ import AvatarModal from '~/components/modals/avatar-modal'
 import SoonModal from '~/components/modals/soon-modal'
 import CloneModal from '~/components/modals/clone-modal'
 import CloseIcon from '~/components/icons/close-icon'
+import QrModal from '~/components/modals/qr-modal'
 import { MODAL_CODES } from '~/lib/constants'
 
 export default component$(() => {
@@ -18,12 +19,10 @@ export default component$(() => {
     modalCode.value = MODAL_CODES.HIDDEN
   })
 
+  if (!modalStatus.value) return null
+
   return (
-    <div
-      class={`fixed inset-0 justify-center bg-threads-black/[.97] backdrop-blur-xl items-center z-50 ${
-        modalStatus.value ? 'animate-fadeIn' : 'animate-fadeOut'
-      }`}
-    >
+    <div class='fixed items-center flex inset-0 justify-center bg-threads-black/[.97] backdrop-blur-xl z-50'>
       <div
         onClick$={closeModal}
         class='absolute w-full h-full bg-transparent cursor-pointer'
@@ -41,6 +40,7 @@ export default component$(() => {
         {modalCode.value === MODAL_CODES.AVATAR && <AvatarModal />}
         {modalCode.value === MODAL_CODES.SOON && <SoonModal />}
         {modalCode.value === MODAL_CODES.CLONE && <CloneModal />}
+        {modalCode.value === MODAL_CODES.QR && <QrModal />}
       </div>
     </div>
   )

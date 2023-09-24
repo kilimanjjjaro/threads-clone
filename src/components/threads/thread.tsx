@@ -1,4 +1,4 @@
-import { component$, useContext } from '@builder.io/qwik'
+import { $, component$, useContext, useSignal } from '@builder.io/qwik'
 import { Image } from '@unpic/qwik'
 import dayjs from 'dayjs'
 import ImageItem from '~/components/threads/image-item'
@@ -25,6 +25,7 @@ interface Props {
 
 export default component$(({ thread, nestedItem, multipleItems }: Props) => {
   const { userData: user } = useContext(UserContext)
+  const activeDropdown = useSignal('')
 
   const { isCarouselPost, isQuotedPost, isImagePost, isVideoPost } =
     getThreadType(thread)
@@ -32,6 +33,14 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
   const formattedCaption = thread.post.caption
     ? formatLinks(thread.post.caption.text)
     : ''
+
+  const handleDropdownClick = $((postId: string) => {
+    if (activeDropdown.value.length) {
+      activeDropdown.value = ''
+    } else {
+      activeDropdown.value = postId
+    }
+  })
 
   return (
     <article key={thread.post.id}>
@@ -54,11 +63,11 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
               }}
             />
             {!nestedItem && multipleItems && (
-              <BunIcon classes='stroke-[#333638] absolute bottom-[1px] right-4' />
+              <BunIcon classes='stroke-[#333638] absolute bottom-[1px] right-[15px]' />
             )}
           </div>
         </div>
-        <div class='w-full overflow-hidden'>
+        <div class={`w-full ${isCarouselPost && 'overflow-hidden'}`}>
           <header class='flex justify-between items-center mb-1 -mt-[5px]'>
             <div class='flex gap-1 items-center'>
               <span class='text-threads-white font-semibold'>
@@ -77,15 +86,38 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
               >
                 {formatDate(thread.post.taken_at)}
               </span>
-              <svg
-                class='fill-threads-white w-5'
-                aria-label='More'
-                viewBox='0 0 24 24'
-              >
-                <circle cx='12' cy='12' r='1.5' />
-                <circle cx='6' cy='12' r='1.5' />
-                <circle cx='18' cy='12' r='1.5' />
-              </svg>
+              <div class='relative'>
+                <button
+                  class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
+                  aria-label='More'
+                  onClick$={() => handleDropdownClick(thread.post.id)}
+                >
+                  <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-[150%] h-[150%] transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
+                  <svg class='fill-threads-white w-5 z-10' viewBox='0 0 24 24'>
+                    <circle cx='12' cy='12' r='1.5' />
+                    <circle cx='6' cy='12' r='1.5' />
+                    <circle cx='18' cy='12' r='1.5' />
+                  </svg>
+                </button>
+                <ul
+                  class={`absolute right-0 top-full mt-2 bg-[#181818] border border-threads-white/10 rounded-2xl px-4 py-3 min-w-[140px] w-full transition-transform duration-300 ease-in-out origin-top-right z-10 ${
+                    activeDropdown.value === thread.post.id
+                      ? 'scale-100'
+                      : 'scale-0'
+                  }`}
+                >
+                  <li>
+                    <a
+                      class='block text-red-600'
+                      href={`https://help.instagram.com/contact/778323897161220?inputPosterUsername=${thread.post.user.username}&content_id=${thread.post.pk}`}
+                      target='_blank'
+                      rel='nofollow noreferrer'
+                    >
+                      Report
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
           </header>
           {thread.post.caption && (
