@@ -2,8 +2,7 @@ import {
   component$,
   Slot,
   useContextProvider,
-  useSignal,
-  useVisibleTask$
+  useSignal
 } from '@builder.io/qwik'
 import Footer from '~/components/footer'
 import GetTheApp from '~/components/get-the-app'
@@ -19,13 +18,7 @@ export const onGet: RequestHandler = async ({ cacheControl }) => {
 }
 
 export default component$(() => {
-  const isLoading = useSignal(true)
   const modalCode = useSignal(0)
-
-  useVisibleTask$(async ({ cleanup }) => {
-    const timeout = setTimeout(() => (isLoading.value = false), 1000)
-    cleanup(() => clearTimeout(timeout))
-  })
 
   useContextProvider(ModalContext, { modalCode })
 
@@ -34,7 +27,7 @@ export default component$(() => {
       <Slot />
       <Footer />
       <GetTheApp />
-      {isLoading.value && <Loading />}
+      <Loading />
     </>
   )
 })

@@ -1,7 +1,16 @@
-import { component$ } from '@builder.io/qwik'
+import { component$, useSignal, useVisibleTask$ } from '@builder.io/qwik'
 import { Image } from '@unpic/qwik'
 
 export default component$(() => {
+  const isLoading = useSignal(true)
+
+  useVisibleTask$(async ({ cleanup }) => {
+    const timeout = setTimeout(() => (isLoading.value = false), 1000)
+    cleanup(() => clearTimeout(timeout))
+  })
+
+  if (!isLoading.value) return null
+
   return (
     <div class='fixed inset-0 bg-threads-black flex justify-center z-50'>
       <Image
