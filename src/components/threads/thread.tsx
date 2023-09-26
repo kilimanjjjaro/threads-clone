@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 import ImageItem from '~/components/threads/image-item'
 import VideoItem from '~/components/threads/video-item'
 import QuotedItem from '~/components/threads/quoted-item'
-import { CarouselItem } from '~/components/threads/CarouselItem'
+import CarouselItem from '~/components/threads/carousel-item'
 import Buttons from '~/components/threads/buttons'
 import Stats from '~/components/threads/stats'
 import Facepiles from '~/components/threads/facepiles'
@@ -145,11 +145,32 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
           )}
 
           {isCarouselPost && (
-            <CarouselItem
-              images={thread.post.carousel_media}
-              imagesCount={thread.post.carousel_media_count}
-              username={thread.post.user.username}
-            />
+            <CarouselItem sliderParam={{ slidesPerView: 4, spaceBetween: 24 }}>
+              {thread.post.carousel_media?.map((media) => {
+                const { isImagePost, isVideoPost } = getThreadType(media)
+
+                if (isVideoPost) {
+                  return (
+                    <VideoItem
+                      key={media.id}
+                      videoUrl={media.video_versions[0].url}
+                    />
+                  )
+                }
+
+                if (isImagePost) {
+                  return (
+                    <ImageItem
+                      key={media.id}
+                      imageUrl={media.image_versions2.candidates[0].url}
+                      username={thread.post.user.username}
+                    />
+                  )
+                }
+
+                return null
+              })}
+            </CarouselItem>
           )}
 
           <Buttons />

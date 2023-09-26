@@ -57,6 +57,25 @@ function ReactComponent({ images, imagesCount, username }: Props) {
 
       setCloudinaryMedia(filteredImages)
     })
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          videoRef.current?.play()
+        } else {
+          videoRef.current?.pause()
+        }
+      },
+      {
+        threshold: 1
+      }
+    )
+
+    if (videoRef.current !== null) observer.observe(videoRef.current)
+
+    return () => {
+      observer.disconnect()
+    }
   }, [])
 
   const slidesPerView = imagesCount >= 3 ? 'auto' : 2
@@ -149,4 +168,4 @@ function ReactComponent({ images, imagesCount, username }: Props) {
   )
 }
 
-export const CarouselItem = qwikify$(ReactComponent, { eagerness: 'idle' })
+export const CarouselItem = qwikify$(ReactComponent)

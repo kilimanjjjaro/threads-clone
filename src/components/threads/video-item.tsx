@@ -1,4 +1,10 @@
-import { $, component$, useComputed$, useSignal } from '@builder.io/qwik'
+import {
+  $,
+  component$,
+  useComputed$,
+  useSignal,
+  useVisibleTask$
+} from '@builder.io/qwik'
 import { uploadMedia } from '~/lib/utils/uploadMedia'
 import { MEDIA_TYPES } from '~/lib/constants'
 import UnmutedIcon from '~/components/icons/unmuted-icon'
@@ -28,6 +34,34 @@ export default component$(({ videoUrl }: Props) => {
     }
   })
 
+  useVisibleTask$(({ cleanup }) => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (videoRef.value) {
+            videoRef.value.play()
+          }
+        } else {
+          if (videoRef.value) {
+            videoRef.value.pause()
+          }
+        }
+      },
+      {
+        threshold: 1
+      }
+    )
+
+    // Assuming `elementRef` is a reference to the element you want to observe
+    if (videoRef.value) {
+      observer.observe(videoRef.value)
+    }
+
+    cleanup(() => {
+      observer.disconnect()
+    })
+  })
+
   return (
     <div
       class='relative overflow-hidden border border-threads-light-gray/20 rounded-lg max-h-[50vh]'
@@ -41,7 +75,6 @@ export default component$(({ videoUrl }: Props) => {
         src={video.value?.url}
         width={640}
         muted
-        autoPlay
         loop
       />
       <button

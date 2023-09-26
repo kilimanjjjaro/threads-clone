@@ -5,7 +5,7 @@ export default component$(() => {
   const isLoading = useSignal(true)
 
   useVisibleTask$(async ({ cleanup }) => {
-    const timeout = setTimeout(() => (isLoading.value = false), 1500)
+    const timeout = setTimeout(() => (isLoading.value = false), 1000)
     cleanup(() => clearTimeout(timeout))
   })
 

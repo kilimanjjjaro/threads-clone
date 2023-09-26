@@ -1,6 +1,18 @@
 import { ThreadItem } from '~/lib/interfaces/threads'
 
 export default function getThreadType(thread: ThreadItem) {
+  if (!thread.post) {
+    const isVideoPost = thread.video_versions?.length ? true : false
+
+    const isImagePost =
+      thread.image_versions2?.candidates.length && !isVideoPost ? true : false
+
+    return {
+      isVideoPost,
+      isImagePost
+    }
+  }
+
   const isQuotedPost =
     thread.post.text_post_app_info.share_info.quoted_post !== null
 
