@@ -1,6 +1,10 @@
-import { ThreadItem } from '~/lib/interfaces/threads'
+import { CarouselMedia, ThreadItem } from '~/lib/interfaces/threads'
 
-export default function getThreadType(thread: ThreadItem) {
+interface CombinedInterface
+  extends Partial<CarouselMedia>,
+    Partial<ThreadItem> {}
+
+export default function getThreadType(thread: CombinedInterface) {
   if (!thread.post) {
     const isVideoPost = thread.video_versions?.length ? true : false
 
