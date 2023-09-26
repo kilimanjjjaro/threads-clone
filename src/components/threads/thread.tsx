@@ -147,7 +147,7 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
           {isCarouselPost && (
             <CarouselItem sliderParam={{ slidesPerView: 4, spaceBetween: 24 }}>
               {thread.post.carousel_media?.map((media) => {
-                const { isImagePost, isVideoPost } = getThreadType(media) // eslint-disable-line
+                const { isImagePost, isVideoPost } = getThreadType(media)
 
                 if (isVideoPost) {
                   return (
