@@ -12,13 +12,14 @@ export const getThreads = server$(
 
     if (!userId) return null
 
-    const variables = { userID: userId }
     const documentId = ENDPOINTS_DOCUMENT_ID.USER_PROFILE_THREADS
 
     const data: UserThreadsInterface = await fetchData({
-      variables,
+      userId,
       documentId
     })
+
+    console.log('userThreads', data)
 
     const threads = data?.data?.mediaData?.threads.slice(0, 5)
 

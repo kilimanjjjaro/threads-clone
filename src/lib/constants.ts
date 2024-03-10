@@ -24,10 +24,10 @@ export const MODAL_CODES = {
 
 export const THREADS_ENDPOINT = 'https://www.threads.net/api/graphql'
 export const THREADS_APP_ID = '238260118697367'
-export const THREADS_APP_LSD = 'AVq00Gb0_Pg'
+export const THREADS_APP_LSD = 'AVqazA4Qj7Y'
 
 export const ENDPOINTS_DOCUMENT_ID = {
-  USER_PROFILE: 23996318473300828,
+  USER_PROFILE: 7608068672565545,
   USER_PROFILE_THREADS: 6451898791498605
 }
 

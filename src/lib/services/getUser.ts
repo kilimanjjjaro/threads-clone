@@ -12,18 +12,22 @@ export const getUser = server$(async ({ username }: { username?: string }) => {
 
   if (!userId) return null
 
-  const variables = { userID: userId }
   const documentId = ENDPOINTS_DOCUMENT_ID.USER_PROFILE
 
   const data: UserDataInterface = await fetchData({
-    variables,
+    userId,
     documentId
   })
 
-  const user = data?.data?.userData?.user
+  const user = data.data.user
+
+  console.log('userData', user)
+
+  const userAvatar =
+    user.hd_profile_pic_versions[user.hd_profile_pic_versions.length - 1]
 
   const avatarUrl = await uploadMedia({
-    mediaUrl: user.hd_profile_pic_versions[0].url,
+    mediaUrl: userAvatar.url,
     type: MEDIA_TYPES.AVATAR
   })
 
