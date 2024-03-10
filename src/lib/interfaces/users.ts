@@ -1,8 +1,4 @@
 type Data = {
-  userData: UserData
-}
-
-type UserData = {
   user: UserInterface
 }
 
@@ -16,6 +12,11 @@ type HDProfilePicVersion = {
   width: number
 }
 
+type BiographyWithEntities = {
+  entities: any[]
+  raw_text: string
+}
+
 type Extensions = {
   is_final: boolean
 }
@@ -26,19 +27,24 @@ type followerCount = {
 }
 
 export interface UserInterface {
-  is_private: boolean
+  pk: string
+  text_post_app_is_private: boolean
+  hd_profile_pic_versions: HDProfilePicVersion[]
   profile_pic_url: string
   username: string
-  hd_profile_pic_versions: HDProfilePicVersion[]
-  is_verified: boolean
-  biography: string
-  biography_with_entities: null
+  friendship_status: null
   follower_count: number
   profile_context_facepile_users: null
-  bio_links: BioLink[]
-  pk: string
+  text_post_app_remove_mention_entrypoint: null
+  is_verified: boolean
+  biography: string
+  biography_with_entities: BiographyWithEntities
+  account_badges: any[]
   full_name: string
-  id: null
+  bio_links: BioLink[]
+  transparency_label: null
+  gating: null
+  id: string
 }
 
 export interface UserDataInterface {
