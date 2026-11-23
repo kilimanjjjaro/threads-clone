@@ -14,12 +14,16 @@ export const getUser = server$(async ({ username }: { username?: string }) => {
 
   const documentId = ENDPOINTS_DOCUMENT_ID.USER_PROFILE
 
-  const data: UserDataInterface = await fetchData({
+  const data: UserDataInterface | undefined = await fetchData({
     userId,
     documentId
   })
 
-  const user = data.data.user
+  // fetchData resolves to undefined when the request fails, and an error
+  // response has no data.
+  const user = data?.data?.user
+
+  if (user === undefined) return null
 
   console.log('userData', user)
 

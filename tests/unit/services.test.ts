@@ -144,7 +144,7 @@ describe('getUser', () => {
     expect(user?.profile_pic_url).toBe(userResponse().data.user.profile_pic_url)
   })
 
-  it.fails('returns null when the profile request fails', async () => {
+  it('returns null when the profile request fails', async () => {
     stubFetch(threadsApi({ user: networkError() }))
 
     await expect(getUser({ username: USERNAME })).resolves.toBeNull()
