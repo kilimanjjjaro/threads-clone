@@ -12,7 +12,7 @@ export default component$(() => {
   if (!isLoading.value) return null
 
   return (
-    <div class='fixed inset-0 bg-threads-black flex justify-center z-50'>
+    <div class='fixed inset-0 z-50 flex justify-center bg-threads-black'>
       <Image
         class='self-center'
         src='/images/threads-logo.webp'

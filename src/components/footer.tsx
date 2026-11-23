@@ -10,7 +10,7 @@ export default component$(() => {
   )
 
   return (
-    <footer class='flex flex-wrap px-4 text-xs text-threads-light-gray py-7 justify-center gap-3'>
+    <footer class='flex flex-wrap justify-center gap-3 px-4 py-7 text-xs text-threads-light-gray'>
       © 2023
       {FOOTER_LINKS.map((link) => (
         <a

@@ -15,13 +15,13 @@ export default component$(({ imageUrl, username }: Props) => {
 
   return (
     <div
-      class='relative overflow-hidden border border-threads-light-gray/20 rounded-lg max-h-[50vh]'
+      class='relative max-h-[50vh] overflow-hidden rounded-lg border border-threads-light-gray/20'
       style={{
         aspectRatio: image.value?.width / image.value?.height
       }}
     >
       <Image
-        class='absolute w-full h-full object-cover object-center'
+        class='absolute h-full w-full object-cover object-center'
         src={image.value?.url}
         layout='constrained'
         alt={`${username}'s thread image`}

@@ -98,7 +98,7 @@ function ReactComponent({ images, imagesCount, username }: Props) {
         {cloudinaryMedia.map((media) => (
           <SwiperSlide
             key={media.url}
-            className='relative overflow-hidden border rounded-lg border-threads-light-gray/20'
+            className='relative overflow-hidden rounded-lg border border-threads-light-gray/20'
             style={{
               aspectRatio: `${media.width}/${media.height}`,
               width: slidesPerView === 'auto' ? 230 : '100%',
@@ -107,7 +107,7 @@ function ReactComponent({ images, imagesCount, username }: Props) {
           >
             {MEDIA_TYPES.IMAGE === media.type && (
               <img
-                className='absolute object-cover object-center w-full h-full'
+                className='absolute h-full w-full object-cover object-center'
                 src={media.url}
                 alt={`${username}'s thread image`}
                 width={'auto'}
@@ -119,7 +119,7 @@ function ReactComponent({ images, imagesCount, username }: Props) {
               <div>
                 <video
                   ref={videoRef}
-                  className='absolute object-cover object-center w-full h-full'
+                  className='absolute h-full w-full object-cover object-center'
                   src={media.url}
                   width={'auto'}
                   height={'auto'}
@@ -128,12 +128,12 @@ function ReactComponent({ images, imagesCount, username }: Props) {
                   loop
                 />
                 <button
-                  className='absolute right-4 w-7 h-7 flex justify-center items-center bottom-4 rounded-full backdrop-blur-xl bg-[#282828]/50'
+                  className='absolute bottom-4 right-4 flex h-7 w-7 items-center justify-center rounded-full bg-[#282828]/50 backdrop-blur-xl'
                   onClick={handleClick}
                 >
                   {isMuted ? (
                     <svg
-                      className='w-3 h-3 text-threads-white'
+                      className='h-3 w-3 text-threads-white'
                       xmlns='http://www.w3.org/2000/svg'
                       aria-label='Audio is playing'
                       viewBox='0 0 24 24'
@@ -144,7 +144,7 @@ function ReactComponent({ images, imagesCount, username }: Props) {
                     </svg>
                   ) : (
                     <svg
-                      className='w-3 h-3 text-threads-white'
+                      className='h-3 w-3 text-threads-white'
                       xmlns='http://www.w3.org/2000/svg'
                       aria-label='Audo is muted'
                       viewBox='0 0 48 48'

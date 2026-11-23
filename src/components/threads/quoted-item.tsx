@@ -25,9 +25,9 @@ export default component$(({ thread }: Props) => {
   return (
     <article
       key={thread.id}
-      class='border border-threads-white/10 rounded-lg p-4'
+      class='rounded-lg border border-threads-white/10 p-4'
     >
-      <div class='flex gap-3 mb-1'>
+      <div class='mb-1 flex gap-3'>
         <Image
           class='rounded-full'
           src={avatar.value?.url}
@@ -37,9 +37,9 @@ export default component$(({ thread }: Props) => {
           alt={`${thread.user.username}'s profile picture`}
           loading='lazy'
         />
-        <div class='flex w-full -mt-1 justify-between items-center'>
-          <div class='flex gap-1 items-center'>
-            <span class='text-threads-white font-semibold'>
+        <div class='-mt-1 flex w-full items-center justify-between'>
+          <div class='flex items-center gap-1'>
+            <span class='font-semibold text-threads-white'>
               {thread.user.username}
             </span>
             {thread.user.is_verified && (
@@ -52,15 +52,15 @@ export default component$(({ thread }: Props) => {
         </div>
       </div>
       {thread.caption && (
-        <p class='text-threads-white mb-2'>{thread.caption.text}</p>
+        <p class='mb-2 text-threads-white'>{thread.caption.text}</p>
       )}
       <CarouselItem
         images={thread.carousel_media}
         imagesCount={thread.carousel_media_count}
         username={thread.user.username}
       />
-      <div class='flex gap-3 items-center mt-2'>
-        <div class='text-threads-light-gray flex gap-[6px]'>
+      <div class='mt-2 flex items-center gap-3'>
+        <div class='flex gap-[6px] text-threads-light-gray'>
           <Link href='#' class='xl:hover:underline'>
             {thread.text_post_app_info.direct_reply_count} replies
           </Link>

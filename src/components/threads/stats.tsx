@@ -24,7 +24,7 @@ export default component$(({ repliesCount, likesCount }: Props) => {
   })
 
   return (
-    <div class='text-threads-light-gray flex gap-[6px]'>
+    <div class='flex gap-[6px] text-threads-light-gray'>
       <Link href='#' class='xl:hover:underline'>
         {repliesCount}
       </Link>

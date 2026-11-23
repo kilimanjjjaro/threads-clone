@@ -64,21 +64,21 @@ export default component$(({ videoUrl }: Props) => {
 
   return (
     <div
-      class='relative overflow-hidden border border-threads-light-gray/20 rounded-lg max-h-[50vh]'
+      class='relative max-h-[50vh] overflow-hidden rounded-lg border border-threads-light-gray/20'
       style={{
         aspectRatio: video.value?.width / video.value?.height
       }}
     >
       <video
         ref={videoRef}
-        class='absolute w-full h-full object-cover object-center'
+        class='absolute h-full w-full object-cover object-center'
         src={video.value?.url}
         width={640}
         muted
         loop
       />
       <button
-        class='absolute right-4 w-7 h-7 flex justify-center items-center bottom-4 rounded-full backdrop-blur-xl bg-[#282828]/50'
+        class='absolute bottom-4 right-4 flex h-7 w-7 items-center justify-center rounded-full bg-[#282828]/50 backdrop-blur-xl'
         onClick$={handleClick}
       >
         {isMuted.value ? (

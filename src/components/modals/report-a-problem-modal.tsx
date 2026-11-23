@@ -23,16 +23,16 @@ export default component$(() => {
 
   return (
     <section class='md:w-96'>
-      <h2 class='text-threads-white font-bold text-center mb-4'>
+      <h2 class='mb-4 text-center font-bold text-threads-white'>
         Report a problem
       </h2>
       <form
         preventdefault:submit
         onSubmit$={handleSubmit}
-        class='bg-threads-dark-gray border flex flex-col items-end p-6 border-threads-white/10 rounded-2xl overflow-hidden'
+        class='flex flex-col items-end overflow-hidden rounded-2xl border border-threads-white/10 bg-threads-dark-gray p-6'
       >
         <textarea
-          class={`w-full bg-transparent overflow-hidden active:text-threads-white focus:text-threads-white outline-none h-24 text-threads-white placeholder:text-threads-light-gray resize-none`}
+          class={`h-24 w-full resize-none overflow-hidden bg-transparent text-threads-white outline-none placeholder:text-threads-light-gray focus:text-threads-white active:text-threads-white`}
           name='report'
           placeholder='Please include as many details as possible...'
           disabled={sending.value || sended.value}
@@ -40,7 +40,7 @@ export default component$(() => {
         />
         <button
           type='submit'
-          class={`h-14 px-8 flex justify-center items-center border rounded-full bg-threads-white/10 text-threads-light-gray border-threads-white/10 active:scale-90 xl:hover:bg-threads-white xl:hover:text-threads-black xl:hover:border-threads-white ease-in-out duration-300  ${
+          class={`flex h-14 items-center justify-center rounded-full border border-threads-white/10 bg-threads-white/10 px-8 text-threads-light-gray duration-300 ease-in-out active:scale-90 xl:hover:border-threads-white xl:hover:bg-threads-white xl:hover:text-threads-black  ${
             sending.value && 'animate-pulse'
           }`}
           disabled={sending.value || sended.value}
@@ -48,8 +48,8 @@ export default component$(() => {
           {sending.value
             ? 'Sending...'
             : sended.value
-            ? 'This is a demo!'
-            : 'Send'}
+              ? 'This is a demo!'
+              : 'Send'}
         </button>
       </form>
     </section>

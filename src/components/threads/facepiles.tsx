@@ -37,14 +37,14 @@ export default component$(({ facepiles, username }: Props) => {
   return (
     <div class='flex justify-center'>
       {facepileCount >= 3 && (
-        <div class='relative w-[40px] h-[35px]'>
+        <div class='relative h-[35px] w-[40px]'>
           {images.value.map((avatar, index) => (
             <Image
               key={avatar.url}
-              class={`absolute object-cover w-full h-full object-center rounded-full overflow-hidden
-                  ${index === 0 && 'top-0 right-0'}
+              class={`absolute h-full w-full overflow-hidden rounded-full object-cover object-center
+                  ${index === 0 && 'right-0 top-0'}
   
-                  ${index === 1 && 'top-[7px] left-0'}
+                  ${index === 1 && 'left-0 top-[7px]'}
   
                   ${index === 2 && 'bottom-0 left-[13px]'}
                 `}
@@ -58,15 +58,15 @@ export default component$(({ facepiles, username }: Props) => {
         </div>
       )}
       {facepileCount === 2 && (
-        <div class='relative w-[32px] h-[20px]'>
+        <div class='relative h-[20px] w-[32px]'>
           {images.value.map((avatar, index) => (
             <Image
               key={avatar.url}
-              class={`absolute object-cover object-center rounded-full overflow-hidden
-                  ${index === 0 && 'top-[2px] left-0'}
+              class={`absolute overflow-hidden rounded-full object-cover object-center
+                  ${index === 0 && 'left-0 top-[2px]'}
                   ${
                     index === 1 &&
-                    'top-0 left-[12px] border-[2.5px] border-threads-black'
+                    'left-[12px] top-0 border-[2.5px] border-threads-black'
                   }
                 `}
               src={avatar.url}
@@ -79,9 +79,9 @@ export default component$(({ facepiles, username }: Props) => {
         </div>
       )}
       {facepileCount === 1 && (
-        <div class='relative w-8 h-8'>
+        <div class='relative h-8 w-8'>
           <Image
-            class='absolute object-cover object-center rounded-full overflow-hidden'
+            class='absolute overflow-hidden rounded-full object-cover object-center'
             src={images.value[0].url}
             layout='constrained'
             width={36}

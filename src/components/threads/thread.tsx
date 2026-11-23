@@ -44,7 +44,7 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
 
   return (
     <article key={thread.post.id}>
-      <div class='flex gap-3 w-full'>
+      <div class='flex w-full gap-3'>
         <div class='flex flex-col items-center gap-2'>
           <Image
             class='rounded-full'
@@ -54,7 +54,7 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
             height={36}
             alt={`${thread.post.user.username}'s profile picture`}
           />
-          <div class='relative w-full h-full flex flex-col items-center'>
+          <div class='relative flex h-full w-full flex-col items-center'>
             <div
               class='w-[2px] bg-[#333638]'
               style={{
@@ -68,16 +68,16 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
           </div>
         </div>
         <div class={`w-full ${isCarouselPost && 'overflow-hidden'}`}>
-          <header class='flex justify-between items-center mb-1 -mt-[5px]'>
-            <div class='flex gap-1 items-center'>
-              <span class='text-threads-white font-semibold'>
+          <header class='-mt-[5px] mb-1 flex items-center justify-between'>
+            <div class='flex items-center gap-1'>
+              <span class='font-semibold text-threads-white'>
                 {thread.post.user.username}
               </span>
               {thread.post.user.is_verified && (
                 <VerifyIcon classes='w-[16px] h-[16px] pt-[2px]' />
               )}
             </div>
-            <div class='flex gap-3 items-center'>
+            <div class='flex items-center gap-3'>
               <span
                 class='text-threads-light-gray'
                 title={dayjs
@@ -88,19 +88,19 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
               </span>
               <div class='relative'>
                 <button
-                  class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
+                  class='group relative flex items-center justify-center transition-transform duration-300 ease-in-out active:scale-90'
                   aria-label='More'
                   onClick$={() => handleDropdownClick(thread.post.id)}
                 >
-                  <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-[150%] h-[150%] transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
-                  <svg class='fill-threads-white w-5 z-10' viewBox='0 0 24 24'>
+                  <div class='absolute h-[150%] w-[150%] scale-0 rounded-full bg-threads-dark-gray transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
+                  <svg class='z-10 w-5 fill-threads-white' viewBox='0 0 24 24'>
                     <circle cx='12' cy='12' r='1.5' />
                     <circle cx='6' cy='12' r='1.5' />
                     <circle cx='18' cy='12' r='1.5' />
                   </svg>
                 </button>
                 <ul
-                  class={`absolute right-0 top-full mt-2 bg-[#181818] border border-threads-white/10 rounded-2xl px-4 py-3 min-w-[140px] w-full transition-transform duration-300 ease-in-out origin-top-right z-10 ${
+                  class={`absolute right-0 top-full z-10 mt-2 w-full min-w-[140px] origin-top-right rounded-2xl border border-threads-white/10 bg-[#181818] px-4 py-3 transition-transform duration-300 ease-in-out ${
                     activeDropdown.value === thread.post.id
                       ? 'scale-100'
                       : 'scale-0'
@@ -122,7 +122,7 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
           </header>
           {thread.post.caption && (
             <p
-              class='text-threads-white mb-2 blue-links'
+              class='blue-links mb-2 text-threads-white'
               dangerouslySetInnerHTML={formattedCaption}
             />
           )}
@@ -175,7 +175,7 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
 
           <Buttons />
           {!nestedItem && multipleItems && (
-            <div class='flex gap-3 mt-3 mb-2 items-center'>
+            <div class='mb-2 mt-3 flex items-center gap-3'>
               <NestedFacepiles
                 facepiles={thread.reply_facepile_users}
                 username={thread.post.user.username}
@@ -189,7 +189,7 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
         </div>
       </div>
       {(nestedItem || !multipleItems) && (
-        <footer class='flex gap-2 items-center mt-2'>
+        <footer class='mt-2 flex items-center gap-2'>
           <Facepiles
             facepiles={thread.reply_facepile_users}
             username={thread.post.user.username}

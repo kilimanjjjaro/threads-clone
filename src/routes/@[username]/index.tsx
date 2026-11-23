@@ -38,9 +38,9 @@ export default component$(() => {
 
   return (
     <>
-      <div class='w-full max-w-[620px] mx-auto px-6'>
+      <div class='mx-auto w-full max-w-[620px] px-6'>
         <Header />
-        <main class='flex flex-col gap-4 mb-6'>
+        <main class='mb-6 flex flex-col gap-4'>
           <Filters />
           <Threads />
         </main>

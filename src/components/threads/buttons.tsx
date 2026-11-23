@@ -9,37 +9,37 @@ export default component$(() => {
   const nav = useNavigate()
 
   return (
-    <div class='flex gap-4 mt-3'>
+    <div class='mt-3 flex gap-4'>
       <button
         onClick$={() => nav('/')}
-        class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
+        class='group relative flex items-center justify-center transition-transform duration-300 ease-in-out active:scale-90'
         aria-label='Like'
       >
-        <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-9 h-9 transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
+        <div class='absolute h-9 w-9 scale-0 rounded-full bg-threads-dark-gray transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
         <LikeIcon classes='z-10 w-5 h-5 text-threads-white' />
       </button>
       <button
         onClick$={() => nav('/')}
-        class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
+        class='group relative flex items-center justify-center transition-transform duration-300 ease-in-out active:scale-90'
         aria-label='Comment'
       >
-        <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-9 h-9 transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
+        <div class='absolute h-9 w-9 scale-0 rounded-full bg-threads-dark-gray transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
         <CommentIcon classes='z-10 w-5 h-5 text-threads-white' />
       </button>
       <button
         onClick$={() => nav('/')}
-        class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
+        class='group relative flex items-center justify-center transition-transform duration-300 ease-in-out active:scale-90'
         aria-label='Repost'
       >
-        <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-9 h-9 transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
+        <div class='absolute h-9 w-9 scale-0 rounded-full bg-threads-dark-gray transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
         <RepostIcon classes='z-10 w-5 h-5 fill-threads-white' />
       </button>
       <button
         onClick$={() => nav('/')}
-        class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
+        class='group relative flex items-center justify-center transition-transform duration-300 ease-in-out active:scale-90'
         aria-label='Share'
       >
-        <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-9 h-9 transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
+        <div class='absolute h-9 w-9 scale-0 rounded-full bg-threads-dark-gray transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
         <ShareIcon classes='z-10 w-5 h-5 text-threads-white' />
       </button>
     </div>

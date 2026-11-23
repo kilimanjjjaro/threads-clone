@@ -11,19 +11,19 @@ export default component$(() => {
 
   return (
     <>
-      <main class='flex w-full h-full justify-center items-center px-6 xl:px-0 pt-[100px] xl:pt-[72px] bg-no-repeat bg-top bg-[length:140vh] xl:bg-[length:93%] bg-[url(/images/bg-dark.webp)]'>
-        <section class='md:w-80 flex flex-col items-center'>
-          <h2 class='text-threads-white font-bold text-center mb-2'>
+      <main class='flex h-full w-full items-center justify-center bg-[url(/images/bg-dark.webp)] bg-[length:140vh] bg-top bg-no-repeat px-6 pt-[100px] xl:bg-[length:93%] xl:px-0 xl:pt-[72px]'>
+        <section class='flex flex-col items-center md:w-80'>
+          <h2 class='mb-2 text-center font-bold text-threads-white'>
             User not found
           </h2>
-          <p class='text-threads-light-gray text-center mb-4 text-balance'>
+          <p class='mb-4 text-balance text-center text-threads-light-gray'>
             Please make sure that the username you entered is from a real
             account.
           </p>
 
           <button
             type='submit'
-            class='h-14 px-8 flex justify-center items-center border rounded-full bg-threads-dark-gray text-threads-light-gray border-threads-white/10 active:scale-90 xl:hover:bg-threads-white xl:hover:text-threads-black xl:hover:border-threads-white ease-in-out duration-300'
+            class='flex h-14 items-center justify-center rounded-full border border-threads-white/10 bg-threads-dark-gray px-8 text-threads-light-gray duration-300 ease-in-out active:scale-90 xl:hover:border-threads-white xl:hover:bg-threads-white xl:hover:text-threads-black'
             onClick$={handleClick}
           >
             Try again
