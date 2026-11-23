@@ -1,8 +1,7 @@
 import type { CarouselMedia, ThreadItem } from '~/lib/interfaces/threads'
 
 interface CombinedInterface
-  extends Partial<CarouselMedia>,
-    Partial<ThreadItem> {}
+  extends Partial<CarouselMedia>, Partial<ThreadItem> {}
 
 const NO_ITEMS = 0
 

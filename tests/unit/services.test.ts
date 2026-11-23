@@ -89,10 +89,8 @@ describe('fetchData', () => {
     expect(JSON.parse(body.get('variables') ?? '')).toEqual({
       userID: USER_ID,
       __relay_internal__pv__BarcelonaIsSableEnabledrelayprovider: false,
-      __relay_internal__pv__BarcelonaIsSuggestedUsersOnProfileEnabledrelayprovider:
-        false,
-      __relay_internal__pv__BarcelonaShouldShowFediverseM075Featuresrelayprovider:
-        false
+      __relay_internal__pv__BarcelonaIsSuggestedUsersOnProfileEnabledrelayprovider: false,
+      __relay_internal__pv__BarcelonaShouldShowFediverseM075Featuresrelayprovider: false
     })
   })
 

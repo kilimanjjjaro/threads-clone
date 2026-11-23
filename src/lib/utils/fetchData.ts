@@ -19,10 +19,8 @@ export async function fetchData<T>({
   const variables = {
     userID: userId,
     __relay_internal__pv__BarcelonaIsSableEnabledrelayprovider: false,
-    __relay_internal__pv__BarcelonaIsSuggestedUsersOnProfileEnabledrelayprovider:
-      false,
-    __relay_internal__pv__BarcelonaShouldShowFediverseM075Featuresrelayprovider:
-      false
+    __relay_internal__pv__BarcelonaIsSuggestedUsersOnProfileEnabledrelayprovider: false,
+    __relay_internal__pv__BarcelonaShouldShowFediverseM075Featuresrelayprovider: false
   }
 
   const body = `lsd=${THREADS_APP_LSD}&jazoest=2931&variables=${JSON.stringify(

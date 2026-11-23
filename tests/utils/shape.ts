@@ -15,10 +15,7 @@ class ArrayOf {
 }
 
 export type Shape =
-  | Primitive
-  | Nullable
-  | ArrayOf
-  | { readonly [key: string]: Shape }
+  Primitive | Nullable | ArrayOf | { readonly [key: string]: Shape }
 
 const NO_MINIMUM = 0
 export const AT_LEAST_ONE = 1

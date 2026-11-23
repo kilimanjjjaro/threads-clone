@@ -40,7 +40,7 @@ export default component$(() => {
         />
         <button
           type='submit'
-          class={`flex h-14 items-center justify-center rounded-full border border-threads-white/10 bg-threads-white/10 px-8 text-threads-light-gray duration-300 ease-in-out active:scale-90 xl:hover:border-threads-white xl:hover:bg-threads-white xl:hover:text-threads-black  ${
+          class={`flex h-14 items-center justify-center rounded-full border border-threads-white/10 bg-threads-white/10 px-8 text-threads-light-gray duration-300 ease-in-out active:scale-90 xl:hover:border-threads-white xl:hover:bg-threads-white xl:hover:text-threads-black ${
             sending.value && 'animate-pulse'
           }`}
           disabled={sending.value || sended.value}
