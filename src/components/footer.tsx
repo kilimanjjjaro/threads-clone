@@ -1,13 +1,13 @@
 import { $, component$, useContext } from '@builder.io/qwik'
-import { ModalContext } from '~/lib/context'
+import { ModalContext, setModal } from '~/lib/context'
 import { FOOTER_LINKS, MODAL_CODES } from '~/lib/constants'
 
 export default component$(() => {
   const { modalCode } = useContext(ModalContext)
 
-  const openReportProblemModal = $(
-    () => (modalCode.value = MODAL_CODES.REPORT_PROBLEM)
-  )
+  const openReportProblemModal = $(() => {
+    setModal(modalCode, MODAL_CODES.REPORT_PROBLEM)
+  })
 
   return (
     <footer class='flex flex-wrap justify-center gap-3 px-4 py-7 text-xs text-threads-light-gray'>

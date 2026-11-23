@@ -1,11 +1,21 @@
 import { Cloudinary } from '@cloudinary/url-gen'
 import { scale } from '@cloudinary/url-gen/actions/resize'
 import { CLOUDINARY_CLOUD_NAME, MEDIA_TYPES } from '~/lib/constants'
+import { logError } from '~/lib/utils/logger'
 import { cloudinaryApiOrigin } from '~/lib/utils/origins'
+
+const DELIVERY_WIDTH = 600
+const DELIVERY_QUALITY = 70
 
 interface Props {
   mediaUrl: string
   type: string
+}
+
+interface UploadResponse {
+  public_id: string
+  width: number
+  height: number
 }
 
 export const uploadMedia = async ({ mediaUrl, type }: Props) => {
@@ -47,7 +57,8 @@ export const uploadMedia = async ({ mediaUrl, type }: Props) => {
       }
     })
 
-    const data = await response.json()
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- the cloudinary response is not validated at runtime
+    const data = await (response.json() as Promise<UploadResponse>)
 
     const cloudinary = new Cloudinary({
       cloud: {
@@ -58,42 +69,27 @@ export const uploadMedia = async ({ mediaUrl, type }: Props) => {
       }
     })
 
-    if (type === MEDIA_TYPES.VIDEO) {
-      const video = cloudinary.video(data.public_id)
+    const isVideo = type === MEDIA_TYPES.VIDEO
+    const asset = isVideo
+      ? cloudinary.video(data.public_id)
+      : cloudinary.image(data.public_id)
 
-      const transformedVideo = video
-        .resize(
-          scale()
-            .width(600)
-            .aspectRatio(data.width / data.height)
-        )
-        .quality(70)
+    const transformedAsset = asset
+      .resize(
+        scale()
+          .width(DELIVERY_WIDTH)
+          .aspectRatio(data.width / data.height)
+      )
+      .quality(DELIVERY_QUALITY)
 
-      return {
-        url: transformedVideo.toURL(),
-        width: data.width,
-        height: data.height,
-        type: MEDIA_TYPES.VIDEO
-      }
-    } else {
-      const image = cloudinary.image(data.public_id)
-
-      const transformedImage = image
-        .resize(
-          scale()
-            .width(600)
-            .aspectRatio(data.width / data.height)
-        )
-        .quality(70)
-
-      return {
-        url: transformedImage.toURL(),
-        width: data.width,
-        height: data.height,
-        type: MEDIA_TYPES.IMAGE
-      }
+    return {
+      url: transformedAsset.toURL(),
+      width: data.width,
+      height: data.height,
+      type: isVideo ? MEDIA_TYPES.VIDEO : MEDIA_TYPES.IMAGE
     }
   } catch (error) {
-    console.error(error)
+    logError(error)
+    return undefined
   }
 }

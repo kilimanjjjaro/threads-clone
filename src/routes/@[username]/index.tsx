@@ -10,20 +10,24 @@ import { getUser } from '~/lib/services/getUser'
 import { getThreads } from '~/lib/services/getThreads'
 import { UserContext } from '~/lib/context'
 
+const NOT_FOUND = 404
+
 export const useUser = routeLoader$(async (requestEvent) => {
-  const username = requestEvent.params.username
+  const {
+    params: { username }
+  } = requestEvent
 
-  const userData = await getUser({ username: username })
+  const userData = await getUser({ username })
 
-  const userThreads = await getThreads({ username: username })
+  const userThreads = await getThreads({ username })
 
   if (userData === null || userThreads === null) {
-    requestEvent.status(404)
+    requestEvent.status(NOT_FOUND)
   }
 
   return {
-    userData: userData,
-    userThreads: userThreads
+    userData,
+    userThreads
   }
 })
 
@@ -53,16 +57,15 @@ export default component$(() => {
 })
 
 export const head: DocumentHead = ({ resolveValue }) => {
-  const user = resolveValue(useUser)
+  const { userData } = resolveValue(useUser)
 
-  if (!user.userData) {
+  if (userData === null) {
     return {
       title: 'User not found - Threads Clone'
     }
   }
 
-  const fullName = user.userData.full_name
-  const username = user.userData.username
+  const { full_name: fullName, username } = userData
 
   return {
     title: `${fullName} (@${username}) on Threads Clone`

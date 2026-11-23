@@ -1,5 +1,4 @@
 import {
-  type QwikMouseEvent,
   component$,
   useSignal,
   $,
@@ -8,7 +7,10 @@ import {
   useStylesScoped$
 } from '@builder.io/qwik'
 
-type SliderParam = {
+const NO_OFFSET = 0
+const ONE_SLIDE = 1
+
+interface SliderParam {
   slidesPerView: number
   spaceBetween: number
 }
@@ -19,16 +21,16 @@ interface CarouselProps {
 
 export const Carousel = component$(({ sliderParam }: CarouselProps) => {
   const sliderRef = useSignal<HTMLDivElement>()
-  const widthSlider = useSignal<number>(0)
+  const widthSlider = useSignal<number>(NO_OFFSET)
   const isDragging = useSignal(false)
-  const startX = useSignal<number>(0)
-  const startScrollLeft = useSignal<number>(0)
+  const startX = useSignal<number>(NO_OFFSET)
+  const startScrollLeft = useSignal<number>(NO_OFFSET)
 
-  const dragStart = $((e: QwikMouseEvent<HTMLDivElement, MouseEvent>) => {
+  const dragStart = $(({ pageX }: MouseEvent) => {
     isDragging.value = true
     sliderRef.value?.classList.add('dragging')
-    startX.value = e.pageX
-    startScrollLeft.value = sliderRef.value?.scrollLeft || 0
+    startX.value = pageX
+    startScrollLeft.value = sliderRef.value?.scrollLeft ?? NO_OFFSET
   })
 
   const dragStop = $(() => {
@@ -36,41 +38,36 @@ export const Carousel = component$(({ sliderParam }: CarouselProps) => {
     sliderRef.value?.classList.remove('dragging')
   })
 
-  const dragging = $((e: QwikMouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (sliderRef.value == undefined || !isDragging.value) return
-    sliderRef.value.scrollLeft =
-      startScrollLeft.value - (e.pageX - startX.value)
+  const dragging = $(({ pageX }: MouseEvent) => {
+    if (sliderRef.value === undefined || !isDragging.value) return
+    sliderRef.value.scrollLeft = startScrollLeft.value - (pageX - startX.value)
   })
 
   const nextSlider = $(() => {
-    if (sliderRef.value == undefined) return
+    if (sliderRef.value === undefined) return
     sliderRef.value.scrollLeft += widthSlider.value / sliderParam.slidesPerView
   })
 
   const prevSlider = $(() => {
-    if (sliderRef.value == undefined) return
+    if (sliderRef.value === undefined) return
     sliderRef.value.scrollLeft -= widthSlider.value / sliderParam.slidesPerView
   })
 
   useVisibleTask$(() => {
-    if (sliderRef.value) {
-      widthSlider.value = sliderRef.value.clientWidth
-    }
+    const { value: slider } = sliderRef
+    if (slider === undefined) return
+
+    const { clientWidth } = slider
+    widthSlider.value = clientWidth
+
     const applyDraggable = (element: Element) => {
       element.setAttribute('draggable', 'false')
-      const children = element.children
-      for (let i = 0; i < children.length; i++) {
-        applyDraggable(children[i])
-      }
+      for (const child of element.children) applyDraggable(child)
     }
 
-    const divElement = sliderRef.value?.querySelectorAll('.slider-slide')
-    console.log(divElement)
-    if (divElement) {
-      divElement.forEach((el) => {
-        applyDraggable(el)
-      })
-    }
+    slider.querySelectorAll('.slider-slide').forEach((slide) => {
+      applyDraggable(slide)
+    })
   })
 
   useStylesScoped$(`
@@ -150,7 +147,8 @@ export const Carousel = component$(({ sliderParam }: CarouselProps) => {
         style={{
           gridAutoColumns: `${
             (widthSlider.value -
-              sliderParam.spaceBetween * (sliderParam.slidesPerView - 1)) /
+              sliderParam.spaceBetween *
+                (sliderParam.slidesPerView - ONE_SLIDE)) /
             sliderParam.slidesPerView
           }px`,
           gap: `${sliderParam.spaceBetween}px`

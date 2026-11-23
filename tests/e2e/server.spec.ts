@@ -2,13 +2,12 @@ import { test, expect } from '@playwright/test'
 import {
   HTTP_STATUS_NOT_FOUND,
   HTTP_STATUS_OK,
+  NO_REDIRECTS,
   PAGE_CACHE_CONTROL,
+  REDIRECT_STATUSES,
   UNKNOWN_USERNAME,
   USERNAME
 } from '../constants/e2e'
-
-const NO_REDIRECTS = 0
-const REDIRECT_STATUSES = [301, 302, 307, 308]
 
 test.skip(({ browserName, isMobile }) => isMobile || browserName !== 'chromium')
 

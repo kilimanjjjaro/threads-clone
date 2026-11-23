@@ -1,39 +1,70 @@
 // Stands in for the Threads and Cloudinary APIs while the e2e tests run.
 // The app server reaches it through THREADS_ORIGIN and CLOUDINARY_API_ORIGIN.
+// Node runs this file directly, so it only imports types from the app.
 import { readFileSync } from 'node:fs'
 import { createServer } from 'node:http'
-import type { IncomingMessage, ServerResponse } from 'node:http'
+import { text as readText } from 'node:stream/consumers'
+import type { IncomingMessage } from 'node:http'
+import type {
+  ThreadInterface,
+  UserThreadsInterface
+} from '../../../src/lib/interfaces/threads'
 
-const PORT = Number(process.env.MOCK_PORT ?? 4311)
+const DEFAULT_PORT = 4311
+const PORT = Number(process.env.MOCK_PORT ?? DEFAULT_PORT)
+const HTTP_OK = 200
+const HTTP_NOT_FOUND = 404
 const KNOWN_USERNAME = 'zuck'
 const USER_PROFILE_DOC_ID = '7608068672565545'
 const USER_THREADS_DOC_ID = '6451898791498605'
-const UPLOAD_PATH = /^\/v1_1\/[^\/]+\/(image|video)\/upload$/v
-const UPLOADED_MEDIA = { width: 1280, height: 720 }
+const UPLOAD_PATH = /^\/v1_1\/[^\/]+\/(?:image|video)\/upload$/v
+const UPLOADED_WIDTH = 1280
+const UPLOADED_HEIGHT = 720
 const QUOTED_REPLIES = 3
 const QUOTED_CAROUSEL_COUNT = 3
+const NO_FACEPILES = 0
+const ONE_FACEPILE = 1
+const TWO_FACEPILES = 2
+const THREE_FACEPILES = 3
 
-type Json = Record<string, any>
+interface Reply {
+  status: number
+  type: string
+  body: string
+}
 
 const fixture = (name: string) =>
   readFileSync(new URL(`../../fixtures/${name}`, import.meta.url), 'utf8')
 
 const profileHtml = fixture('profile-page.html')
 const userResponse = fixture('user-response.json')
-const threadsResponse = JSON.parse(fixture('threads-response.json')) as Json
+// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- trimmed real response, shape checked by the contract test
+const threadsResponse = JSON.parse(
+  fixture('threads-response.json')
+) as UserThreadsInterface
 
-const [text, image, video, carousel, , multiItem] = threadsResponse.data
-  .mediaData.threads as Json[]
+const [text, image, video, carousel, , multiItem] =
+  threadsResponse.data?.mediaData.threads ?? []
 
 // A post quoting the carousel. Threads stopped sending carousel_media_count,
-// so one keeps the count (renders the swiper) and the other sends null.
-function quoting(outer: Json, id: string, carouselCount: number | null) {
+// so one keeps the count and the other sends null, as the api does now.
+function quoting(
+  outer: ThreadInterface,
+  id: string,
+  carouselCount: number | null
+) {
   const thread = structuredClone(outer)
-  const post = thread.thread_items[0].post
+  const {
+    thread_items: [{ post }]
+  } = thread
+  const {
+    thread_items: [{ post: quoted }]
+  } = structuredClone(carousel)
+
   thread.id = id
   post.id = `${id}_post`
   post.text_post_app_info.share_info.quoted_post = {
-    ...structuredClone(carousel.thread_items[0].post),
+    ...quoted,
     carousel_media_count: carouselCount,
     text_post_app_info: {
       is_post_unavailable: false,
@@ -45,76 +76,108 @@ function quoting(outer: Json, id: string, carouselCount: number | null) {
   return thread
 }
 
-const profileThreads = [
-  video,
-  carousel,
-  multiItem,
-  quoting(text, 'quote-with-count', QUOTED_CAROUSEL_COUNT),
-  quoting(image, 'quote-without-count', null)
-]
+// The real fixtures have no reply avatars; give each thread item some.
+function withFacepiles(outer: ThreadInterface, ...counts: number[]) {
+  const thread = structuredClone(outer)
+  thread.thread_items = thread.thread_items.map((item, itemIndex) => ({
+    ...item,
+    reply_facepile_users: Array.from(
+      { length: counts.at(itemIndex) ?? NO_FACEPILES },
+      (_, userIndex) => ({
+        __typename: 'XDTUserDict',
+        id: null,
+        profile_pic_url: `https://cdn.test/media/facepile-${thread.id}-${itemIndex}-${userIndex}.jpg`
+      })
+    )
+  }))
+  return thread
+}
 
 const threadsBody = JSON.stringify({
   ...threadsResponse,
-  data: { mediaData: { threads: profileThreads } }
+  data: {
+    mediaData: {
+      threads: [
+        withFacepiles(video, THREE_FACEPILES),
+        withFacepiles(carousel, ONE_FACEPILE),
+        withFacepiles(multiItem, TWO_FACEPILES, TWO_FACEPILES),
+        quoting(text, 'quote-with-count', QUOTED_CAROUSEL_COUNT),
+        quoting(image, 'quote-without-count', null)
+      ]
+    }
+  }
 })
 
-function readBody(request: IncomingMessage) {
-  return new Promise<string>((resolve, reject) => {
-    const chunks: Buffer[] = []
-    request.on('data', (chunk: Buffer) => chunks.push(chunk))
-    request.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')))
-    request.on('error', reject)
-  })
+const json = (body: string): Reply => ({
+  status: HTTP_OK,
+  type: 'application/json',
+  body
+})
+
+function profilePage(url: URL): Reply {
+  const known = url.pathname === `/@${KNOWN_USERNAME}`
+  return {
+    status: HTTP_OK,
+    type: 'text/html',
+    body: known ? profileHtml : '<html></html>'
+  }
 }
 
-function send(
-  response: ServerResponse,
-  status: number,
-  type: string,
-  body: string
-) {
-  response.writeHead(status, { 'content-type': type })
-  response.end(body)
+async function graphql(request: IncomingMessage) {
+  const documentId = new URLSearchParams(await readText(request)).get('doc_id')
+  if (documentId === USER_PROFILE_DOC_ID) return json(userResponse)
+  if (documentId === USER_THREADS_DOC_ID) return json(threadsBody)
+  return undefined
 }
 
-const server = createServer(async (request, response) => {
+const uploads: string[] = []
+
+async function upload(request: IncomingMessage) {
+  const payload: unknown = JSON.parse(await readText(request))
+  const folder =
+    typeof payload === 'object' &&
+    payload !== null &&
+    'folder' in payload &&
+    typeof payload.folder === 'string'
+      ? payload.folder
+      : 'threads-clone'
+  // Each upload gets its own public id, as on Cloudinary.
+  uploads.push(folder)
+  return json(
+    JSON.stringify({
+      public_id: `${folder}/mock-${uploads.length}`,
+      width: UPLOADED_WIDTH,
+      height: UPLOADED_HEIGHT
+    })
+  )
+}
+
+async function route(request: IncomingMessage, url: URL) {
+  const { method } = request
+  const { pathname } = url
+
+  if (pathname === '/health')
+    return { status: HTTP_OK, type: 'text/plain', body: 'ok' }
+  if (method === 'GET' && pathname.startsWith('/@')) return profilePage(url)
+  if (method === 'POST' && pathname === '/api/graphql')
+    return await graphql(request)
+  if (method === 'POST' && UPLOAD_PATH.test(pathname))
+    return await upload(request)
+  return undefined
+}
+
+const server = createServer((request, response) => {
   const url = new URL(request.url ?? '/', `http://localhost:${PORT}`)
 
-  if (url.pathname === '/health') return send(response, 200, 'text/plain', 'ok')
-
-  if (request.method === 'GET' && url.pathname.startsWith('/@')) {
-    const known = url.pathname === `/@${KNOWN_USERNAME}`
-    return send(
-      response,
-      200,
-      'text/html',
-      known ? profileHtml : '<html></html>'
-    )
-  }
-
-  if (request.method === 'POST' && url.pathname === '/api/graphql') {
-    const documentId = new URLSearchParams(await readBody(request)).get(
-      'doc_id'
-    )
-    if (documentId === USER_PROFILE_DOC_ID)
-      return send(response, 200, 'application/json', userResponse)
-    if (documentId === USER_THREADS_DOC_ID)
-      return send(response, 200, 'application/json', threadsBody)
-  }
-
-  const upload = UPLOAD_PATH.exec(url.pathname)
-  if (request.method === 'POST' && upload !== null) {
-    const { folder } = JSON.parse(await readBody(request)) as { folder: string }
-    const body = { public_id: `${folder}/mock`, ...UPLOADED_MEDIA }
-    return send(response, 200, 'application/json', JSON.stringify(body))
-  }
-
-  send(
-    response,
-    404,
-    'text/plain',
-    `No mock for ${request.method} ${url.pathname}`
-  )
+  void route(request, url).then((reply) => {
+    const { status, type, body } = reply ?? {
+      status: HTTP_NOT_FOUND,
+      type: 'text/plain',
+      body: `No mock for ${request.method} ${url.pathname}`
+    }
+    response.writeHead(status, { 'content-type': type })
+    response.end(body)
+  })
 })
 
 server.listen(PORT, () => {

@@ -6,9 +6,12 @@ import {
   useVisibleTask$
 } from '@builder.io/qwik'
 import { uploadMedia } from '~/lib/utils/uploadMedia'
+import { aspectRatio } from '~/lib/utils/mediaUrls'
 import { MEDIA_TYPES } from '~/lib/constants'
 import UnmutedIcon from '~/components/icons/unmuted-icon'
 import MutedIcon from '~/components/icons/muted-icon'
+
+const FULLY_VISIBLE = 1
 
 interface Props {
   videoUrl: string
@@ -18,46 +21,38 @@ export default component$(({ videoUrl }: Props) => {
   const videoRef = useSignal<HTMLVideoElement>()
   const isMuted = useSignal(true)
 
-  const video = useComputed$(async () => {
-    return await uploadMedia({ mediaUrl: videoUrl, type: MEDIA_TYPES.VIDEO })
-  })
+  const video = useComputed$(
+    async () =>
+      await uploadMedia({ mediaUrl: videoUrl, type: MEDIA_TYPES.VIDEO })
+  )
 
   const handleClick = $(() => {
-    if (videoRef.value === undefined) return null
+    const { value: player } = videoRef
+    if (player === undefined) return
 
-    if (videoRef.value.muted) {
-      videoRef.value.muted = false
-      isMuted.value = false
-    } else {
-      videoRef.value.muted = true
-      isMuted.value = true
-    }
+    player.muted = !player.muted
+    const { muted } = player
+    isMuted.value = muted
   })
 
-  useVisibleTask$(({ cleanup }) => {
+  // Play the video only while it is fully on screen.
+  useVisibleTask$((task) => {
     const observer = new IntersectionObserver(
       ([entry]) => {
+        if (videoRef.value === undefined) return
+
         if (entry.isIntersecting) {
-          if (videoRef.value) {
-            videoRef.value.play()
-          }
+          void videoRef.value.play()
         } else {
-          if (videoRef.value) {
-            videoRef.value.pause()
-          }
+          videoRef.value.pause()
         }
       },
-      {
-        threshold: 1
-      }
+      { threshold: FULLY_VISIBLE }
     )
 
-    // Assuming `elementRef` is a reference to the element you want to observe
-    if (videoRef.value) {
-      observer.observe(videoRef.value)
-    }
+    if (videoRef.value !== undefined) observer.observe(videoRef.value)
 
-    cleanup(() => {
+    task.cleanup(() => {
       observer.disconnect()
     })
   })
@@ -65,9 +60,7 @@ export default component$(({ videoUrl }: Props) => {
   return (
     <div
       class='relative max-h-[50vh] overflow-hidden rounded-lg border border-threads-light-gray/20'
-      style={{
-        aspectRatio: video.value?.width / video.value?.height
-      }}
+      style={{ aspectRatio: aspectRatio(video.value) }}
     >
       <video
         ref={videoRef}

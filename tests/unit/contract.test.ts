@@ -2,9 +2,9 @@ import { describe, expect, it } from 'vitest'
 import { threadsResponseShape, userResponseShape } from '../constants/schemas'
 import {
   PROFILE_HTML,
+  fixtureUser,
   rawThreadsResponse,
-  rawUserResponse,
-  userResponse
+  rawUserResponse
 } from '../utils/fixtures'
 import { shapeErrors } from '../utils/shape'
 
@@ -25,13 +25,13 @@ describe('threads api contract', () => {
   })
 
   it('reports the path of a field that changed', () => {
-    const response = userResponse() as unknown as {
-      data: { user: Record<string, unknown> }
+    const user: Record<string, unknown> = {
+      ...fixtureUser(),
+      follower_count: '5.8M'
     }
-    response.data.user.follower_count = '5.8M'
-    delete response.data.user.username
+    delete user.username
 
-    expect(shapeErrors(response, userResponseShape)).toEqual([
+    expect(shapeErrors({ data: { user } }, userResponseShape)).toEqual([
       '$.data.user.username: expected string, got undefined',
       '$.data.user.follower_count: expected number, got string'
     ])

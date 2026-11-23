@@ -1,7 +1,7 @@
 import { $, component$, useContext } from '@builder.io/qwik'
 import { Image } from '@unpic/qwik'
 import VerifyIcon from '~/components/icons/verify-icon'
-import { ModalContext } from '~/lib/context'
+import { ModalContext, setModal } from '~/lib/context'
 import { MODAL_CODES } from '~/lib/constants'
 
 interface Props {
@@ -13,7 +13,9 @@ interface Props {
 export default component$(({ avatar, username, isVerified }: Props) => {
   const { modalCode } = useContext(ModalContext)
 
-  const openAvatarModal = $(() => (modalCode.value = MODAL_CODES.AVATAR))
+  const openAvatarModal = $(() => {
+    setModal(modalCode, MODAL_CODES.AVATAR)
+  })
 
   return (
     <div class='relative'>

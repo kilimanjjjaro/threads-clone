@@ -8,11 +8,11 @@ import {
 } from '@builder.io/qwik-city'
 import Modals from '~/components/modals/modals'
 
-export const useRedirect = routeAction$(
-  async (data, requestEvent) => {
-    const { username } = data
+const MOVED_PERMANENTLY = 301
 
-    requestEvent.redirect(301, `/@${username}`)
+export const useRedirect = routeAction$(
+  ({ username }, requestEvent) => {
+    requestEvent.redirect(MOVED_PERMANENTLY, `/@${username}`)
   },
   zod$({
     username: z.string().nonempty()

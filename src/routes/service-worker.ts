@@ -1,18 +1,18 @@
 /*
- * WHAT IS THIS FILE?
- *
- * The service-worker.ts file is used to have state of the art prefetching.
- * https://qwik.builder.io/qwikcity/prefetching/overview/
- *
- * Qwik uses a service worker to speed up your site and reduce latency, ie, not used in the traditional way of offline.
- * You can also use this file to add more functionality that runs in the service worker.
+ * Qwik no longer needs a service worker for prefetching (setupServiceWorker is
+ * now a no-op). The file stays so browsers that installed the previous worker
+ * pick up this one; it can be removed with <ServiceWorkerRegister /> once all
+ * users have updated.
  */
-import { setupServiceWorker } from '@builder.io/qwik-city/service-worker'
 
-setupServiceWorker()
+addEventListener('install', () => {
+  void self.skipWaiting()
+})
 
-addEventListener('install', () => self.skipWaiting())
-
-addEventListener('activate', () => self.clients.claim())
+addEventListener('activate', () => {
+  void self.clients.claim()
+})
 
 declare const self: ServiceWorkerGlobalScope
+
+export {}

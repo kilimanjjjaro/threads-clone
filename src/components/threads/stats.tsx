@@ -1,6 +1,9 @@
 import { component$, useComputed$ } from '@builder.io/qwik'
 import { Link } from '@builder.io/qwik-city'
 
+const ONE_LIKE = 1
+const NO_DECIMALS = 0
+
 interface Props {
   repliesCount: string
   likesCount: number
@@ -8,14 +11,14 @@ interface Props {
 
 export default component$(({ repliesCount, likesCount }: Props) => {
   const likesText = useComputed$(() => {
-    if (likesCount === 1) {
+    if (likesCount === ONE_LIKE) {
       return '1 like'
-    } else if (likesCount > 1) {
+    } else if (likesCount > ONE_LIKE) {
       const formattedNumber = likesCount.toLocaleString('en-US', {
         style: 'decimal',
         useGrouping: true,
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
+        minimumFractionDigits: NO_DECIMALS,
+        maximumFractionDigits: NO_DECIMALS
       })
       return `${formattedNumber} likes`
     } else {

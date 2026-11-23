@@ -24,12 +24,32 @@ export const UNKNOWN_USERNAME = 'nobody-here'
 export const PROFILE_THREADS = 5
 export const QUOTED_POSTS = 2
 
+export const CAROUSEL_SLIDES = 3
+// The mock gives the threads 3, 1, 2 and 2 reply avatars; a trio is drawn
+// at 20, 16 and 12 px.
+export const FACEPILE_AVATARS = 8
+export const TRIO_SIZES = ['20px', '16px', '12px']
+
 export const HTTP_STATUS_OK = 200
 export const HTTP_STATUS_NOT_FOUND = 404
+const HTTP_STATUS_MOVED_PERMANENTLY = 301
+const HTTP_STATUS_FOUND = 302
+const HTTP_STATUS_TEMPORARY_REDIRECT = 307
+const HTTP_STATUS_PERMANENT_REDIRECT = 308
+export const REDIRECT_STATUSES = [
+  HTTP_STATUS_MOVED_PERMANENTLY,
+  HTTP_STATUS_FOUND,
+  HTTP_STATUS_TEMPORARY_REDIRECT,
+  HTTP_STATUS_PERMANENT_REDIRECT
+]
+export const NO_REDIRECTS = 0
 export const PAGE_CACHE_CONTROL = 'max-age=5, stale-while-revalidate=604800'
 
 export const NO_ELEMENTS = 0
-export const NO_SCROLL = 0
+export const SINGLE_ELEMENT = 1
+
+export const UPLOADED_WIDTH = 1280
+export const UPLOADED_HEIGHT = 720
 
 // Media hosts the browser loads from; the e2e tests serve placeholders.
 export const MEDIA_HOSTS = [

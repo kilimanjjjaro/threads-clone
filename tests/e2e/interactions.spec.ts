@@ -1,16 +1,22 @@
+import type { Page } from '@playwright/test'
 import { test, expect } from './fixtures'
 import {
   BIOGRAPHY,
+  CAROUSEL_SLIDES,
+  FACEPILE_AVATARS,
   FOLLOWERS_LABEL,
   FULL_NAME,
   NO_ELEMENTS,
   PROFILE_THREADS,
   QUOTED_POSTS,
+  SINGLE_ELEMENT,
+  TRIO_SIZES,
   USERNAME
 } from '../constants/e2e'
 import {
   clickBackdrop,
   dialog,
+  maxWidths,
   openPage,
   profileThreads,
   quotedPosts
@@ -18,7 +24,6 @@ import {
 import { unexpectedErrors } from '../utils/errors'
 
 const PROFILE_PATH = `/@${USERNAME}/`
-const CAROUSEL_SLIDES = 3
 
 test.describe('login form', () => {
   test.beforeEach(async ({ page }) => {
@@ -73,6 +78,17 @@ test.describe('profile', () => {
     ).toBeVisible()
   })
 
+  test('shows the avatars of who replied', async ({ page }) => {
+    const facepiles = page.getByAltText(`${USERNAME}'s facepile avatar`)
+    const trio = profileThreads(page)
+      .first()
+      .getByAltText(`${USERNAME}'s facepile avatar`)
+
+    await expect(facepiles).toHaveCount(FACEPILE_AVATARS)
+    await expect(trio).toHaveCount(TRIO_SIZES.length)
+    expect(await maxWidths(trio)).toEqual(TRIO_SIZES)
+  })
+
   test('links mentions in captions to their profile', async ({ page }) => {
     await expect(
       page.getByRole('link', { name: '@Muse', exact: true }).first()
@@ -103,22 +119,32 @@ test.describe('profile', () => {
     await expect(quotedPosts(page).first().getByText('3 replies')).toBeVisible()
   })
 
-  test('renders the swiper of a quoted carousel', async ({ page }) => {
-    await expect(quotedPosts(page).first().locator('.swiper')).toHaveCount(1)
-  })
+  const QUOTED_CAROUSELS = [
+    {
+      name: 'with carousel_media_count',
+      pick: (page: Page) => quotedPosts(page).first()
+    },
+    {
+      name: 'without carousel_media_count',
+      pick: (page: Page) => quotedPosts(page).last()
+    }
+  ]
 
-  test('shows the media of quoted carousels', async ({
-    page,
-    browserErrors
-  }) => {
-    // The carousel hydrates when it scrolls into view.
-    for (const quoted of await quotedPosts(page).all()) {
+  for (const { name, pick } of QUOTED_CAROUSELS) {
+    test(`shows the media of a quoted carousel ${name}`, async ({
+      page,
+      browserErrors
+    }) => {
+      const quoted = pick(page)
+
+      // The carousel hydrates when it scrolls into view.
       await quoted.scrollIntoViewIfNeeded()
+      await expect(quoted.locator('.swiper')).toHaveCount(SINGLE_ELEMENT)
       await expect(quoted.locator('.swiper-slide')).toHaveCount(CAROUSEL_SLIDES)
       await expect(quoted.locator('.swiper-slide').first()).toBeVisible()
-    }
-    expect(unexpectedErrors(browserErrors)).toEqual([])
-  })
+      expect(unexpectedErrors(browserErrors)).toEqual([])
+    })
+  }
 
   test('opens the more menu', async ({ page }) => {
     const report = page.getByRole('link', { name: 'Report' }).first()

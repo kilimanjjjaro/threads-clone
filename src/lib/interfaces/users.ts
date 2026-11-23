@@ -1,23 +1,23 @@
-type Data = {
+interface Data {
   user: UserInterface
 }
 
-export type BioLink = {
+export interface BioLink {
   url: string
 }
 
-type HDProfilePicVersion = {
+interface HDProfilePicVersion {
   height: number
   url: string
   width: number
 }
 
-type BiographyWithEntities = {
-  entities: any[]
+interface BiographyWithEntities {
+  entities: unknown[]
   raw_text: string
 }
 
-type Extensions = {
+interface Extensions {
   is_final: boolean
 }
 
@@ -34,7 +34,7 @@ export interface UserInterface {
   is_verified: boolean
   biography: string
   biography_with_entities: BiographyWithEntities
-  account_badges: any[]
+  account_badges: unknown[]
   full_name: string
   bio_links: BioLink[]
   transparency_label: null
@@ -43,6 +43,7 @@ export interface UserInterface {
 }
 
 export interface UserDataInterface {
-  data: Data
+  // Error responses carry errors instead of data.
+  data?: Data
   extensions: Extensions
 }

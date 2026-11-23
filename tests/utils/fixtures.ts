@@ -15,38 +15,56 @@ export const PROFILE_HTML = readFileSync(
 export const rawUserResponse = (): unknown => structuredClone(userJson)
 export const rawThreadsResponse = (): unknown => structuredClone(threadsJson)
 
-export const userResponse = () => rawUserResponse() as UserDataInterface
+// The fixtures are trimmed real responses; contract.test.ts checks their shape.
+export const userResponse = () =>
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- shape checked by the contract test
+  rawUserResponse() as UserDataInterface
 export const threadsResponse = () =>
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- shape checked by the contract test
   rawThreadsResponse() as UserThreadsInterface
 
-const FIXTURE_THREAD_INDEX = {
-  text: 0,
-  image: 1,
-  video: 2,
-  carousel: 3,
-  imageWithoutCaption: 4,
-  multiItem: 5
-} as const
+function withData<T>(data: T | undefined): T {
+  if (data === undefined) throw new Error('The fixture has no data')
+  return data
+}
 
-export type FixtureThread = keyof typeof FIXTURE_THREAD_INDEX
+export const fixtureUser = () => withData(userResponse().data).user
+export const fixtureThreads = () =>
+  withData(threadsResponse().data).mediaData.threads
+
+enum FixtureThreadIndex {
+  text = 0,
+  image = 1,
+  video = 2,
+  carousel = 3,
+  imageWithoutCaption = 4,
+  multiItem = 5
+}
+
+export type FixtureThread = keyof typeof FixtureThreadIndex
 
 export function fixtureThread(kind: FixtureThread): ThreadInterface {
-  return threadsResponse().data.mediaData.threads[FIXTURE_THREAD_INDEX[kind]]
+  return fixtureThreads()[FixtureThreadIndex[kind]]
 }
 
 export function fixtureItem(kind: FixtureThread) {
-  return fixtureThread(kind).thread_items[0]
+  const {
+    thread_items: [item]
+  } = fixtureThread(kind)
+  return item
 }
+
+const NO_REPLIES = 0
 
 export function quotedItem() {
   const item = fixtureItem('text')
-  const quoted = fixtureItem('image').post
+  const { post: quoted } = fixtureItem('image')
   item.post.text_post_app_info.share_info.quoted_post = {
     ...quoted,
     text_post_app_info: {
       is_post_unavailable: false,
       share_info: { quoted_post: null },
-      direct_reply_count: 0,
+      direct_reply_count: NO_REPLIES,
       link_preview_attachment: null
     }
   }

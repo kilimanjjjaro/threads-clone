@@ -11,7 +11,9 @@ export default component$(() => {
   return (
     <div class='mt-3 flex gap-4'>
       <button
-        onClick$={() => nav('/')}
+        onClick$={async () => {
+          await nav('/')
+        }}
         class='group relative flex items-center justify-center transition-transform duration-300 ease-in-out active:scale-90'
         aria-label='Like'
       >
@@ -19,7 +21,9 @@ export default component$(() => {
         <LikeIcon classes='z-10 w-5 h-5 text-threads-white' />
       </button>
       <button
-        onClick$={() => nav('/')}
+        onClick$={async () => {
+          await nav('/')
+        }}
         class='group relative flex items-center justify-center transition-transform duration-300 ease-in-out active:scale-90'
         aria-label='Comment'
       >
@@ -27,7 +31,9 @@ export default component$(() => {
         <CommentIcon classes='z-10 w-5 h-5 text-threads-white' />
       </button>
       <button
-        onClick$={() => nav('/')}
+        onClick$={async () => {
+          await nav('/')
+        }}
         class='group relative flex items-center justify-center transition-transform duration-300 ease-in-out active:scale-90'
         aria-label='Repost'
       >
@@ -35,7 +41,9 @@ export default component$(() => {
         <RepostIcon classes='z-10 w-5 h-5 fill-threads-white' />
       </button>
       <button
-        onClick$={() => nav('/')}
+        onClick$={async () => {
+          await nav('/')
+        }}
         class='group relative flex items-center justify-center transition-transform duration-300 ease-in-out active:scale-90'
         aria-label='Share'
       >

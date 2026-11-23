@@ -15,12 +15,13 @@ interface Props {
 export default component$(({ thread }: Props) => {
   if (thread === null) return null
 
-  const avatar = useComputed$(async () => {
-    return await uploadMedia({
-      mediaUrl: thread.user.profile_pic_url,
-      type: MEDIA_TYPES.AVATAR
-    })
-  })
+  const avatar = useComputed$(
+    async () =>
+      await uploadMedia({
+        mediaUrl: thread.user.profile_pic_url,
+        type: MEDIA_TYPES.AVATAR
+      })
+  )
 
   return (
     <article
@@ -51,7 +52,7 @@ export default component$(({ thread }: Props) => {
           </span>
         </div>
       </div>
-      {thread.caption && (
+      {thread.caption !== null && (
         <p class='mb-2 text-threads-white'>{thread.caption.text}</p>
       )}
       <CarouselItem

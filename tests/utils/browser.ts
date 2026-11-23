@@ -1,5 +1,5 @@
 import { expect } from '@playwright/test'
-import type { Page } from '@playwright/test'
+import type { Locator, Page } from '@playwright/test'
 
 // The layout shows a full screen splash for a second after hydration.
 export async function openPage(page: Page, path: string) {
@@ -22,5 +22,13 @@ export async function clickBackdrop(page: Page) {
   await page.mouse.click(
     viewport.width - CORNER_OFFSET_PX,
     viewport.height - CORNER_OFFSET_PX
+  )
+}
+
+export async function maxWidths(locator: Locator) {
+  return await locator.evaluateAll((elements) =>
+    elements.map((element) =>
+      element instanceof HTMLElement ? element.style.maxWidth : ''
+    )
   )
 }

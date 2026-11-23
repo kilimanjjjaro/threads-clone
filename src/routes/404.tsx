@@ -5,8 +5,8 @@ import Modals from '~/components/modals/modals'
 export default component$(() => {
   const nav = useNavigate()
 
-  const handleClick = $(() => {
-    nav('/')
+  const handleClick = $(async () => {
+    await nav('/')
   })
 
   return (

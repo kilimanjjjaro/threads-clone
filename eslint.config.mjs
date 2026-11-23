@@ -1,45 +1,39 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
+import love from 'eslint-config-love'
+import prettier from 'eslint-config-prettier/flat'
 import { qwikEslint9Plugin } from 'eslint-plugin-qwik'
 
+const TS_FILES = ['**/*.{ts,tsx,mts}']
+
 export default defineConfig([
-  js.configs.recommended,
-  tseslint.configs.recommended,
-  qwikEslint9Plugin.configs.recommended,
+  { ...love, files: TS_FILES },
+
+  { files: TS_FILES, extends: [qwikEslint9Plugin.configs.recommended] },
 
   {
-    files: ['src/**/*.{ts,tsx}'],
-    languageOptions: {
-      globals: {
-        ...globals.serviceworker,
-        ...globals.browser,
-        ...globals.node
-      },
-      parserOptions: {
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname
-      }
-    },
+    files: TS_FILES,
     rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/no-inferrable-types': 'off',
-      '@typescript-eslint/no-non-null-assertion': 'off',
-      '@typescript-eslint/no-empty-object-type': 'off',
-      '@typescript-eslint/no-namespace': 'off',
-      '@typescript-eslint/no-empty-function': 'off',
-      '@typescript-eslint/no-this-alias': 'off',
-      '@typescript-eslint/ban-ts-comment': 'off',
-      'prefer-spread': 'off',
-      'no-case-declarations': 'off',
-      'no-console': 'off',
-      '@typescript-eslint/no-unused-vars': ['error'],
-      '@typescript-eslint/consistent-type-imports': 'warn',
-      '@typescript-eslint/no-unnecessary-condition': 'warn'
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/no-misused-promises': 'off'
     }
   },
 
-  globalIgnores(['dist/**', 'server/**', '.vercel/**', 'tmp/**'])
+  {
+    files: ['src/lib/utils/logger.ts', 'tests/e2e/mock/server.ts'],
+    rules: {
+      'no-console': 'off'
+    }
+  },
+
+  prettier,
+
+  globalIgnores([
+    'node_modules/**',
+    'dist/**',
+    'server/**',
+    '.vercel/**',
+    'tmp/**',
+    'playwright-report/**',
+    'test-results/**'
+  ])
 ])

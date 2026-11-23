@@ -4,10 +4,18 @@ import { useEffect, useRef, useState } from 'react'
 import { qwikify$ } from '@builder.io/qwik-react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { uploadMedia } from '~/lib/utils/uploadMedia'
+import getThreadType from '~/lib/utils/getThreadType'
+import { imageUrl, videoUrl } from '~/lib/utils/mediaUrls'
 import { MEDIA_TYPES } from '~/lib/constants'
 import type { CarouselMedia } from '~/lib/interfaces/threads'
 import type { CloudinaryImageInterface } from '~/lib/interfaces/general'
 import 'swiper/css'
+
+const FULLY_VISIBLE = 1
+const MANY_SLIDES = 3
+const TWO_SLIDES = 2
+const SLIDE_WIDTH_PX = 230
+const SLIDES_GAP_PX = 6
 
 interface Props {
   images: CarouselMedia[] | null
@@ -24,46 +32,28 @@ function ReactComponent({ images, username }: Props) {
   >([])
 
   useEffect(() => {
-    const cloudinaryMedia = images.map(async (image) => {
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      const isVideoPost = image.video_versions?.length ? true : false
-      const file = isVideoPost
-        ? image.video_versions?.[0].url ?? ''
-        : image.image_versions2.candidates[0].url
+    const uploads = images.map(async (media) => {
+      const { isVideoPost } = getThreadType(media)
 
-      const media = {
-        mediaUrl: file,
-        type: !isVideoPost ? MEDIA_TYPES.IMAGE : MEDIA_TYPES.VIDEO
-      }
-
-      try {
-        const uploadedImage = await uploadMedia(media)
-
-        return uploadedImage
-      } catch (error) {
-        console.error(error)
-      }
+      return await uploadMedia({
+        mediaUrl: isVideoPost ? videoUrl(media) : imageUrl(media),
+        type: isVideoPost ? MEDIA_TYPES.VIDEO : MEDIA_TYPES.IMAGE
+      })
     })
 
-    Promise.all(cloudinaryMedia).then((images) => {
-      const filteredImages = images.filter(
-        (image) => image !== undefined
-      ) as CloudinaryImageInterface[]
-
-      setCloudinaryMedia(filteredImages)
+    void Promise.all(uploads).then((uploaded) => {
+      setCloudinaryMedia(uploaded.filter((media) => media !== undefined))
     })
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          videoRef.current?.play()
+          void videoRef.current?.play()
         } else {
           videoRef.current?.pause()
         }
       },
-      {
-        threshold: 1
-      }
+      { threshold: FULLY_VISIBLE }
     )
 
     if (videoRef.current !== null) observer.observe(videoRef.current)
@@ -74,30 +64,29 @@ function ReactComponent({ images, username }: Props) {
   }, [])
 
   // Threads no longer sends carousel_media_count, so count the media.
-  const slidesPerView = images.length >= 3 ? 'auto' : 2
+  const slidesPerView = images.length >= MANY_SLIDES ? 'auto' : TWO_SLIDES
 
   const handleClick = () => {
-    if (videoRef.current === null) return null
+    if (videoRef.current === null) return
 
-    if (videoRef.current.muted) {
-      videoRef.current.muted = false
-      setIsMuted(false)
-    } else {
-      videoRef.current.muted = true
-      setIsMuted(true)
-    }
+    videoRef.current.muted = !videoRef.current.muted
+    setIsMuted(videoRef.current.muted)
   }
 
   return (
     <div className='w-auto overflow-hidden'>
-      <Swiper className='mt-2' slidesPerView={slidesPerView} spaceBetween={6}>
+      <Swiper
+        className='mt-2'
+        slidesPerView={slidesPerView}
+        spaceBetween={SLIDES_GAP_PX}
+      >
         {cloudinaryMedia.map((media) => (
           <SwiperSlide
             key={media.url}
             className='relative overflow-hidden rounded-lg border border-threads-light-gray/20'
             style={{
               aspectRatio: `${media.width}/${media.height}`,
-              width: slidesPerView === 'auto' ? 230 : '100%',
+              width: slidesPerView === 'auto' ? SLIDE_WIDTH_PX : '100%',
               height: 'auto'
             }}
           >

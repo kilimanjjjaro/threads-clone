@@ -1,12 +1,18 @@
 import { component$, useSignal, useVisibleTask$ } from '@builder.io/qwik'
 import { Image } from '@unpic/qwik'
 
+const SPLASH_DURATION_MS = 1000
+
 export default component$(() => {
   const isLoading = useSignal(true)
 
-  useVisibleTask$(async ({ cleanup }) => {
-    const timeout = setTimeout(() => (isLoading.value = false), 1000)
-    cleanup(() => clearTimeout(timeout))
+  useVisibleTask$((task) => {
+    const timeout = setTimeout(() => {
+      isLoading.value = false
+    }, SPLASH_DURATION_MS)
+    task.cleanup(() => {
+      clearTimeout(timeout)
+    })
   })
 
   if (!isLoading.value) return null

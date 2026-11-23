@@ -13,11 +13,17 @@ import { jsonBody, networkError, stubFetch, threadsApi } from '../utils/http'
 
 const MEDIA_URL = 'https://cdn.test/media/1.jpg'
 
-const withoutQuery = (url: string) => url.split('?')[0]
+function withoutQuery(url: string) {
+  const [path] = url.split('?')
+  return path
+}
+
+const silenceErrors = () =>
+  vi.spyOn(console, 'error').mockImplementation(() => undefined)
 
 describe('uploadMedia', () => {
   beforeEach(() => {
-    vi.spyOn(console, 'error').mockImplementation(() => undefined)
+    silenceErrors()
   })
 
   describe.each(UPLOAD_CASES)('$type', ({ type, resource, preset, folder }) => {
@@ -26,7 +32,11 @@ describe('uploadMedia', () => {
 
       await uploadMedia({ mediaUrl: MEDIA_URL, type })
 
-      const [url, init] = fetchMock.mock.calls[0]
+      const {
+        mock: {
+          calls: [[url, init]]
+        }
+      } = fetchMock
       expect(url).toBe(`${CLOUDINARY_API}/${resource}/upload`)
       expect(init?.method).toBe('POST')
       expect(jsonBody(init)).toEqual({
@@ -54,10 +64,11 @@ describe('uploadMedia', () => {
 
   it('returns undefined and logs when the upload fails', async () => {
     stubFetch(threadsApi({ upload: networkError() }))
+    const consoleError = silenceErrors()
 
     await expect(
       uploadMedia({ mediaUrl: MEDIA_URL, type: 'image' })
     ).resolves.toBeUndefined()
-    expect(console.error).toHaveBeenCalled()
+    expect(consoleError).toHaveBeenCalled()
   })
 })

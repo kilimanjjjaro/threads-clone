@@ -1,24 +1,24 @@
 import { $, component$, useSignal } from '@builder.io/qwik'
-import type { QwikSubmitEvent } from '@builder.io/qwik'
+
+const SENDING_MS = 2000
+const DEMO_NOTICE_MS = 4000
 
 export default component$(() => {
   const sending = useSignal(false)
   const sended = useSignal(false)
 
-  const handleSubmit = $((event: QwikSubmitEvent<HTMLFormElement>) => {
-    const form = event.target as HTMLFormElement
-
+  const handleSubmit = $((_event: SubmitEvent, form: HTMLFormElement) => {
     sending.value = true
 
     setTimeout(() => {
       sending.value = false
       sended.value = true
-    }, 2000)
+    }, SENDING_MS)
 
     setTimeout(() => {
       sended.value = false
       form.reset()
-    }, 4000)
+    }, DEMO_NOTICE_MS)
   })
 
   return (

@@ -124,13 +124,9 @@ interface User {
 }
 
 export interface ReplyFacepileUser {
-  __typename: ReplyFacepileUserTypename
+  __typename: string
   id: null
   profile_pic_url: string
-}
-
-enum ReplyFacepileUserTypename {
-  XDTUserDict = 'XDTUserDict'
 }
 
 interface Extensions {
@@ -152,6 +148,7 @@ export interface ThreadInterface {
 }
 
 export interface UserThreadsInterface {
-  data: Data
+  // Error responses carry errors instead of data.
+  data?: Data
   extensions: Extensions
 }

@@ -11,6 +11,7 @@ import {
 import { PROFILE_HTML, threadsResponse, userResponse } from './fixtures'
 
 type Handler = (url: string, init?: RequestInit) => Response
+type FetchInput = string | URL | Request
 
 export const networkError = () => new TypeError('fetch failed')
 
@@ -22,21 +23,43 @@ export const jsonResponse = (body: unknown) =>
 export const htmlResponse = (body: string) =>
   new Response(body, { headers: { 'content-type': 'text/html' } })
 
+export function requestUrl(input: FetchInput) {
+  if (typeof input === 'string') return input
+  return input instanceof URL ? input.href : input.url
+}
+
 export function stubFetch(handler: Handler) {
+  // The handler runs inside the promise so a thrown error rejects, like fetch.
   const fetchMock = vi.fn(
-    async (input: string | URL | Request, init?: RequestInit) =>
-      handler(input instanceof Request ? input.url : String(input), init)
+    async (input: FetchInput, init?: RequestInit) =>
+      await Promise.resolve().then(() => handler(requestUrl(input), init))
   )
   vi.stubGlobal('fetch', fetchMock)
   return fetchMock
 }
 
-export function formBody(init?: RequestInit) {
-  return new URLSearchParams(String(init?.body))
+export function findRequest(
+  fetchMock: ReturnType<typeof stubFetch>,
+  matches: (url: string) => boolean
+) {
+  const call = fetchMock.mock.calls.find(([input]) =>
+    matches(requestUrl(input))
+  )
+  if (call === undefined) return undefined
+  const [, init] = call
+  return init
 }
 
-export function jsonBody(init?: RequestInit): Record<string, unknown> {
-  return JSON.parse(String(init?.body)) as Record<string, unknown>
+function bodyText(init?: RequestInit) {
+  return typeof init?.body === 'string' ? init.body : ''
+}
+
+export function formBody(init?: RequestInit) {
+  return new URLSearchParams(bodyText(init))
+}
+
+export function jsonBody(init?: RequestInit): unknown {
+  return JSON.parse(bodyText(init))
 }
 
 type Reply<T> = T | Error
@@ -68,10 +91,10 @@ export function threadsApi({
       return reply(profileHtml, htmlResponse)
 
     if (url === THREADS_ENDPOINT) {
-      const documentId = Number(formBody(init).get('doc_id'))
-      if (documentId === ENDPOINTS_DOCUMENT_ID.USER_PROFILE)
+      const documentId = formBody(init).get('doc_id')
+      if (documentId === String(ENDPOINTS_DOCUMENT_ID.USER_PROFILE))
         return reply(user, jsonResponse)
-      if (documentId === ENDPOINTS_DOCUMENT_ID.USER_PROFILE_THREADS)
+      if (documentId === String(ENDPOINTS_DOCUMENT_ID.USER_PROFILE_THREADS))
         return reply(threads, jsonResponse)
     }
 

@@ -4,25 +4,25 @@ import { fetchData } from '~/lib/utils/fetchData'
 import { ENDPOINTS_DOCUMENT_ID } from '~/lib/constants'
 import type { UserThreadsInterface } from '~/lib/interfaces/threads'
 
+const FIRST_THREAD = 0
+const MAX_PROFILE_THREADS = 5
+
 export const getThreads = server$(
   async ({ username }: { username?: string }) => {
-    if (!username) return null
+    if (username === undefined || username === '') return null
 
     const userId = await getUserId({ username })
 
-    if (!userId) return null
+    if (userId === undefined) return null
 
-    const documentId = ENDPOINTS_DOCUMENT_ID.USER_PROFILE_THREADS
-
-    const data: UserThreadsInterface = await fetchData({
+    const data = await fetchData<UserThreadsInterface>({
       userId,
-      documentId
+      documentId: ENDPOINTS_DOCUMENT_ID.USER_PROFILE_THREADS
     })
 
-    console.log('userThreads', data)
-
-    const threads = data?.data?.mediaData?.threads.slice(0, 5)
-
-    return threads
+    return data?.data?.mediaData.threads.slice(
+      FIRST_THREAD,
+      MAX_PROFILE_THREADS
+    )
   }
 )

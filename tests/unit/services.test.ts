@@ -10,6 +10,7 @@ import {
 } from '~/lib/constants'
 import {
   CLOUDINARY_API,
+  FIRST_THREAD,
   LAST_HD_AVATAR_URL,
   MAX_PROFILE_THREADS,
   PROFILE_URL_PREFIX,
@@ -17,8 +18,9 @@ import {
   USER_ID,
   USERNAME
 } from '../constants/unit'
-import { threadsResponse, userResponse } from '../utils/fixtures'
+import { fixtureThreads, fixtureUser, userResponse } from '../utils/fixtures'
 import {
+  findRequest,
   formBody,
   jsonBody,
   networkError,
@@ -30,9 +32,11 @@ vi.mock('@builder.io/qwik-city', () => ({
   server$: <T>(fn: T) => fn
 }))
 
-beforeEach(() => {
-  vi.spyOn(console, 'log').mockImplementation(() => undefined)
+const silenceErrors = () =>
   vi.spyOn(console, 'error').mockImplementation(() => undefined)
+
+beforeEach(() => {
+  silenceErrors()
 })
 
 describe('getUserId', () => {
@@ -41,7 +45,11 @@ describe('getUserId', () => {
 
     await expect(getUserId({ username: USERNAME })).resolves.toBe(USER_ID)
 
-    const [url, init] = fetchMock.mock.calls[0]
+    const {
+      mock: {
+        calls: [[url, init]]
+      }
+    } = fetchMock
     expect(url).toBe(`${PROFILE_URL_PREFIX}${USERNAME}`)
     expect(init?.headers).toEqual({ 'sec-fetch-site': 'same-site' })
   })
@@ -54,14 +62,18 @@ describe('getUserId', () => {
 })
 
 describe('fetchData', () => {
-  const documentId = ENDPOINTS_DOCUMENT_ID.USER_PROFILE
+  const { USER_PROFILE: documentId } = ENDPOINTS_DOCUMENT_ID
 
   it('posts the graphql query as a form', async () => {
     const fetchMock = stubFetch(threadsApi())
 
     await fetchData({ documentId, userId: USER_ID })
 
-    const [url, init] = fetchMock.mock.calls[0]
+    const {
+      mock: {
+        calls: [[url, init]]
+      }
+    } = fetchMock
     expect(url).toBe(THREADS_ENDPOINT)
     expect(init?.method).toBe('POST')
     expect(init?.headers).toMatchObject({
@@ -94,11 +106,12 @@ describe('fetchData', () => {
 
   it('returns undefined and logs when the request fails', async () => {
     stubFetch(threadsApi({ user: networkError() }))
+    const consoleError = silenceErrors()
 
     await expect(
       fetchData({ documentId, userId: USER_ID })
     ).resolves.toBeUndefined()
-    expect(console.error).toHaveBeenCalled()
+    expect(consoleError).toHaveBeenCalled()
   })
 })
 
@@ -123,14 +136,14 @@ describe('getUser', () => {
 
     expect(user).toMatchObject({
       username: USERNAME,
-      full_name: userResponse().data.user.full_name
+      full_name: fixtureUser().full_name
     })
     expect(user?.profile_pic_url).toMatch(/^https:\/\/res\.cloudinary\.com\//v)
 
-    const upload = fetchMock.mock.calls.find(([url]) =>
-      String(url).startsWith(CLOUDINARY_API)
+    const upload = findRequest(fetchMock, (url) =>
+      url.startsWith(CLOUDINARY_API)
     )
-    expect(jsonBody(upload?.[1])).toMatchObject({
+    expect(jsonBody(upload)).toMatchObject({
       file: LAST_HD_AVATAR_URL,
       folder: 'threads-clone/user-avatars'
     })
@@ -141,7 +154,7 @@ describe('getUser', () => {
 
     const user = await getUser({ username: USERNAME })
 
-    expect(user?.profile_pic_url).toBe(userResponse().data.user.profile_pic_url)
+    expect(user?.profile_pic_url).toBe(fixtureUser().profile_pic_url)
   })
 
   it('returns null when the profile request fails', async () => {
@@ -167,15 +180,13 @@ describe('getThreads', () => {
 
     const threads = await getThreads({ username: USERNAME })
 
-    const expected = threadsResponse()
-      .data.mediaData.threads.slice(0, MAX_PROFILE_THREADS)
+    const expected = fixtureThreads()
+      .slice(FIRST_THREAD, MAX_PROFILE_THREADS)
       .map(({ id }) => id)
     expect(threads?.map(({ id }) => id)).toEqual(expected)
 
-    const graphql = fetchMock.mock.calls.find(
-      ([url]) => url === THREADS_ENDPOINT
-    )
-    expect(formBody(graphql?.[1]).get('doc_id')).toBe(
+    const graphql = findRequest(fetchMock, (url) => url === THREADS_ENDPOINT)
+    expect(formBody(graphql).get('doc_id')).toBe(
       String(ENDPOINTS_DOCUMENT_ID.USER_PROFILE_THREADS)
     )
   })

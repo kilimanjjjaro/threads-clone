@@ -1,6 +1,7 @@
 import { component$, useComputed$ } from '@builder.io/qwik'
 import { Image } from '@unpic/qwik'
 import { uploadMedia } from '~/lib/utils/uploadMedia'
+import { aspectRatio } from '~/lib/utils/mediaUrls'
 import { MEDIA_TYPES } from '~/lib/constants'
 
 interface Props {
@@ -9,16 +10,15 @@ interface Props {
 }
 
 export default component$(({ imageUrl, username }: Props) => {
-  const image = useComputed$(async () => {
-    return await uploadMedia({ mediaUrl: imageUrl, type: MEDIA_TYPES.IMAGE })
-  })
+  const image = useComputed$(
+    async () =>
+      await uploadMedia({ mediaUrl: imageUrl, type: MEDIA_TYPES.IMAGE })
+  )
 
   return (
     <div
       class='relative max-h-[50vh] overflow-hidden rounded-lg border border-threads-light-gray/20'
-      style={{
-        aspectRatio: image.value?.width / image.value?.height
-      }}
+      style={{ aspectRatio: aspectRatio(image.value) }}
     >
       <Image
         class='absolute h-full w-full object-cover object-center'
@@ -26,7 +26,7 @@ export default component$(({ imageUrl, username }: Props) => {
         layout='constrained'
         alt={`${username}'s thread image`}
         width={640}
-        aspectRatio={image.value?.width / image.value?.height}
+        aspectRatio={aspectRatio(image.value)}
         loading='lazy'
       />
     </div>

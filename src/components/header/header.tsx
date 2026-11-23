@@ -6,7 +6,7 @@ import Avatar from '~/components/header/avatar'
 import ThreadsLogo from '~/components/icons/threads-logo'
 import MoreIcon from '~/components/icons/more-icon'
 import InstagramIcon from '~/components/icons/instagram-icon'
-import { ModalContext, UserContext } from '~/lib/context'
+import { ModalContext, UserContext, setModal } from '~/lib/context'
 import formatLinks from '~/lib/utils/formatLinks'
 import { MODAL_CODES } from '~/lib/constants'
 
@@ -18,7 +18,9 @@ export default component$(() => {
 
   const formattedBiography = formatLinks(user.biography)
 
-  const openSoonModal = $(() => (modalCode.value = MODAL_CODES.SOON))
+  const openSoonModal = $(() => {
+    setModal(modalCode, MODAL_CODES.SOON)
+  })
 
   return (
     <header class='mb-4 flex flex-col justify-center gap-4'>
@@ -26,7 +28,9 @@ export default component$(() => {
         <button
           class='transition-transform duration-300 ease-in-out xl:hover:scale-105'
           aria-label='Change theme color'
-          onClick$={() => nav('/')}
+          onClick$={async () => {
+            await nav('/')
+          }}
         >
           <ThreadsLogo classes='w-8 h-8 text-threads-white' />
         </button>
@@ -58,7 +62,7 @@ export default component$(() => {
           isVerified={user.is_verified}
         />
       </div>
-      {user.biography && (
+      {user.biography !== '' && (
         <p
           class='blue-links whitespace-pre-line break-words text-threads-white'
           dangerouslySetInnerHTML={formattedBiography}

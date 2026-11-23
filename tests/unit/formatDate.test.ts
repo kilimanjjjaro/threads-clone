@@ -1,13 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import formatDate from '~/lib/utils/formatDate'
-import {
-  MONTH_AGO_DATE,
-  NOW,
-  RELATIVE_DATE_CASES,
-  SECONDS_IN_A_MONTH
-} from '../constants/unit'
+import { MS_IN_A_SECOND, NOW } from '../constants/unit'
+import RELATIVE_DATE_CASES from '../constants/relative-date-cases.json'
 
-const MS_IN_A_SECOND = 1000
 const nowInSeconds = NOW.getTime() / MS_IN_A_SECOND
 
 describe('formatDate', () => {
@@ -19,14 +14,11 @@ describe('formatDate', () => {
     vi.useRealTimers()
   })
 
+  // Under a minute, relative units up to four weeks, and the date after that.
   it.each(RELATIVE_DATE_CASES)(
-    '%i seconds ago is shown as "%s"',
-    (secondsAgo, expected) => {
+    '$secondsAgo seconds ago is shown as "$expected"',
+    ({ secondsAgo, expected }) => {
       expect(formatDate(nowInSeconds - secondsAgo)).toBe(expected)
     }
   )
-
-  it('posts older than a month show their date', () => {
-    expect(formatDate(nowInSeconds - SECONDS_IN_A_MONTH)).toBe(MONTH_AGO_DATE)
-  })
 })

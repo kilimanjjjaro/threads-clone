@@ -9,9 +9,12 @@ const HTML_ESCAPES: Record<string, string> = {
 // Bios and captions come from other users and are rendered as html, so
 // escape them before adding the mention links.
 function escapeHtml(text: string) {
-  return text.replace(/[&<>"']/g, (character) => HTML_ESCAPES[character])
+  return text.replace(/[&<>"']/gv, (character) => HTML_ESCAPES[character])
 }
 
 export default function formatLinks(text: string) {
-  return escapeHtml(text).replace(/@(\w+)/g, '<a href="/@$1">@$1</a>')
+  return escapeHtml(text).replace(
+    /@(?<username>\w+)/gv,
+    '<a href="/@$<username>">@$<username></a>'
+  )
 }

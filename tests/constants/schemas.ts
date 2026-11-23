@@ -1,4 +1,4 @@
-import { arrayOf, nullable } from '../utils/shape'
+import { AT_LEAST_ONE, arrayOf, nullable } from '../utils/shape'
 
 // Fields of the Threads GraphQL responses that the app reads.
 
@@ -38,7 +38,10 @@ const threadItem = {
 export const threadsResponseShape = {
   data: {
     mediaData: {
-      threads: arrayOf({ id: 'string', thread_items: arrayOf(threadItem, 1) })
+      threads: arrayOf({
+        id: 'string',
+        thread_items: arrayOf(threadItem, AT_LEAST_ONE)
+      })
     }
   }
 } as const
@@ -53,7 +56,7 @@ export const userResponseShape = {
       is_verified: 'boolean',
       follower_count: 'number',
       profile_pic_url: 'string',
-      hd_profile_pic_versions: arrayOf({ url: 'string' }, 1),
+      hd_profile_pic_versions: arrayOf({ url: 'string' }, AT_LEAST_ONE),
       bio_links: arrayOf({ url: 'string' })
     }
   }

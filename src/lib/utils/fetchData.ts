@@ -1,9 +1,9 @@
-import { server$ } from '@builder.io/qwik-city'
 import {
   THREADS_APP_ID,
   THREADS_APP_LSD,
   THREADS_GRAPHQL_PATH
 } from '~/lib/constants'
+import { logError } from '~/lib/utils/logger'
 import { threadsOrigin } from '~/lib/utils/origins'
 
 interface Props {
@@ -11,7 +11,11 @@ interface Props {
   userId: string
 }
 
-export const fetchData = server$(async ({ documentId, userId }: Props) => {
+// Only called from server$ functions, so it always runs on the server.
+export async function fetchData<T>({
+  documentId,
+  userId
+}: Props): Promise<T | undefined> {
   const variables = {
     userID: userId,
     __relay_internal__pv__BarcelonaIsSableEnabledrelayprovider: false,
@@ -36,13 +40,13 @@ export const fetchData = server$(async ({ documentId, userId }: Props) => {
         'x-fb-lsd': THREADS_APP_LSD,
         'sec-fetch-site': 'same-site'
       },
-      body: body
+      body
     })
 
-    const data = await response.json()
-
-    return data
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- the threads api response is not validated at runtime
+    return await (response.json() as Promise<T>)
   } catch (error) {
-    console.error(error)
+    logError(error)
+    return undefined
   }
-})
+}

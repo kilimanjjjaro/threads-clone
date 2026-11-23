@@ -12,6 +12,6 @@
 import { render, type RenderOptions } from '@builder.io/qwik'
 import Root from './root'
 
-export default function (opts: RenderOptions) {
-  return render(document, <Root />, opts)
+export default async function (opts: RenderOptions) {
+  return await render(document, <Root />, opts)
 }
