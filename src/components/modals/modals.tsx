@@ -20,14 +20,14 @@ export default component$(() => {
   if (!modalStatus.value) return null
 
   return (
-    <div class='fixed inset-0 z-50 flex items-center justify-center bg-threads-black/[.97] backdrop-blur-xl'>
+    <div class='fixed inset-0 z-50 flex items-center justify-center bg-threads-black/97 backdrop-blur-xl'>
       <div
         onClick$={closeModal}
         class='absolute h-full w-full cursor-pointer bg-transparent'
       />
       <button
         onClick$={closeModal}
-        class='absolute left-6 top-6 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-threads-dark-gray transition-transform duration-300 ease-in-out xl:hover:scale-105'
+        class='absolute top-6 left-6 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-threads-dark-gray transition-transform duration-300 ease-in-out xl:hover:scale-105'
       >
         <CloseIcon classes='w-4 h-4 stroke-threads-light-gray' />
       </button>

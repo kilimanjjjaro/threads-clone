@@ -11,12 +11,12 @@ export default component$(() => {
 
   return (
     <>
-      <main class='flex h-full w-full items-center justify-center bg-[url(/images/bg-dark.webp)] bg-[length:140vh] bg-top bg-no-repeat px-6 pt-[100px] xl:bg-[length:93%] xl:px-0 xl:pt-[72px]'>
+      <main class='flex h-full w-full items-center justify-center bg-[url(/images/bg-dark.webp)] bg-size-[140vh] bg-top bg-no-repeat px-6 pt-[100px] xl:bg-size-[93%] xl:px-0 xl:pt-[72px]'>
         <section class='flex flex-col items-center md:w-80'>
           <h2 class='mb-2 text-center font-bold text-threads-white'>
             User not found
           </h2>
-          <p class='mb-4 text-balance text-center text-threads-light-gray'>
+          <p class='mb-4 text-center text-balance text-threads-light-gray'>
             Please make sure that the username you entered is from a real
             account.
           </p>

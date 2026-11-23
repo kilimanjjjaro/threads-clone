@@ -32,7 +32,7 @@ export default component$(() => {
         class='flex flex-col items-end overflow-hidden rounded-2xl border border-threads-white/10 bg-threads-dark-gray p-6'
       >
         <textarea
-          class={`h-24 w-full resize-none overflow-hidden bg-transparent text-threads-white outline-none placeholder:text-threads-light-gray focus:text-threads-white active:text-threads-white`}
+          class={`h-24 w-full resize-none overflow-hidden bg-transparent text-threads-white outline-hidden placeholder:text-threads-light-gray focus:text-threads-white active:text-threads-white`}
           name='report'
           placeholder='Please include as many details as possible...'
           disabled={sending.value || sended.value}

@@ -12,7 +12,7 @@ export default component$(({ post }: Props) => {
   const isDropdownOpen = useSignal(false)
 
   return (
-    <header class='-mt-[5px] mb-1 flex items-center justify-between'>
+    <header class='mt-[-5px] mb-1 flex items-center justify-between'>
       <div class='flex items-center gap-1'>
         <span class='font-semibold text-threads-white'>
           {post.user.username}
@@ -44,7 +44,7 @@ export default component$(({ post }: Props) => {
             </svg>
           </button>
           <ul
-            class={`absolute right-0 top-full z-10 mt-2 w-full min-w-[140px] origin-top-right rounded-2xl border border-threads-white/10 bg-[#181818] px-4 py-3 transition-transform duration-300 ease-in-out ${
+            class={`absolute top-full right-0 z-10 mt-2 w-full min-w-[140px] origin-top-right rounded-2xl border border-threads-white/10 bg-[#181818] px-4 py-3 transition-transform duration-300 ease-in-out ${
               isDropdownOpen.value ? 'scale-100' : 'scale-0'
             }`}
           >

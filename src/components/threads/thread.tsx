@@ -42,7 +42,7 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
               style={{ height: startsThread ? 'calc(100% - 26px)' : '100%' }}
             />
             {startsThread && (
-              <BunIcon classes='stroke-[#333638] absolute bottom-[1px] right-[15px]' />
+              <BunIcon classes='stroke-[#333638] absolute bottom-px right-[15px]' />
             )}
           </div>
         </div>
@@ -59,7 +59,7 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
 
           <Buttons />
           {startsThread && (
-            <div class='mb-2 mt-3 flex items-center gap-3'>
+            <div class='mt-3 mb-2 flex items-center gap-3'>
               <NestedFacepiles
                 facepiles={thread.reply_facepile_users}
                 username={post.user.username}

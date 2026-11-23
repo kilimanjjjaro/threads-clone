@@ -29,23 +29,23 @@ export default component$(() => {
 
   return (
     <>
-      <main class='flex h-full w-full items-center justify-center bg-[url(/images/bg-dark.webp)] bg-[length:140vh] bg-top bg-no-repeat px-6 pt-[100px] xl:bg-[length:93%] xl:px-0 xl:pt-[72px]'>
+      <main class='flex h-full w-full items-center justify-center bg-[url(/images/bg-dark.webp)] bg-size-[140vh] bg-top bg-no-repeat px-6 pt-[100px] xl:bg-size-[93%] xl:px-0 xl:pt-[72px]'>
         <section class='md:w-80'>
           <h2 class='mb-2 text-center font-bold text-threads-white'>
             Log in with username
           </h2>
-          <p class='mb-4 text-balance text-center text-threads-light-gray'>
+          <p class='mb-4 text-center text-balance text-threads-light-gray'>
             For testing purposes, you can enter the username of a real account
             and visit the profile <b>without logging in</b>.
           </p>
           <Form action={action}>
             <div class='mb-4 flex h-14 overflow-hidden rounded-full border border-threads-white/10'>
-              <span class='flex cursor-not-allowed items-center justify-center border-r border-threads-white/10 pl-[18px] pr-4 text-threads-light-gray'>
+              <span class='flex cursor-not-allowed items-center justify-center border-r border-threads-white/10 pr-4 pl-[18px] text-threads-light-gray'>
                 @
               </span>
               <input
                 ref={inputRef}
-                class={`w-full bg-transparent px-6 text-threads-white outline-none placeholder:text-threads-light-gray focus:bg-threads-dark-gray active:bg-threads-dark-gray xl:hover:bg-threads-dark-gray ${
+                class={`w-full bg-transparent px-6 text-threads-white outline-hidden placeholder:text-threads-light-gray focus:bg-threads-dark-gray active:bg-threads-dark-gray xl:hover:bg-threads-dark-gray ${
                   action.isRunning && 'disabled:cursor-not-allowed'
                 }`}
                 type='text'

@@ -113,7 +113,7 @@ function ReactComponent({ images, username }: Props) {
                   loop
                 />
                 <button
-                  className='absolute bottom-4 right-4 flex h-7 w-7 items-center justify-center rounded-full bg-[#282828]/50 backdrop-blur-xl'
+                  className='absolute right-4 bottom-4 flex h-7 w-7 items-center justify-center rounded-full bg-[#282828]/50 backdrop-blur-xl'
                   onClick={handleClick}
                 >
                   {isMuted ? (

@@ -24,7 +24,7 @@ export default component$(() => {
 
   return (
     <header class='mb-4 flex flex-col justify-center gap-4'>
-      <div class='fixed left-0 top-0 z-20 flex w-full justify-center bg-threads-black/50 py-5 backdrop-blur-xl'>
+      <div class='fixed top-0 left-0 z-20 flex w-full justify-center bg-threads-black/50 py-5 backdrop-blur-xl'>
         <button
           class='transition-transform duration-300 ease-in-out xl:hover:scale-105'
           aria-label='Change theme color'
@@ -64,7 +64,7 @@ export default component$(() => {
       </div>
       {user.biography !== '' && (
         <p
-          class='blue-links whitespace-pre-line break-words text-threads-white'
+          class='blue-links wrap-break-word whitespace-pre-line text-threads-white'
           dangerouslySetInnerHTML={formattedBiography}
         />
       )}
@@ -90,7 +90,7 @@ export default component$(() => {
             <div class='absolute h-[150%] w-[150%] scale-0 rounded-full bg-threads-dark-gray transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
             <MoreIcon classes='z-10 w-6 h-6 text-threads-white' />
             <ul
-              class={`absolute right-0 top-full z-10 mt-3 w-full min-w-[140px] origin-top-right rounded-2xl border border-threads-white/10 bg-[#181818] px-4 py-3 transition-transform duration-300 ease-in-out ${
+              class={`absolute top-full right-0 z-10 mt-3 w-full min-w-[140px] origin-top-right rounded-2xl border border-threads-white/10 bg-[#181818] px-4 py-3 transition-transform duration-300 ease-in-out ${
                 dropdownStatus.value ? 'scale-100' : 'scale-0'
               }`}
             >
