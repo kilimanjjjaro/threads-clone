@@ -58,10 +58,13 @@ const threadsBody = JSON.stringify({
   data: { mediaData: { threads: profileThreads } }
 })
 
-async function readBody(request: IncomingMessage) {
-  const chunks: Buffer[] = []
-  for await (const chunk of request) chunks.push(chunk as Buffer)
-  return Buffer.concat(chunks).toString('utf8')
+function readBody(request: IncomingMessage) {
+  return new Promise<string>((resolve, reject) => {
+    const chunks: Buffer[] = []
+    request.on('data', (chunk: Buffer) => chunks.push(chunk))
+    request.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')))
+    request.on('error', reject)
+  })
 }
 
 function send(
