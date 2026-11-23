@@ -19,7 +19,8 @@
     "start": "vite --open --mode ssr",
     "qwik": "qwik",
     "test": "vitest run",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:all": "pnpm fmt.check && pnpm build.types && pnpm lint && pnpm test && pnpm build && pnpm test:e2e"
   },
   "devDependencies": {
     "@builder.io/qwik": "1.5.1",
