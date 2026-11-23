@@ -1,4 +1,4 @@
-const DEFAULT_THREADS_ORIGIN = 'https://www.threads.net'
+const DEFAULT_THREADS_ORIGIN = 'https://www.threads.com'
 const DEFAULT_CLOUDINARY_API_ORIGIN = 'https://api.cloudinary.com'
 
 // Only the server can override them (the e2e tests point them to a local

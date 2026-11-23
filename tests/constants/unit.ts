@@ -7,7 +7,7 @@ export const MAX_PROFILE_THREADS = 5
 export const NOW = new Date('2026-11-23T12:00:00Z')
 export const MS_IN_A_SECOND = 1000
 
-export const THREADS_ORIGIN = 'https://www.threads.net'
+export const THREADS_ORIGIN = 'https://www.threads.com'
 export const THREADS_ENDPOINT = `${THREADS_ORIGIN}/api/graphql`
 export const PROFILE_URL_PREFIX = `${THREADS_ORIGIN}/@`
 
