@@ -63,12 +63,3 @@ pnpm test:all     # All of the above, as the CI runs them
 ```
 
 The CI also fails on high or critical advisories in production dependencies.
-
-## Dependency notes
-
-- Vite stays on 7 and React on 18: Qwik 1.20 and `@builder.io/qwik-react`
-  require Vite below 8 and React 18.
-- TypeScript stays on 6.0: typescript-eslint requires a version below 6.1.
-- Qwik 2 is still a release candidate.
-- `zod` must not be installed at the root: qwik-city would bundle it instead
-  of its own zod 3 and route action validation would break.
