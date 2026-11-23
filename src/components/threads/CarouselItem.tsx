@@ -29,7 +29,7 @@ function ReactComponent({ images, imagesCount, username }: Props) {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       const isVideoPost = image.video_versions?.length ? true : false
       const file = isVideoPost
-        ? image.video_versions[0].url
+        ? image.video_versions?.[0].url ?? ''
         : image.image_versions2.candidates[0].url
 
       const media = {

@@ -20,9 +20,9 @@ interface Post {
   image_versions2: ImageVersions2
   original_width: number
   original_height: number
-  video_versions: any[]
+  video_versions: VideoVersion[] | null
   carousel_media: CarouselMedia[] | null
-  carousel_media_count: null
+  carousel_media_count: number | null
   pk: string
   has_audio: null
   text_post_app_info: PostTextPostAppInfo
@@ -42,15 +42,20 @@ interface ImageVersions2 {
   candidates: Candidate[]
 }
 
+// Some candidates only carry the url.
 export interface Candidate {
-  height: number
+  height?: number
   url: string
-  width: number
-  __typename: CandidateTypename
+  width?: number
+  __typename?: CandidateTypename
 }
 
 enum CandidateTypename {
   XDTImageCandidate = 'XDTImageCandidate'
+}
+
+interface VideoVersion {
+  url: string
 }
 
 interface PostTextPostAppInfo {
@@ -61,13 +66,8 @@ interface PostTextPostAppInfo {
 }
 
 interface ReplyToAuthor {
-  username: Username
+  username: string
   id: null
-}
-
-enum Username {
-  EnvyWorldwide = 'envy_worldwide',
-  Zuck = 'zuck'
 }
 
 interface PurpleShareInfo {
@@ -77,7 +77,7 @@ interface PurpleShareInfo {
 
 export interface CarouselMedia {
   image_versions2: ImageVersions2
-  video_versions: any[]
+  video_versions: VideoVersion[] | null
   has_audio: null
   original_width: number
   original_height: number
@@ -95,9 +95,9 @@ export interface QuotedPost {
   image_versions2: ImageVersions2
   original_width: number
   original_height: number
-  video_versions: any[]
+  video_versions: VideoVersion[] | null
   carousel_media: CarouselMedia[] | null
-  carousel_media_count: null
+  carousel_media_count: number | null
   has_audio: null
   like_count: number
   taken_at: number
@@ -117,7 +117,7 @@ interface FluffyShareInfo {
 
 interface User {
   is_verified: boolean
-  username: Username
+  username: string
   id: null
   profile_pic_url: string
   pk?: string

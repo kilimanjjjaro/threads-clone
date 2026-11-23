@@ -135,7 +135,7 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
           )}
 
           {isVideoPost && (
-            <VideoItem videoUrl={thread.post.video_versions[0].url} />
+            <VideoItem videoUrl={thread.post.video_versions?.[0].url ?? ''} />
           )}
 
           {isQuotedPost && (
@@ -153,7 +153,7 @@ export default component$(({ thread, nestedItem, multipleItems }: Props) => {
                   return (
                     <VideoItem
                       key={media.id}
-                      videoUrl={media.video_versions[0].url}
+                      videoUrl={media.video_versions?.[0].url ?? ''}
                     />
                   )
                 }
