@@ -31,3 +31,8 @@ export async function maxWidths(locator: Locator) {
     )
   )
 }
+
+export async function serviceWorkerCount() {
+  const registrations = await navigator.serviceWorker.getRegistrations()
+  return registrations.length
+}

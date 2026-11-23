@@ -17,6 +17,7 @@ import {
   clickBackdrop,
   dialog,
   maxWidths,
+  serviceWorkerCount,
   openPage,
   profileThreads,
   quotedPosts
@@ -220,4 +221,10 @@ test.describe('navigation', () => {
     await page.getByRole('button', { name: 'Try again' }).click()
     await expect(page).toHaveURL('/')
   })
+})
+
+test('does not register a service worker', async ({ page }) => {
+  await openPage(page, PROFILE_PATH)
+
+  expect(await page.evaluate(serviceWorkerCount)).toBe(NO_ELEMENTS)
 })

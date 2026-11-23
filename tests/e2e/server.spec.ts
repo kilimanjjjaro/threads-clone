@@ -42,6 +42,13 @@ test('unknown routes answer 404', async ({ request }) => {
   expect(response.status()).toBe(HTTP_STATUS_NOT_FOUND)
 })
 
+test('serves a service worker that unregisters itself', async ({ request }) => {
+  const response = await request.get('/service-worker.js')
+
+  expect(response.status()).toBe(HTTP_STATUS_OK)
+  expect(await response.text()).toContain('unregister')
+})
+
 test.describe('static files', () => {
   for (const path of ['/robots.txt', '/manifest.json', '/favicon.ico']) {
     test(path, async ({ request }) => {

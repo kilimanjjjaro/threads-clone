@@ -3,7 +3,7 @@ addEventListener('install', () => {
 })
 
 addEventListener('activate', () => {
-  void self.clients.claim()
+  void self.registration.unregister()
 })
 
 declare const self: ServiceWorkerGlobalScope
