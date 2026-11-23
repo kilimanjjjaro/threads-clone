@@ -1,109 +1,74 @@
-# Qwik City App ⚡️
+# Threads Clone
 
-- [Qwik Docs](https://qwik.builder.io/)
-- [Discord](https://qwik.builder.io/chat)
-- [Qwik GitHub](https://github.com/BuilderIO/qwik)
-- [@QwikDev](https://twitter.com/QwikDev)
-- [Vite](https://vitejs.dev/)
+A clone of the public profile page of [Threads](https://www.threads.com), built
+with Qwik. Enter the username of a real account and the app shows its header
+and latest threads without logging in.
 
----
+## How it works
 
-## Project Structure
+- Qwik City renders the profile on the server. `getUserId` reads the user id
+  from the public profile page, and `fetchData` queries the Threads GraphQL
+  endpoint for the profile and its latest five threads.
+- The responses are validated with type guards before they are used, so an
+  unknown user or a failed request shows "User not found" with a 404.
+- Avatars, images and videos are re-uploaded to Cloudinary, which serves them
+  resized to 600px at 70% quality.
+- Bios and captions are escaped before mentions are turned into links.
+- The app is deployed to Vercel Edge Functions.
 
-This project is using Qwik with [QwikCity](https://qwik.builder.io/qwikcity/overview/). QwikCity is just an extra set of tools on top of Qwik to make it easier to build a full site, including directory-based routing, layouts, and more.
+The GraphQL document ids and the `lsd` token are the ones the Threads web app
+uses. They are not a public API and can stop working without notice.
 
-Inside your project, you'll see the following directory structure:
+## Getting Started
 
-```
-├── public/
-│   └── ...
-└── src/
-    ├── components/
-    │   └── ...
-    └── routes/
-        └── ...
-```
+Requirements: Node.js 26 (pinned with Volta) and pnpm 11. pnpm runs the
+project scripts with the Node.js version declared in `devEngines`.
 
-- `src/routes`: Provides the directory-based routing, which can include a hierarchy of `layout.tsx` layout files, and an `index.tsx` file as the page. Additionally, `index.ts` files are endpoints. Please see the [routing docs](https://qwik.builder.io/qwikcity/routing/overview/) for more info.
-
-- `src/components`: Recommended directory for components.
-
-- `public`: Any static assets, like images, can be placed in the public directory. Please see the [Vite public directory](https://vitejs.dev/guide/assets.html#the-public-directory) for more info.
-
-## Add Integrations and deployment
-
-Use the `pnpm qwik add` command to add additional integrations. Some examples of integrations includes: Cloudflare, Netlify or Express Server, and the [Static Site Generator (SSG)](https://qwik.builder.io/qwikcity/guides/static-site-generation/).
-
-```shell
-pnpm qwik add # or `yarn qwik add`
+```bash
+pnpm install
+pnpm dev      # App on http://localhost:5173
+pnpm preview  # Production build served locally
+pnpm deploy   # Deploy to Vercel with the Vercel CLI
 ```
 
-## Development
+`THREADS_ORIGIN` and `CLOUDINARY_API_ORIGIN` override the API origins on the
+server. The e2e tests use them to point the app to a local mock.
 
-Development mode uses [Vite's development server](https://vitejs.dev/). The `dev` command will server-side render (SSR) the output during development.
+## Project structure
 
-```shell
-npm start # or `yarn start`
+- `src/routes`: the login page, the profile page (`@[username]`) and the 404
+- `src/components`: the header, threads, carousels and modals
+- `src/lib/services`: the server functions that read Threads
+- `src/lib/utils`: the Threads and Cloudinary clients, type guards and
+  formatting helpers
+- `adapters/vercel-edge`: the Vercel Edge build
+- `tests/unit`: Vitest unit tests for the utils and services, with fetch
+  stubbed
+- `tests/e2e`: Playwright tests on desktop Chrome and Pixel 7, against the
+  preview build and a mock of the Threads and Cloudinary APIs
+  (`tests/e2e/mock/server.ts`)
+- `tests/fixtures`: trimmed copies of real Threads responses; a contract test
+  checks they still have every field the app reads
+
+## Checks
+
+```bash
+pnpm fmt.check    # Prettier (pnpm fmt fixes the files)
+pnpm build.types  # TypeScript
+pnpm lint         # ESLint (eslint-config-love)
+pnpm test         # Unit tests (Vitest)
+pnpm build        # Production build
+pnpm test:e2e     # E2E tests (Playwright)
+pnpm test:all     # All of the above, as the CI runs them
 ```
 
-> Note: during dev mode, Vite may request a significant number of `.js` files. This does not represent a Qwik production build.
+The CI also fails on high or critical advisories in production dependencies.
 
-## Preview
+## Dependency notes
 
-The preview command will create a production build of the client modules, a production build of `src/entry.preview.tsx`, and run a local server. The preview server is only for convenience to preview a production build locally and should not be used as a production server.
-
-```shell
-pnpm preview # or `yarn preview`
-```
-
-## Production
-
-The production build will generate client and server modules by running both client and server build commands. The build command will use Typescript to run a type check on the source code.
-
-```shell
-pnpm build # or `yarn build`
-```
-
-## Vercel Edge
-
-This starter site is configured to deploy to [Vercel Edge Functions](https://vercel.com/docs/concepts/functions/edge-functions), which means it will be rendered at an edge location near to your users.
-
-## Installation
-
-The adaptor will add a new `vite.config.ts` within the `adapters/` directory, and a new entry file will be created, such as:
-
-```
-└── adapters/
-    └── vercel-edge/
-        └── vite.config.ts
-└── src/
-    └── entry.vercel-edge.tsx
-```
-
-Additionally, within the `package.json`, the `build.server` script will be updated with the Vercel Edge build.
-
-## Production build
-
-To build the application for production, use the `build` command, this command will automatically run `pnpm build.server` and `pnpm build.client`:
-
-```shell
-pnpm build
-```
-
-[Read the full guide here](https://github.com/BuilderIO/qwik/blob/main/starters/adapters/vercel-edge/README.md)
-
-## Dev deploy
-
-To deploy the application for development:
-
-```shell
-pnpm deploy
-```
-
-Notice that you might need a [Vercel account](https://docs.Vercel.com/get-started/) in order to complete this step!
-
-## Production deploy
-
-The project is ready to be deployed to Vercel. However, you will need to create a git repository and push the code to it.
-
-You can [deploy your site to Vercel](https://vercel.com/docs/concepts/deployments/overview) either via a Git provider integration or through the Vercel CLI.
+- Vite stays on 7 and React on 18: Qwik 1.20 and `@builder.io/qwik-react`
+  require Vite below 8 and React 18.
+- TypeScript stays on 6.0: typescript-eslint requires a version below 6.1.
+- Qwik 2 is still a release candidate.
+- `zod` must not be installed at the root: qwik-city would bundle it instead
+  of its own zod 3 and route action validation would break.
