@@ -6,19 +6,19 @@ import { fetchData } from '~/lib/utils/fetchData'
 import {
   ENDPOINTS_DOCUMENT_ID,
   THREADS_APP_ID,
-  THREADS_APP_LSD,
-  THREADS_ENDPOINT
+  THREADS_APP_LSD
 } from '~/lib/constants'
 import {
   CLOUDINARY_API,
   LAST_HD_AVATAR_URL,
   MAX_PROFILE_THREADS,
+  PROFILE_URL_PREFIX,
+  THREADS_ENDPOINT,
   USER_ID,
   USERNAME
 } from '../constants/unit'
 import { threadsResponse, userResponse } from '../utils/fixtures'
 import {
-  PROFILE_URL_PREFIX,
   formBody,
   jsonBody,
   networkError,

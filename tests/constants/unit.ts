@@ -28,6 +28,10 @@ export const RELATIVE_DATE_CASES: Array<
 ]
 export const MONTH_AGO_DATE = '10/24/26'
 
+export const THREADS_ORIGIN = 'https://www.threads.net'
+export const THREADS_ENDPOINT = `${THREADS_ORIGIN}/api/graphql`
+export const PROFILE_URL_PREFIX = `${THREADS_ORIGIN}/@`
+
 export const CLOUDINARY_API = 'https://api.cloudinary.com/v1_1/dfzzgyj7r'
 export const CLOUDINARY_DELIVERY = 'https://res.cloudinary.com/dfzzgyj7r'
 export const UPLOADED_PUBLIC_ID = 'threads-clone/uploads/abc123'

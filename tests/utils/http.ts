@@ -1,7 +1,9 @@
 import { vi } from 'vitest'
-import { ENDPOINTS_DOCUMENT_ID, THREADS_ENDPOINT } from '~/lib/constants'
+import { ENDPOINTS_DOCUMENT_ID } from '~/lib/constants'
 import {
   CLOUDINARY_API,
+  PROFILE_URL_PREFIX,
+  THREADS_ENDPOINT,
   UPLOADED_HEIGHT,
   UPLOADED_PUBLIC_ID,
   UPLOADED_WIDTH
@@ -9,8 +11,6 @@ import {
 import { PROFILE_HTML, threadsResponse, userResponse } from './fixtures'
 
 type Handler = (url: string, init?: RequestInit) => Response
-
-export const PROFILE_URL_PREFIX = 'https://www.threads.net/@'
 
 export const networkError = () => new TypeError('fetch failed')
 

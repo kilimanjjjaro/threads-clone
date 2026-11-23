@@ -2,8 +2,9 @@ import { server$ } from '@builder.io/qwik-city'
 import {
   THREADS_APP_ID,
   THREADS_APP_LSD,
-  THREADS_ENDPOINT
+  THREADS_GRAPHQL_PATH
 } from '~/lib/constants'
+import { threadsOrigin } from '~/lib/utils/origins'
 
 interface Props {
   documentId: number
@@ -25,7 +26,7 @@ export const fetchData = server$(async ({ documentId, userId }: Props) => {
   )}&doc_id=${documentId}`
 
   try {
-    const response = await fetch(THREADS_ENDPOINT, {
+    const response = await fetch(`${threadsOrigin()}${THREADS_GRAPHQL_PATH}`, {
       method: 'POST',
       headers: {
         'content-type': 'application/x-www-form-urlencoded',

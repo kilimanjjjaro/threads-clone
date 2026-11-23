@@ -22,7 +22,7 @@ export const MODAL_CODES = {
   QR: 5
 }
 
-export const THREADS_ENDPOINT = 'https://www.threads.net/api/graphql'
+export const THREADS_GRAPHQL_PATH = '/api/graphql'
 export const THREADS_APP_ID = '238260118697367'
 export const THREADS_APP_LSD = 'AVqazA4Qj7Y'
 
@@ -31,8 +31,7 @@ export const ENDPOINTS_DOCUMENT_ID = {
   USER_PROFILE_THREADS: 6451898791498605
 }
 
-export const CLOUDINARY_URL =
-  'https://api.cloudinary.com/v1_1/dfzzgyj7r/image/upload'
+export const CLOUDINARY_CLOUD_NAME = 'dfzzgyj7r'
 
 export const AVATARS = [
   '/images/avatars/1.webp',

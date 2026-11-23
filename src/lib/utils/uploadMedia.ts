@@ -2,7 +2,8 @@ import { Cloudinary } from '@cloudinary/url-gen'
 import { format } from '@cloudinary/url-gen/actions/delivery'
 import { scale } from '@cloudinary/url-gen/actions/resize'
 import { webp, videoWebm } from '@cloudinary/url-gen/qualifiers/format'
-import { CLOUDINARY_URL, MEDIA_TYPES } from '~/lib/constants'
+import { CLOUDINARY_CLOUD_NAME, MEDIA_TYPES } from '~/lib/constants'
+import { cloudinaryApiOrigin } from '~/lib/utils/origins'
 
 interface Props {
   mediaUrl: string
@@ -13,13 +14,14 @@ export const uploadMedia = async ({ mediaUrl, type }: Props) => {
   let body = {}
   let cloudinaryUrl = ''
   let folder = ''
+  const uploadApi = `${cloudinaryApiOrigin()}/v1_1/${CLOUDINARY_CLOUD_NAME}`
 
   if (type === MEDIA_TYPES.IMAGE) folder = 'threads-clone/thread-images'
   if (type === MEDIA_TYPES.VIDEO) folder = 'threads-clone/thread-videos'
   if (type === MEDIA_TYPES.AVATAR) folder = 'threads-clone/user-avatars'
 
   if (type === MEDIA_TYPES.IMAGE || type === MEDIA_TYPES.AVATAR) {
-    cloudinaryUrl = 'https://api.cloudinary.com/v1_1/dfzzgyj7r/image/upload'
+    cloudinaryUrl = `${uploadApi}/image/upload`
 
     body = {
       file: mediaUrl,
@@ -29,7 +31,7 @@ export const uploadMedia = async ({ mediaUrl, type }: Props) => {
   }
 
   if (type === MEDIA_TYPES.VIDEO) {
-    cloudinaryUrl = 'https://api.cloudinary.com/v1_1/dfzzgyj7r/video/upload'
+    cloudinaryUrl = `${uploadApi}/video/upload`
 
     body = {
       file: mediaUrl,
@@ -51,7 +53,7 @@ export const uploadMedia = async ({ mediaUrl, type }: Props) => {
 
     const cloudinary = new Cloudinary({
       cloud: {
-        cloudName: 'dfzzgyj7r'
+        cloudName: CLOUDINARY_CLOUD_NAME
       },
       url: {
         secure: true

@@ -1,0 +1,16 @@
+const DEFAULT_THREADS_ORIGIN = 'https://www.threads.net'
+const DEFAULT_CLOUDINARY_API_ORIGIN = 'https://api.cloudinary.com'
+
+// Only the server can override them (the e2e tests point them to a local
+// mock); in the browser `process` does not exist and the defaults apply.
+function serverEnv(name: string) {
+  return typeof process === 'undefined' ? undefined : process.env[name]
+}
+
+export function threadsOrigin() {
+  return serverEnv('THREADS_ORIGIN') ?? DEFAULT_THREADS_ORIGIN
+}
+
+export function cloudinaryApiOrigin() {
+  return serverEnv('CLOUDINARY_API_ORIGIN') ?? DEFAULT_CLOUDINARY_API_ORIGIN
+}
