@@ -34,6 +34,8 @@ export default function formatDate(timestamp: number) {
       const weeks = Math.floor(difference / secondsInAWeek)
       return `${weeks}w`
     }
+
+    return previousDate.format('MM/DD/YY')
   }
 
   const formattedDifference = getDifference(difference)

@@ -26,7 +26,7 @@ describe('formatDate', () => {
     }
   )
 
-  it.fails('posts older than a month show their date', () => {
+  it('posts older than a month show their date', () => {
     expect(formatDate(nowInSeconds - SECONDS_IN_A_MONTH)).toBe(MONTH_AGO_DATE)
   })
 })
