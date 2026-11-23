@@ -1,4 +1,4 @@
-import { component$, useSignal, useVisibleTask$ } from '@builder.io/qwik'
+import { component$ } from '@builder.io/qwik'
 import {
   type DocumentHead,
   routeAction$,
@@ -21,12 +21,6 @@ export const useRedirect = routeAction$(
 
 export default component$(() => {
   const action = useRedirect()
-  const inputRef = useSignal<HTMLInputElement>()
-
-  useVisibleTask$(() => {
-    inputRef.value?.focus()
-  })
-
   return (
     <>
       <main class='flex h-full w-full items-center justify-center bg-[url(/images/bg-dark.webp)] bg-size-[140vh] bg-top bg-no-repeat px-6 pt-[100px] xl:bg-size-[93%] xl:px-0 xl:pt-[72px]'>
@@ -44,7 +38,9 @@ export default component$(() => {
                 @
               </span>
               <input
-                ref={inputRef}
+                onQVisible$={(_, input) => {
+                  input.focus()
+                }}
                 class={`w-full bg-transparent px-6 text-threads-white outline-hidden placeholder:text-threads-light-gray focus:bg-threads-dark-gray active:bg-threads-dark-gray xl:hover:bg-threads-dark-gray ${
                   action.isRunning && 'disabled:cursor-not-allowed'
                 }`}

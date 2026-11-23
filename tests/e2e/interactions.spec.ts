@@ -7,6 +7,7 @@ import {
   FOLLOWERS_LABEL,
   FULL_NAME,
   NO_ELEMENTS,
+  NO_WIDTH,
   PROFILE_THREADS,
   QUOTED_POSTS,
   SINGLE_ELEMENT,
@@ -16,6 +17,8 @@ import {
 import {
   clickBackdrop,
   dialog,
+  gridColumnWidth,
+  isPlaying,
   maxWidths,
   serviceWorkerCount,
   openPage,
@@ -100,6 +103,23 @@ test.describe('profile', () => {
     await expect(page.locator('.slider-wrapper > div')).toHaveCount(
       CAROUSEL_SLIDES
     )
+  })
+
+  test('sizes the carousel slides to the slider width', async ({ page }) => {
+    const slider = page.locator('.slider-wrapper').first()
+
+    await slider.scrollIntoViewIfNeeded()
+
+    await expect
+      .poll(async () => await slider.evaluate(gridColumnWidth))
+      .toBeGreaterThan(NO_WIDTH)
+  })
+
+  test('plays a video while it is on screen', async ({ page }) => {
+    const video = profileThreads(page).first().locator('video')
+
+    await video.scrollIntoViewIfNeeded()
+    await expect.poll(async () => await video.evaluate(isPlaying)).toBe(true)
   })
 
   test('toggles the sound of a video', async ({ page }) => {

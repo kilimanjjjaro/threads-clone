@@ -5,6 +5,14 @@
   --color-threads-white: #f3f5f7;
   --color-threads-light-gray: #777777;
   --color-threads-dark-gray: #1e1e1e;
+
+  --animate-splash: splash 0s 1s forwards;
+
+  @keyframes splash {
+    to {
+      visibility: hidden;
+    }
+  }
 }
 
 @layer base {

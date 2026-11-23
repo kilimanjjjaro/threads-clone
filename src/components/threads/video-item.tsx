@@ -1,10 +1,4 @@
-import {
-  $,
-  component$,
-  useComputed$,
-  useSignal,
-  useVisibleTask$
-} from '@builder.io/qwik'
+import { $, component$, useComputed$, useSignal } from '@builder.io/qwik'
 import { uploadMedia } from '~/lib/utils/uploadMedia'
 import { aspectRatio } from '~/lib/utils/mediaUrls'
 import { MEDIA_TYPES } from '~/lib/constants'
@@ -35,25 +29,19 @@ export default component$(({ videoUrl }: Props) => {
     isMuted.value = muted
   })
 
-  useVisibleTask$((task) => {
+  const playWhileVisible = $((_: Event, player: HTMLVideoElement) => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (videoRef.value === undefined) return
-
         if (entry.isIntersecting) {
-          void videoRef.value.play()
+          void player.play()
         } else {
-          videoRef.value.pause()
+          player.pause()
         }
       },
       { threshold: FULLY_VISIBLE }
     )
 
-    if (videoRef.value !== undefined) observer.observe(videoRef.value)
-
-    task.cleanup(() => {
-      observer.disconnect()
-    })
+    observer.observe(player)
   })
 
   return (
@@ -63,6 +51,7 @@ export default component$(({ videoUrl }: Props) => {
     >
       <video
         ref={videoRef}
+        onQVisible$={playWhileVisible}
         class='absolute h-full w-full object-cover object-center'
         src={video.value?.url}
         width={640}

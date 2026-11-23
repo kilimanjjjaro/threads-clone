@@ -45,6 +45,7 @@ export const PAGE_CACHE_CONTROL = 'max-age=5, stale-while-revalidate=604800'
 
 export const NO_ELEMENTS = 0
 export const SINGLE_ELEMENT = 1
+export const NO_WIDTH = 0
 
 export const UPLOADED_WIDTH = 1280
 export const UPLOADED_HEIGHT = 720

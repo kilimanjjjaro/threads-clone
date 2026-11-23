@@ -2,7 +2,6 @@ import {
   component$,
   useSignal,
   $,
-  useVisibleTask$,
   Slot,
   useStylesScoped$
 } from '@builder.io/qwik'
@@ -53,10 +52,7 @@ export const Carousel = component$(({ sliderParam }: CarouselProps) => {
     sliderRef.value.scrollLeft -= widthSlider.value / sliderParam.slidesPerView
   })
 
-  useVisibleTask$(() => {
-    const { value: slider } = sliderRef
-    if (slider === undefined) return
-
+  const prepareSlider = $((_: Event, slider: HTMLDivElement) => {
     const { clientWidth } = slider
     widthSlider.value = clientWidth
 
@@ -154,6 +150,7 @@ export const Carousel = component$(({ sliderParam }: CarouselProps) => {
           gap: `${sliderParam.spaceBetween}px`
         }}
         ref={sliderRef}
+        onQVisible$={prepareSlider}
         onMouseMove$={dragging}
         onMouseDown$={dragStart}
         onMouseUp$={dragStop}

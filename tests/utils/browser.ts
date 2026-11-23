@@ -36,3 +36,11 @@ export async function serviceWorkerCount() {
   const registrations = await navigator.serviceWorker.getRegistrations()
   return registrations.length
 }
+
+export function gridColumnWidth(element: HTMLElement) {
+  return Number.parseFloat(element.style.gridAutoColumns)
+}
+
+export function isPlaying(video: HTMLVideoElement) {
+  return !video.paused
+}
