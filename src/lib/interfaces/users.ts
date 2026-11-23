@@ -21,11 +21,6 @@ type Extensions = {
   is_final: boolean
 }
 
-type followerCount = {
-  count: number
-  label: string
-}
-
 export interface UserInterface {
   pk: string
   text_post_app_is_private: boolean

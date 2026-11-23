@@ -1,7 +1,5 @@
 import { Cloudinary } from '@cloudinary/url-gen'
-import { format } from '@cloudinary/url-gen/actions/delivery'
 import { scale } from '@cloudinary/url-gen/actions/resize'
-import { webp, videoWebm } from '@cloudinary/url-gen/qualifiers/format'
 import { CLOUDINARY_CLOUD_NAME, MEDIA_TYPES } from '~/lib/constants'
 import { cloudinaryApiOrigin } from '~/lib/utils/origins'
 

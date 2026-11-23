@@ -28,13 +28,9 @@ function ReactComponent({ images, imagesCount, username }: Props) {
     const cloudinaryMedia = images.map(async (image) => {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       const isVideoPost = image.video_versions?.length ? true : false
-      let file = ''
-
-      if (!isVideoPost) {
-        file = image.image_versions2.candidates[0].url
-      } else {
-        file = image.video_versions[0].url
-      }
+      const file = isVideoPost
+        ? image.video_versions[0].url
+        : image.image_versions2.candidates[0].url
 
       const media = {
         mediaUrl: file,
