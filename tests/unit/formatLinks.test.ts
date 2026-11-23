@@ -19,7 +19,7 @@ describe('formatLinks', () => {
     expect(formatLinks('No mentions here')).toBe('No mentions here')
   })
 
-  it.fails('escapes html so a bio or caption cannot inject markup', () => {
+  it('escapes html so a bio or caption cannot inject markup', () => {
     const html = formatLinks(XSS_PAYLOAD)
 
     expect(html).not.toContain('<img')
