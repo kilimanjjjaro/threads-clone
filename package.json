@@ -48,12 +48,12 @@
   },
   "dependencies": {
     "@builder.io/qwik-react": "0.5.8",
-    "@cloudinary/url-gen": "1.19.0",
+    "@cloudinary/url-gen": "1.22.1",
     "@unpic/qwik": "1.0.0",
-    "dayjs": "1.11.10",
+    "dayjs": "1.11.23",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "sharp": "0.33.2",
+    "sharp": "0.35.5",
     "swiper": "14.4.0"
   },
   "volta": {
