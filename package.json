@@ -23,8 +23,8 @@
     "test:all": "pnpm fmt.check && pnpm build.types && pnpm lint && pnpm test && pnpm build && pnpm test:e2e"
   },
   "devDependencies": {
-    "@builder.io/qwik": "1.5.1",
-    "@builder.io/qwik-city": "1.5.1",
+    "@builder.io/qwik": "1.20.4",
+    "@builder.io/qwik-city": "1.20.4",
     "@playwright/test": "1.65.1",
     "@types/eslint": "8.56.5",
     "@types/node": "20.11.25",
@@ -34,7 +34,7 @@
     "@typescript-eslint/parser": "7.1.1",
     "autoprefixer": "10.4.18",
     "eslint": "8.57.0",
-    "eslint-plugin-qwik": "1.5.1",
+    "eslint-plugin-qwik": "1.20.4",
     "postcss": "8.4.35",
     "prettier": "3.2.5",
     "prettier-plugin-tailwindcss": "0.5.12",
@@ -47,7 +47,7 @@
     "vitest": "3.2.7"
   },
   "dependencies": {
-    "@builder.io/qwik-react": "0.5.4",
+    "@builder.io/qwik-react": "0.5.8",
     "@cloudinary/url-gen": "1.19.0",
     "@unpic/qwik": "0.0.44",
     "dayjs": "1.11.10",

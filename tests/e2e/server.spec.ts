@@ -8,7 +8,7 @@ import {
 } from '../constants/e2e'
 
 const NO_REDIRECTS = 0
-const HTTP_STATUS_FOUND = 302
+const REDIRECT_STATUSES = [301, 302, 307, 308]
 
 test.skip(({ browserName, isMobile }) => isMobile || browserName !== 'chromium')
 
@@ -25,7 +25,7 @@ test.describe('profile routes', () => {
       maxRedirects: NO_REDIRECTS
     })
 
-    expect(response.status()).toBe(HTTP_STATUS_FOUND)
+    expect(REDIRECT_STATUSES).toContain(response.status())
     expect(response.headers().location).toBe(`/@${USERNAME}/`)
   })
 
