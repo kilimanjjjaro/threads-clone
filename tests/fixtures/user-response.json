@@ -1,0 +1,41 @@
+{
+  "data": {
+    "user": {
+      "pk": "63055343223",
+      "text_post_app_is_private": false,
+      "hd_profile_pic_versions": [
+        {
+          "height": 320,
+          "url": "https://cdn.test/media/1.jpg",
+          "width": 320
+        },
+        {
+          "height": 640,
+          "url": "https://cdn.test/media/2.jpg",
+          "width": 640
+        }
+      ],
+      "profile_pic_url": "https://cdn.test/media/3.jpg",
+      "username": "zuck",
+      "friendship_status": null,
+      "follower_count": 5782572,
+      "profile_context_facepile_users": null,
+      "text_post_app_remove_mention_entrypoint": null,
+      "is_verified": true,
+      "biography": "Mostly superintelligence and MMA takes",
+      "biography_with_entities": {
+        "entities": [],
+        "raw_text": "Mostly superintelligence and MMA takes"
+      },
+      "account_badges": [],
+      "full_name": "Mark Zuckerberg",
+      "bio_links": [],
+      "transparency_label": null,
+      "gating": null,
+      "id": "63055343223"
+    }
+  },
+  "extensions": {
+    "is_final": true
+  }
+}
