@@ -6,15 +6,6 @@ interface MediaData {
   threads: ThreadInterface[]
 }
 
-enum ThreadItemTypename {
-  XDTThreadItem = 'XDTThreadItem'
-}
-
-enum LineType {
-  Line = 'line',
-  Squiggle = 'squiggle'
-}
-
 interface Post {
   user: User
   image_versions2: ImageVersions2
@@ -24,7 +15,7 @@ interface Post {
   carousel_media: CarouselMedia[] | null
   carousel_media_count: number | null
   pk: string
-  has_audio: null
+  has_audio: boolean | null
   text_post_app_info: PostTextPostAppInfo
   caption: Caption | null
   taken_at: number
@@ -42,16 +33,11 @@ interface ImageVersions2 {
   candidates: Candidate[]
 }
 
-// Some candidates only carry the url.
 export interface Candidate {
   height?: number
   url: string
   width?: number
-  __typename?: CandidateTypename
-}
-
-enum CandidateTypename {
-  XDTImageCandidate = 'XDTImageCandidate'
+  __typename?: string
 }
 
 interface VideoVersion {
@@ -67,18 +53,18 @@ interface PostTextPostAppInfo {
 
 interface ReplyToAuthor {
   username: string
-  id: null
+  id: string | null
 }
 
 interface PurpleShareInfo {
   quoted_post: QuotedPost | null
-  reposted_post: null
+  reposted_post: { pk: string } | null
 }
 
 export interface CarouselMedia {
   image_versions2: ImageVersions2
   video_versions: VideoVersion[] | null
-  has_audio: null
+  has_audio: boolean | null
   original_width: number
   original_height: number
   pk: string
@@ -98,7 +84,7 @@ export interface QuotedPost {
   video_versions: VideoVersion[] | null
   carousel_media: CarouselMedia[] | null
   carousel_media_count: number | null
-  has_audio: null
+  has_audio: boolean | null
   like_count: number
   taken_at: number
   id: string
@@ -107,7 +93,7 @@ export interface QuotedPost {
 interface QuotedPostTextPostAppInfo {
   is_post_unavailable: boolean
   share_info: FluffyShareInfo
-  direct_reply_count: number
+  direct_reply_count: number | null
   link_preview_attachment: null
 }
 
@@ -118,14 +104,14 @@ interface FluffyShareInfo {
 interface User {
   is_verified: boolean
   username: string
-  id: null
+  id: string | null
   profile_pic_url: string
   pk?: string
 }
 
 export interface ReplyFacepileUser {
   __typename: string
-  id: null
+  id: string | null
   profile_pic_url: string
 }
 
@@ -135,11 +121,11 @@ interface Extensions {
 
 export interface ThreadItem {
   post: Post
-  line_type: LineType
+  line_type: string
   view_replies_cta_string: string
   reply_facepile_users: ReplyFacepileUser[]
   should_show_replies_cta: boolean
-  __typename: ThreadItemTypename
+  __typename: string
 }
 
 export interface ThreadInterface {
@@ -148,7 +134,6 @@ export interface ThreadInterface {
 }
 
 export interface UserThreadsInterface {
-  // Error responses carry errors instead of data.
   data?: Data
   extensions: Extensions
 }

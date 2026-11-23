@@ -1,7 +1,6 @@
 import { expect } from '@playwright/test'
 import type { Locator, Page } from '@playwright/test'
 
-// The layout shows a full screen splash for a second after hydration.
 export async function openPage(page: Page, path: string) {
   await page.goto(path)
   await expect(page.getByAltText('Threads logo')).toBeHidden()

@@ -43,7 +43,6 @@ export interface UserInterface {
 }
 
 export interface UserDataInterface {
-  // Error responses carry errors instead of data.
   data?: Data
   extensions: Extensions
 }

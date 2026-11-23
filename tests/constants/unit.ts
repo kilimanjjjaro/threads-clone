@@ -3,7 +3,6 @@ export const USER_ID = '63055343223'
 export const FIRST_THREAD = 0
 export const MAX_PROFILE_THREADS = 5
 
-// relative-date-cases.json is relative to this date.
 export const NOW = new Date('2026-11-23T12:00:00Z')
 export const MS_IN_A_SECOND = 1000
 

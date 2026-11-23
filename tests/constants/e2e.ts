@@ -25,8 +25,6 @@ export const PROFILE_THREADS = 5
 export const QUOTED_POSTS = 2
 
 export const CAROUSEL_SLIDES = 3
-// The mock gives the threads 3, 1, 2 and 2 reply avatars; a trio is drawn
-// at 20, 16 and 12 px.
 export const FACEPILE_AVATARS = 8
 export const TRIO_SIZES = ['20px', '16px', '12px']
 
@@ -51,7 +49,6 @@ export const SINGLE_ELEMENT = 1
 export const UPLOADED_WIDTH = 1280
 export const UPLOADED_HEIGHT = 720
 
-// Media hosts the browser loads from; the e2e tests serve placeholders.
 export const MEDIA_HOSTS = [
   'https://res.cloudinary.com/**',
   'https://cdn.test/**'
@@ -62,8 +59,5 @@ export const PLACEHOLDER_VIDEO = 'tests/fixtures/video.webm'
 export const VIDEO_URL = /\/video\/upload\/|\.mp4$/v
 
 export const IGNORED_ERRORS = [
-  // qwik-city wraps navigations in a view transition. On the mobile project
-  // the viewport resizes mid navigation and the browser aborts the animation;
-  // the navigation itself completes.
   'Transition was aborted because of invalid state. Viewport size changed'
 ]

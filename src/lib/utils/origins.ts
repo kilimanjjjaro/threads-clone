@@ -1,8 +1,6 @@
 const DEFAULT_THREADS_ORIGIN = 'https://www.threads.com'
 const DEFAULT_CLOUDINARY_API_ORIGIN = 'https://api.cloudinary.com'
 
-// Only the server can override them (the e2e tests point them to a local
-// mock); in the browser `process` does not exist and the defaults apply.
 function serverEnv(name: string) {
   return typeof process === 'undefined' ? undefined : process.env[name]
 }

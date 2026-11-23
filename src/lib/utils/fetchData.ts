@@ -11,11 +11,10 @@ interface Props {
   userId: string
 }
 
-// Only called from server$ functions, so it always runs on the server.
-export async function fetchData<T>({
+export async function fetchData({
   documentId,
   userId
-}: Props): Promise<T | undefined> {
+}: Props): Promise<unknown> {
   const variables = {
     userID: userId,
     __relay_internal__pv__BarcelonaIsSableEnabledrelayprovider: false,
@@ -41,8 +40,8 @@ export async function fetchData<T>({
       body
     })
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- the threads api response is not validated at runtime
-    return await (response.json() as Promise<T>)
+    const data: unknown = await response.json()
+    return data
   } catch (error) {
     logError(error)
     return undefined

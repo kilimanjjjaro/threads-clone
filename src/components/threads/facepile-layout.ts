@@ -12,7 +12,6 @@ export const ONE_FACEPILE = 1
 export const TWO_FACEPILES = 2
 export const THREE_FACEPILES = 3
 
-// Position and size of each avatar when a thread shows two or three of them.
 export const PAIR_LAYOUT = [
   { position: 'left-0 top-[2px]', size: MEDIUM_AVATAR },
   {

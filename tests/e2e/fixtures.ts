@@ -38,15 +38,12 @@ export const test = base.extend<{ browserErrors: BrowserError[] }>({
         errors.push({ text: `Uncaught: ${error.message}`, url: '' })
       })
 
-      // The pages render media hosted on Cloudinary and the Threads CDN, and
-      // some components upload media from the browser. Keep it all offline.
       await Promise.all(
         MEDIA_HOSTS.map(async (host) => {
           await page.route(host, fulfillMedia)
         })
       )
 
-      // Each upload gets its own public id, as on Cloudinary.
       const uploads: string[] = []
       await page.route(CLOUDINARY_UPLOAD_API, async (route) => {
         uploads.push(route.request().url())

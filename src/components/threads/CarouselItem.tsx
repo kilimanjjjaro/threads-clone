@@ -63,7 +63,6 @@ function ReactComponent({ images, username }: Props) {
     }
   }, [])
 
-  // Threads no longer sends carousel_media_count, so count the media.
   const slidesPerView = images.length >= MANY_SLIDES ? 'auto' : TWO_SLIDES
 
   const handleClick = () => {
@@ -153,5 +152,4 @@ function ReactComponent({ images, username }: Props) {
   )
 }
 
-// The media is uploaded from an effect, so React has to hydrate.
 export const CarouselItem = qwikify$(ReactComponent, { eagerness: 'visible' })

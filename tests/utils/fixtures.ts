@@ -12,16 +12,14 @@ export const PROFILE_HTML = readFileSync(
   'utf8'
 )
 
+const USER_RESPONSE: UserDataInterface = userJson
+const THREADS_RESPONSE: UserThreadsInterface = threadsJson
+
 export const rawUserResponse = (): unknown => structuredClone(userJson)
 export const rawThreadsResponse = (): unknown => structuredClone(threadsJson)
 
-// The fixtures are trimmed real responses; contract.test.ts checks their shape.
-export const userResponse = () =>
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- shape checked by the contract test
-  rawUserResponse() as UserDataInterface
-export const threadsResponse = () =>
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- shape checked by the contract test
-  rawThreadsResponse() as UserThreadsInterface
+export const userResponse = () => structuredClone(USER_RESPONSE)
+export const threadsResponse = () => structuredClone(THREADS_RESPONSE)
 
 function withData<T>(data: T | undefined): T {
   if (data === undefined) throw new Error('The fixture has no data')

@@ -1,10 +1,9 @@
-// Stands in for the Threads and Cloudinary APIs while the e2e tests run.
-// The app server reaches it through THREADS_ORIGIN and CLOUDINARY_API_ORIGIN.
-// Node runs this file directly, so it only imports types from the app.
 import { readFileSync } from 'node:fs'
 import { createServer } from 'node:http'
 import { text as readText } from 'node:stream/consumers'
 import type { IncomingMessage } from 'node:http'
+import threadsJson from '../../fixtures/threads-response.json' with { type: 'json' }
+import userJson from '../../fixtures/user-response.json' with { type: 'json' }
 import type {
   ThreadInterface,
   UserThreadsInterface
@@ -33,21 +32,16 @@ interface Reply {
   body: string
 }
 
-const fixture = (name: string) =>
-  readFileSync(new URL(`../../fixtures/${name}`, import.meta.url), 'utf8')
-
-const profileHtml = fixture('profile-page.html')
-const userResponse = fixture('user-response.json')
-// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- trimmed real response, shape checked by the contract test
-const threadsResponse = JSON.parse(
-  fixture('threads-response.json')
-) as UserThreadsInterface
+const profileHtml = readFileSync(
+  new URL('../../fixtures/profile-page.html', import.meta.url),
+  'utf8'
+)
+const userResponse = JSON.stringify(userJson)
+const threadsResponse: UserThreadsInterface = threadsJson
 
 const [text, image, video, carousel, , multiItem] =
   threadsResponse.data?.mediaData.threads ?? []
 
-// A post quoting the carousel. Threads stopped sending carousel_media_count,
-// so one keeps the count and the other sends null, as the api does now.
 function quoting(
   outer: ThreadInterface,
   id: string,
@@ -76,7 +70,6 @@ function quoting(
   return thread
 }
 
-// The real fixtures have no reply avatars; give each thread item some.
 function withFacepiles(outer: ThreadInterface, ...counts: number[]) {
   const thread = structuredClone(outer)
   thread.thread_items = thread.thread_items.map((item, itemIndex) => ({
@@ -141,7 +134,6 @@ async function upload(request: IncomingMessage) {
     typeof payload.folder === 'string'
       ? payload.folder
       : 'threads-clone'
-  // Each upload gets its own public id, as on Cloudinary.
   uploads.push(folder)
   return json(
     JSON.stringify({

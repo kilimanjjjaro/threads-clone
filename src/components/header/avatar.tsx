@@ -1,7 +1,7 @@
 import { $, component$, useContext } from '@builder.io/qwik'
 import { Image } from '@unpic/qwik'
 import VerifyIcon from '~/components/icons/verify-icon'
-import { ModalContext, setModal } from '~/lib/context'
+import { ModalContext } from '~/lib/context'
 import { MODAL_CODES } from '~/lib/constants'
 
 interface Props {
@@ -11,10 +11,10 @@ interface Props {
 }
 
 export default component$(({ avatar, username, isVerified }: Props) => {
-  const { modalCode } = useContext(ModalContext)
+  const { openModal } = useContext(ModalContext)
 
-  const openAvatarModal = $(() => {
-    setModal(modalCode, MODAL_CODES.AVATAR)
+  const openAvatarModal = $(async () => {
+    await openModal(MODAL_CODES.AVATAR)
   })
 
   return (

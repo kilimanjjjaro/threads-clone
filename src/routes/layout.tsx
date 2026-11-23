@@ -1,4 +1,5 @@
 import {
+  $,
   component$,
   Slot,
   useContextProvider,
@@ -24,7 +25,11 @@ export const onGet: RequestHandler = ({ cacheControl }) => {
 export default component$(() => {
   const modalCode = useSignal<MODAL_CODES>(MODAL_CODES.HIDDEN)
 
-  useContextProvider(ModalContext, { modalCode })
+  const openModal = $((code: MODAL_CODES) => {
+    modalCode.value = code
+  })
+
+  useContextProvider(ModalContext, { modalCode, openModal })
 
   return (
     <>

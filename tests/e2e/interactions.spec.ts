@@ -137,7 +137,6 @@ test.describe('profile', () => {
     }) => {
       const quoted = pick(page)
 
-      // The carousel hydrates when it scrolls into view.
       await quoted.scrollIntoViewIfNeeded()
       await expect(quoted.locator('.swiper')).toHaveCount(SINGLE_ELEMENT)
       await expect(quoted.locator('.swiper-slide')).toHaveCount(CAROUSEL_SLIDES)

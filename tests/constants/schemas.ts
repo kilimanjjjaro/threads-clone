@@ -1,7 +1,5 @@
 import { AT_LEAST_ONE, arrayOf, nullable } from '../utils/shape'
 
-// Fields of the Threads GraphQL responses that the app reads.
-
 const candidates = arrayOf({ url: 'string' })
 
 const media = {

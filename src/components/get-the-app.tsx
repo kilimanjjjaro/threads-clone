@@ -1,13 +1,13 @@
 import { $, component$, useContext } from '@builder.io/qwik'
 import QrIcon from '~/components/icons/qr-icon'
-import { ModalContext, setModal } from '~/lib/context'
+import { ModalContext } from '~/lib/context'
 import { MODAL_CODES } from '~/lib/constants'
 
 export default component$(() => {
-  const { modalCode } = useContext(ModalContext)
+  const { openModal } = useContext(ModalContext)
 
-  const openGetTheAppModal = $(() => {
-    setModal(modalCode, MODAL_CODES.QR)
+  const openGetTheAppModal = $(async () => {
+    await openModal(MODAL_CODES.QR)
   })
 
   return (

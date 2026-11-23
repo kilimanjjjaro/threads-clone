@@ -28,7 +28,6 @@ const PAGES = [
     heading: 'User not found'
   },
   {
-    // Generated at build time (SSG) and served by the host for unknown urls.
     path: '/404.html',
     status: HTTP_STATUS_OK,
     title: 'Not found - Threads Clone',

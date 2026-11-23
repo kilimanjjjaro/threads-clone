@@ -1,6 +1,7 @@
 import { Cloudinary } from '@cloudinary/url-gen'
 import { scale } from '@cloudinary/url-gen/actions/resize'
 import { CLOUDINARY_CLOUD_NAME, MEDIA_TYPES } from '~/lib/constants'
+import { isUploadResponse } from '~/lib/utils/guards'
 import { logError } from '~/lib/utils/logger'
 import { cloudinaryApiOrigin } from '~/lib/utils/origins'
 
@@ -12,67 +13,60 @@ interface Props {
   type: string
 }
 
-interface UploadResponse {
-  public_id: string
-  width: number
-  height: number
+interface UploadTarget {
+  resource: 'image' | 'video'
+  preset: string
+  folder: string
 }
 
+const UPLOAD_TARGETS: Partial<Record<string, UploadTarget>> = {
+  [MEDIA_TYPES.IMAGE]: {
+    resource: 'image',
+    preset: 'threads-clone-images',
+    folder: 'threads-clone/thread-images'
+  },
+  [MEDIA_TYPES.AVATAR]: {
+    resource: 'image',
+    preset: 'threads-clone-images',
+    folder: 'threads-clone/user-avatars'
+  },
+  [MEDIA_TYPES.VIDEO]: {
+    resource: 'video',
+    preset: 'threads-clone-videos',
+    folder: 'threads-clone/thread-videos'
+  }
+}
+
+const cloudinary = new Cloudinary({
+  cloud: { cloudName: CLOUDINARY_CLOUD_NAME },
+  url: { secure: true }
+})
+
 export const uploadMedia = async ({ mediaUrl, type }: Props) => {
-  let body = {}
-  let cloudinaryUrl = ''
-  let folder = ''
-  const uploadApi = `${cloudinaryApiOrigin()}/v1_1/${CLOUDINARY_CLOUD_NAME}`
+  const { [type]: target } = UPLOAD_TARGETS
 
-  if (type === MEDIA_TYPES.IMAGE) folder = 'threads-clone/thread-images'
-  if (type === MEDIA_TYPES.VIDEO) folder = 'threads-clone/thread-videos'
-  if (type === MEDIA_TYPES.AVATAR) folder = 'threads-clone/user-avatars'
+  if (target === undefined) return undefined
 
-  if (type === MEDIA_TYPES.IMAGE || type === MEDIA_TYPES.AVATAR) {
-    cloudinaryUrl = `${uploadApi}/image/upload`
-
-    body = {
-      file: mediaUrl,
-      upload_preset: 'threads-clone-images',
-      folder
-    }
-  }
-
-  if (type === MEDIA_TYPES.VIDEO) {
-    cloudinaryUrl = `${uploadApi}/video/upload`
-
-    body = {
-      file: mediaUrl,
-      upload_preset: 'threads-clone-videos',
-      folder
-    }
-  }
+  const { resource, preset, folder } = target
 
   try {
-    const response = await fetch(cloudinaryUrl, {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: {
-        'content-type': 'application/json'
+    const response = await fetch(
+      `${cloudinaryApiOrigin()}/v1_1/${CLOUDINARY_CLOUD_NAME}/${resource}/upload`,
+      {
+        method: 'POST',
+        body: JSON.stringify({ file: mediaUrl, upload_preset: preset, folder }),
+        headers: { 'content-type': 'application/json' }
       }
-    })
+    )
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- the cloudinary response is not validated at runtime
-    const data = await (response.json() as Promise<UploadResponse>)
+    const data: unknown = await response.json()
 
-    const cloudinary = new Cloudinary({
-      cloud: {
-        cloudName: CLOUDINARY_CLOUD_NAME
-      },
-      url: {
-        secure: true
-      }
-    })
+    if (!isUploadResponse(data)) return undefined
 
-    const isVideo = type === MEDIA_TYPES.VIDEO
-    const asset = isVideo
-      ? cloudinary.video(data.public_id)
-      : cloudinary.image(data.public_id)
+    const asset =
+      resource === 'video'
+        ? cloudinary.video(data.public_id)
+        : cloudinary.image(data.public_id)
 
     const transformedAsset = asset
       .resize(
@@ -86,7 +80,7 @@ export const uploadMedia = async ({ mediaUrl, type }: Props) => {
       url: transformedAsset.toURL(),
       width: data.width,
       height: data.height,
-      type: isVideo ? MEDIA_TYPES.VIDEO : MEDIA_TYPES.IMAGE
+      type: resource === 'video' ? MEDIA_TYPES.VIDEO : MEDIA_TYPES.IMAGE
     }
   } catch (error) {
     logError(error)

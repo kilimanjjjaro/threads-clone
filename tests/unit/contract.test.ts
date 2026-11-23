@@ -8,9 +8,6 @@ import {
 } from '../utils/fixtures'
 import { shapeErrors } from '../utils/shape'
 
-// The fixtures are trimmed copies of real Threads responses. If they are
-// refreshed and the API changed shape, these tests point at the field.
-
 describe('threads api contract', () => {
   it('the profile response has every field the app reads', () => {
     expect(shapeErrors(rawUserResponse(), userResponseShape)).toEqual([])

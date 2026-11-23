@@ -35,7 +35,6 @@ export default component$(({ videoUrl }: Props) => {
     isMuted.value = muted
   })
 
-  // Play the video only while it is fully on screen.
   useVisibleTask$((task) => {
     const observer = new IntersectionObserver(
       ([entry]) => {

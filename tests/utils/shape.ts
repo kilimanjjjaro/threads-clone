@@ -1,6 +1,3 @@
-// A tiny structural validator for the api contract tests. zod is not used
-// because a root install makes qwik-city bundle it instead of its own zod 3.
-
 type Primitive = 'string' | 'number' | 'boolean' | 'object'
 
 class Nullable {

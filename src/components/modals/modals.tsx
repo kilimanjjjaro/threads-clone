@@ -1,5 +1,5 @@
 import { $, component$, useComputed$, useContext } from '@builder.io/qwik'
-import { ModalContext, setModal } from '~/lib/context'
+import { ModalContext } from '~/lib/context'
 import ReportAProblemModal from '~/components/modals/report-a-problem-modal'
 import AvatarModal from '~/components/modals/avatar-modal'
 import SoonModal from '~/components/modals/soon-modal'
@@ -9,12 +9,12 @@ import QrModal from '~/components/modals/qr-modal'
 import { MODAL_CODES } from '~/lib/constants'
 
 export default component$(() => {
-  const { modalCode } = useContext(ModalContext)
+  const { modalCode, openModal } = useContext(ModalContext)
 
   const modalStatus = useComputed$(() => modalCode.value !== MODAL_CODES.HIDDEN)
 
-  const closeModal = $(() => {
-    setModal(modalCode, MODAL_CODES.HIDDEN)
+  const closeModal = $(async () => {
+    await openModal(MODAL_CODES.HIDDEN)
   })
 
   if (!modalStatus.value) return null

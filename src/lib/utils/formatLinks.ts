@@ -6,8 +6,6 @@ const HTML_ESCAPES: Record<string, string> = {
   "'": '&#39;'
 }
 
-// Bios and captions come from other users and are rendered as html, so
-// escape them before adding the mention links.
 function escapeHtml(text: string) {
   return text.replace(/[&<>"']/gv, (character) => HTML_ESCAPES[character])
 }

@@ -14,7 +14,6 @@ describe('formatDate', () => {
     vi.useRealTimers()
   })
 
-  // Under a minute, relative units up to four weeks, and the date after that.
   it.each(RELATIVE_DATE_CASES)(
     '$secondsAgo seconds ago is shown as "$expected"',
     ({ secondsAgo, expected }) => {

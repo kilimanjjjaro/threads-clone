@@ -1,12 +1,12 @@
 import { $, component$, useContext } from '@builder.io/qwik'
-import { ModalContext, setModal } from '~/lib/context'
+import { ModalContext } from '~/lib/context'
 import { FOOTER_LINKS, MODAL_CODES } from '~/lib/constants'
 
 export default component$(() => {
-  const { modalCode } = useContext(ModalContext)
+  const { openModal } = useContext(ModalContext)
 
-  const openReportProblemModal = $(() => {
-    setModal(modalCode, MODAL_CODES.REPORT_PROBLEM)
+  const openReportProblemModal = $(async () => {
+    await openModal(MODAL_CODES.REPORT_PROBLEM)
   })
 
   return (

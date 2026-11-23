@@ -29,7 +29,6 @@ export function requestUrl(input: FetchInput) {
 }
 
 export function stubFetch(handler: Handler) {
-  // The handler runs inside the promise so a thrown error rejects, like fetch.
   const fetchMock = vi.fn(
     async (input: FetchInput, init?: RequestInit) =>
       await Promise.resolve().then(() => handler(requestUrl(input), init))

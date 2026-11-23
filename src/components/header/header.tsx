@@ -6,20 +6,20 @@ import Avatar from '~/components/header/avatar'
 import ThreadsLogo from '~/components/icons/threads-logo'
 import MoreIcon from '~/components/icons/more-icon'
 import InstagramIcon from '~/components/icons/instagram-icon'
-import { ModalContext, UserContext, setModal } from '~/lib/context'
+import { ModalContext, UserContext } from '~/lib/context'
 import formatLinks from '~/lib/utils/formatLinks'
 import { MODAL_CODES } from '~/lib/constants'
 
 export default component$(() => {
   const { userData: user } = useContext(UserContext)
-  const { modalCode } = useContext(ModalContext)
+  const { openModal } = useContext(ModalContext)
   const dropdownStatus = useSignal(false)
   const nav = useNavigate()
 
   const formattedBiography = formatLinks(user.biography)
 
-  const openSoonModal = $(() => {
-    setModal(modalCode, MODAL_CODES.SOON)
+  const openSoonModal = $(async () => {
+    await openModal(MODAL_CODES.SOON)
   })
 
   return (
