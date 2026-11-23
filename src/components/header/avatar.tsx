@@ -11,15 +11,17 @@ interface Props {
 }
 
 export default component$(({ avatar, username, isVerified }: Props) => {
-  const { modalCode } = useContext(ModalContext)
+  const { openModal } = useContext(ModalContext)
 
-  const openAvatarModal = $(() => (modalCode.value = MODAL_CODES.AVATAR))
+  const openAvatarModal = $(async () => {
+    await openModal(MODAL_CODES.AVATAR)
+  })
 
   return (
     <div class='relative'>
       <button onClick$={openAvatarModal}>
         <Image
-          class='rounded-full mx-auto'
+          class='mx-auto rounded-full'
           src={avatar}
           layout='constrained'
           width={84}

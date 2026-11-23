@@ -7,7 +7,7 @@ export default component$(() => {
 
   return (
     <Image
-      class='rounded-full border-4 border-[#0a0a0a] mx-auto aspect-square w-64'
+      class='mx-auto aspect-square w-64 rounded-full border-4 border-[#0a0a0a]'
       src={user.profile_pic_url}
       layout='constrained'
       width={256}

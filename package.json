@@ -1,15 +1,7 @@
 {
   "name": "threads-clone",
   "description": "Demo App with Routing built-in (recommended)",
-  "engines": {
-    "node": "^18.17.0 || ^20.3.0 || >=21.0.0"
-  },
-  "engines-annotation": "Mostly required by sharp which needs a Node-API v9 compatible runtime",
   "private": true,
-  "trustedDependencies": [
-    "sharp"
-  ],
-  "trustedDependencies-annotation": "Needed for bun to allow running install scripts",
   "type": "module",
   "scripts": {
     "build": "qwik build",
@@ -17,49 +9,60 @@
     "build.preview": "vite build --ssr src/entry.preview.tsx",
     "build.server": "vite build -c adapters/vercel-edge/vite.config.ts",
     "build.types": "tsc --incremental --noEmit",
-    "deploy": "vercel deploy",
+    "deploy": "pnpm dlx vercel deploy",
     "dev": "vite --mode ssr",
     "dev.debug": "node --inspect-brk ./node_modules/vite/bin/vite.js --mode ssr --force",
     "fmt": "prettier --write .",
     "fmt.check": "prettier --check .",
-    "lint": "eslint \"src/**/*.ts*\"",
+    "lint": "eslint .",
     "preview": "qwik build preview && vite preview --open",
     "start": "vite --open --mode ssr",
-    "qwik": "qwik"
+    "qwik": "qwik",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "test:all": "pnpm fmt.check && pnpm build.types && pnpm lint && pnpm test && pnpm build && pnpm test:e2e"
   },
   "devDependencies": {
-    "@builder.io/qwik": "^1.5.1",
-    "@builder.io/qwik-city": "^1.5.1",
-    "@types/eslint": "8.56.5",
-    "@types/node": "^20.11.25",
-    "@types/react": "18.2.64",
-    "@types/react-dom": "18.2.21",
-    "@typescript-eslint/eslint-plugin": "7.1.1",
-    "@typescript-eslint/parser": "7.1.1",
-    "autoprefixer": "^10.4.18",
-    "eslint": "8.57.0",
-    "eslint-plugin-qwik": "^1.5.1",
-    "postcss": "^8.4.35",
-    "prettier": "3.2.5",
-    "prettier-plugin-tailwindcss": "^0.5.12",
-    "tailwindcss": "^3.4.1",
-    "typescript": "5.4.2",
-    "undici": "6.7.1",
-    "vercel": "^33.5.5",
-    "vite": "5.1.5",
-    "vite-tsconfig-paths": "4.3.1"
+    "@builder.io/qwik": "1.20.4",
+    "@builder.io/qwik-city": "1.20.4",
+    "@playwright/test": "1.65.1",
+    "@tailwindcss/vite": "4.3.5",
+    "@types/node": "26.6.6",
+    "@types/react": "18.3.31",
+    "@types/react-dom": "18.3.7",
+    "eslint": "10.15.0",
+    "eslint-config-love": "158.0.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-qwik": "1.20.4",
+    "prettier": "3.10.1",
+    "prettier-plugin-tailwindcss": "0.8.1",
+    "tailwindcss": "4.3.5",
+    "typescript": "6.0.3",
+    "vite": "7.3.8",
+    "vite-tsconfig-paths": "6.1.1",
+    "vitest": "5.1.1"
   },
   "dependencies": {
-    "@builder.io/qwik-react": "0.5.4",
-    "@cloudinary/url-gen": "^1.19.0",
-    "@unpic/qwik": "^0.0.44",
-    "dayjs": "^1.11.10",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "sharp": "^0.33.2",
-    "swiper": "^11.0.7"
+    "@builder.io/qwik-react": "0.5.8",
+    "@cloudinary/url-gen": "1.22.1",
+    "@unpic/qwik": "1.0.0",
+    "dayjs": "1.11.23",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "swiper": "14.4.0"
   },
   "volta": {
-    "node": "18.18.0"
+    "node": "26.13.1"
+  },
+  "engines": {
+    "node": "26.x"
+  },
+  "packageManager": "pnpm@11.20.0",
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "26.13.1",
+      "onFail": "download"
+    }
   }
 }

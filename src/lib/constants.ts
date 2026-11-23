@@ -13,26 +13,25 @@ export const FOOTER_LINKS = [
   }
 ]
 
-export const MODAL_CODES = {
-  HIDDEN: 0,
-  REPORT_PROBLEM: 1,
-  AVATAR: 2,
-  SOON: 3,
-  CLONE: 4,
-  QR: 5
+export enum MODAL_CODES {
+  HIDDEN = 0,
+  REPORT_PROBLEM = 1,
+  AVATAR = 2,
+  SOON = 3,
+  CLONE = 4,
+  QR = 5
 }
 
-export const THREADS_ENDPOINT = 'https://www.threads.net/api/graphql'
+export const THREADS_GRAPHQL_PATH = '/api/graphql'
 export const THREADS_APP_ID = '238260118697367'
 export const THREADS_APP_LSD = 'AVqazA4Qj7Y'
 
-export const ENDPOINTS_DOCUMENT_ID = {
-  USER_PROFILE: 7608068672565545,
-  USER_PROFILE_THREADS: 6451898791498605
+export enum ENDPOINTS_DOCUMENT_ID {
+  USER_PROFILE = 7608068672565545,
+  USER_PROFILE_THREADS = 6451898791498605
 }
 
-export const CLOUDINARY_URL =
-  'https://api.cloudinary.com/v1_1/dfzzgyj7r/image/upload'
+export const CLOUDINARY_CLOUD_NAME = 'dfzzgyj7r'
 
 export const AVATARS = [
   '/images/avatars/1.webp',

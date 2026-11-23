@@ -7,10 +7,10 @@ export default component$(() => {
 
   return (
     <section class='md:w-[400px]'>
-      <div class='bg-threads-black border flex flex-col gap-4 p-6 border-threads-white/10 rounded-2xl overflow-hidden'>
-        <div class='flex justify-between items-center'>
-          <h2 class='text-2xl text-threads-white font-bold'>threads.net</h2>
-          <div class='w-16 h-16 bg-black rounded-full flex justify-center items-center'>
+      <div class='flex flex-col gap-4 overflow-hidden rounded-2xl border border-threads-white/10 bg-threads-black p-6'>
+        <div class='flex items-center justify-between'>
+          <h2 class='text-2xl font-bold text-threads-white'>threads.net</h2>
+          <div class='flex h-16 w-16 items-center justify-center rounded-full bg-black'>
             <ThreadsLogo classes='w-8 h-8 text-threads-white' />
           </div>
         </div>

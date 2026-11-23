@@ -1,14 +1,11 @@
-import {
-  $,
-  component$,
-  useComputed$,
-  useSignal,
-  useVisibleTask$
-} from '@builder.io/qwik'
+import { $, component$, useComputed$, useSignal } from '@builder.io/qwik'
 import { uploadMedia } from '~/lib/utils/uploadMedia'
+import { aspectRatio } from '~/lib/utils/mediaUrls'
 import { MEDIA_TYPES } from '~/lib/constants'
 import UnmutedIcon from '~/components/icons/unmuted-icon'
 import MutedIcon from '~/components/icons/muted-icon'
+
+const FULLY_VISIBLE = 1
 
 interface Props {
   videoUrl: string
@@ -18,67 +15,51 @@ export default component$(({ videoUrl }: Props) => {
   const videoRef = useSignal<HTMLVideoElement>()
   const isMuted = useSignal(true)
 
-  const video = useComputed$(async () => {
-    return await uploadMedia({ mediaUrl: videoUrl, type: MEDIA_TYPES.VIDEO })
-  })
+  const video = useComputed$(
+    async () =>
+      await uploadMedia({ mediaUrl: videoUrl, type: MEDIA_TYPES.VIDEO })
+  )
 
   const handleClick = $(() => {
-    if (videoRef.value === undefined) return null
+    const { value: player } = videoRef
+    if (player === undefined) return
 
-    if (videoRef.value.muted) {
-      videoRef.value.muted = false
-      isMuted.value = false
-    } else {
-      videoRef.value.muted = true
-      isMuted.value = true
-    }
+    player.muted = !player.muted
+    const { muted } = player
+    isMuted.value = muted
   })
 
-  useVisibleTask$(({ cleanup }) => {
+  const playWhileVisible = $((_: Event, player: HTMLVideoElement) => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          if (videoRef.value) {
-            videoRef.value.play()
-          }
+          void player.play()
         } else {
-          if (videoRef.value) {
-            videoRef.value.pause()
-          }
+          player.pause()
         }
       },
-      {
-        threshold: 1
-      }
+      { threshold: FULLY_VISIBLE }
     )
 
-    // Assuming `elementRef` is a reference to the element you want to observe
-    if (videoRef.value) {
-      observer.observe(videoRef.value)
-    }
-
-    cleanup(() => {
-      observer.disconnect()
-    })
+    observer.observe(player)
   })
 
   return (
     <div
-      class='relative overflow-hidden border border-threads-light-gray/20 rounded-lg max-h-[50vh]'
-      style={{
-        aspectRatio: video.value?.width / video.value?.height
-      }}
+      class='relative max-h-[50vh] overflow-hidden rounded-lg border border-threads-light-gray/20'
+      style={{ aspectRatio: aspectRatio(video.value) }}
     >
       <video
         ref={videoRef}
-        class='absolute w-full h-full object-cover object-center'
+        onQVisible$={playWhileVisible}
+        class='absolute h-full w-full object-cover object-center'
         src={video.value?.url}
         width={640}
         muted
         loop
       />
       <button
-        class='absolute right-4 w-7 h-7 flex justify-center items-center bottom-4 rounded-full backdrop-blur-xl bg-[#282828]/50'
+        class='absolute right-4 bottom-4 flex h-7 w-7 items-center justify-center rounded-full bg-[#282828]/50 backdrop-blur-xl'
         onClick$={handleClick}
       >
         {isMuted.value ? (

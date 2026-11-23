@@ -9,31 +9,29 @@ import QrModal from '~/components/modals/qr-modal'
 import { MODAL_CODES } from '~/lib/constants'
 
 export default component$(() => {
-  const { modalCode } = useContext(ModalContext)
+  const { modalCode, openModal } = useContext(ModalContext)
 
-  const modalStatus = useComputed$(() => {
-    return modalCode.value !== MODAL_CODES.HIDDEN
-  })
+  const modalStatus = useComputed$(() => modalCode.value !== MODAL_CODES.HIDDEN)
 
-  const closeModal = $(() => {
-    modalCode.value = MODAL_CODES.HIDDEN
+  const closeModal = $(async () => {
+    await openModal(MODAL_CODES.HIDDEN)
   })
 
   if (!modalStatus.value) return null
 
   return (
-    <div class='fixed items-center flex inset-0 justify-center bg-threads-black/[.97] backdrop-blur-xl z-50'>
+    <div class='fixed inset-0 z-50 flex items-center justify-center bg-threads-black/97 backdrop-blur-xl'>
       <div
         onClick$={closeModal}
-        class='absolute w-full h-full bg-transparent cursor-pointer'
+        class='absolute h-full w-full cursor-pointer bg-transparent'
       />
       <button
         onClick$={closeModal}
-        class='absolute left-6 top-6 bg-threads-dark-gray w-11 h-11 flex justify-center items-center rounded-full xl:hover:scale-105 transition-transform ease-in-out duration-300 z-10'
+        class='absolute top-6 left-6 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-threads-dark-gray transition-transform duration-300 ease-in-out xl:hover:scale-105'
       >
         <CloseIcon classes='w-4 h-4 stroke-threads-light-gray' />
       </button>
-      <div role='dialog' class='z-10 px-6 md:px-0 w-full md:w-auto'>
+      <div role='dialog' class='z-10 w-full px-6 md:w-auto md:px-0'>
         {modalCode.value === MODAL_CODES.REPORT_PROBLEM && (
           <ReportAProblemModal />
         )}

@@ -6,25 +6,16 @@ interface MediaData {
   threads: ThreadInterface[]
 }
 
-enum ThreadItemTypename {
-  XDTThreadItem = 'XDTThreadItem'
-}
-
-enum LineType {
-  Line = 'line',
-  Squiggle = 'squiggle'
-}
-
 interface Post {
   user: User
   image_versions2: ImageVersions2
   original_width: number
   original_height: number
-  video_versions: any[]
+  video_versions: VideoVersion[] | null
   carousel_media: CarouselMedia[] | null
-  carousel_media_count: null
+  carousel_media_count: number | null
   pk: string
-  has_audio: null
+  has_audio: boolean | null
   text_post_app_info: PostTextPostAppInfo
   caption: Caption | null
   taken_at: number
@@ -43,14 +34,14 @@ interface ImageVersions2 {
 }
 
 export interface Candidate {
-  height: number
+  height?: number
   url: string
-  width: number
-  __typename: CandidateTypename
+  width?: number
+  __typename?: string
 }
 
-enum CandidateTypename {
-  XDTImageCandidate = 'XDTImageCandidate'
+interface VideoVersion {
+  url: string
 }
 
 interface PostTextPostAppInfo {
@@ -61,24 +52,19 @@ interface PostTextPostAppInfo {
 }
 
 interface ReplyToAuthor {
-  username: Username
-  id: null
-}
-
-enum Username {
-  EnvyWorldwide = 'envy_worldwide',
-  Zuck = 'zuck'
+  username: string
+  id: string | null
 }
 
 interface PurpleShareInfo {
   quoted_post: QuotedPost | null
-  reposted_post: null
+  reposted_post: { pk: string } | null
 }
 
 export interface CarouselMedia {
   image_versions2: ImageVersions2
-  video_versions: any[]
-  has_audio: null
+  video_versions: VideoVersion[] | null
+  has_audio: boolean | null
   original_width: number
   original_height: number
   pk: string
@@ -95,10 +81,10 @@ export interface QuotedPost {
   image_versions2: ImageVersions2
   original_width: number
   original_height: number
-  video_versions: any[]
+  video_versions: VideoVersion[] | null
   carousel_media: CarouselMedia[] | null
-  carousel_media_count: null
-  has_audio: null
+  carousel_media_count: number | null
+  has_audio: boolean | null
   like_count: number
   taken_at: number
   id: string
@@ -107,7 +93,7 @@ export interface QuotedPost {
 interface QuotedPostTextPostAppInfo {
   is_post_unavailable: boolean
   share_info: FluffyShareInfo
-  direct_reply_count: number
+  direct_reply_count: number | null
   link_preview_attachment: null
 }
 
@@ -117,20 +103,16 @@ interface FluffyShareInfo {
 
 interface User {
   is_verified: boolean
-  username: Username
-  id: null
+  username: string
+  id: string | null
   profile_pic_url: string
   pk?: string
 }
 
 export interface ReplyFacepileUser {
-  __typename: ReplyFacepileUserTypename
-  id: null
+  __typename: string
+  id: string | null
   profile_pic_url: string
-}
-
-enum ReplyFacepileUserTypename {
-  XDTUserDict = 'XDTUserDict'
 }
 
 interface Extensions {
@@ -139,11 +121,11 @@ interface Extensions {
 
 export interface ThreadItem {
   post: Post
-  line_type: LineType
+  line_type: string
   view_replies_cta_string: string
   reply_facepile_users: ReplyFacepileUser[]
   should_show_replies_cta: boolean
-  __typename: ThreadItemTypename
+  __typename: string
 }
 
 export interface ThreadInterface {
@@ -152,6 +134,6 @@ export interface ThreadInterface {
 }
 
 export interface UserThreadsInterface {
-  data: Data
+  data?: Data
   extensions: Extensions
 }

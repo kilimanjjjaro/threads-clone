@@ -16,12 +16,12 @@ export default component$(({ links }: Props) => {
       {links.map((link) => (
         <a
           key={link.url}
-          class='xl:hover:underline overflow-ellipsis whitespace-nowrap overflow-hidden'
+          class='overflow-hidden text-ellipsis whitespace-nowrap xl:hover:underline'
           href={link.url}
           rel='nofollow noreferrer'
           target='_blank'
         >
-          {link.url.replace(/(^\w+:|^)\/\/(www\.)?/, '')}
+          {link.url.replace(/(?:^\w+:|^)\/\/(?:www\.)?/v, '')}
         </a>
       ))}
     </>

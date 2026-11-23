@@ -1,25 +1,28 @@
 import { component$, useComputed$ } from '@builder.io/qwik'
 
+const MILLION = 1_000_000
+const THOUSAND = 1000
+const DECIMALS = 1
+
 interface Props {
   count: number
 }
 
 export default component$(({ count }: Props) => {
   const followerCountFormated = useComputed$(() => {
-    let label = ''
     let formattedCount = ''
 
-    if (count >= 1000000) {
-      formattedCount = (count / 1000000).toFixed(1) + 'M'
-    } else if (count >= 1000) {
-      formattedCount = (count / 1000).toFixed(1) + 'K'
+    if (count >= MILLION) {
+      formattedCount = `${(count / MILLION).toFixed(DECIMALS)}M`
+    } else if (count >= THOUSAND) {
+      formattedCount = `${(count / THOUSAND).toFixed(DECIMALS)}K`
     }
 
-    label = formattedCount + ' followers'
+    const label = `${formattedCount} followers`
 
     return {
       count: count.toLocaleString('en-US'),
-      label: label
+      label
     }
   })
 

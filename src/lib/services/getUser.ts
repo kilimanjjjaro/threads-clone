@@ -2,36 +2,42 @@ import { server$ } from '@builder.io/qwik-city'
 import { getUserId } from '~/lib/services/getUserId'
 import { fetchData } from '~/lib/utils/fetchData'
 import { uploadMedia } from '~/lib/utils/uploadMedia'
+import { isUserResponse } from '~/lib/utils/guards'
 import { ENDPOINTS_DOCUMENT_ID, MEDIA_TYPES } from '~/lib/constants'
-import type { UserDataInterface } from '~/lib/interfaces/users'
+
+const LARGEST_AVATAR = -1
 
 export const getUser = server$(async ({ username }: { username?: string }) => {
-  if (!username) return null
+  if (username === undefined || username === '') return null
 
   const userId = await getUserId({ username })
 
-  if (!userId) return null
+  if (userId === undefined) return null
 
-  const documentId = ENDPOINTS_DOCUMENT_ID.USER_PROFILE
-
-  const data: UserDataInterface = await fetchData({
+  const response = await fetchData({
     userId,
-    documentId
+    documentId: ENDPOINTS_DOCUMENT_ID.USER_PROFILE
   })
 
-  const user = data.data.user
+  if (!isUserResponse(response)) return null
 
-  console.log('userData', user)
+  const {
+    data: { user }
+  } = response
 
-  const userAvatar =
-    user.hd_profile_pic_versions[user.hd_profile_pic_versions.length - 1]
+  const avatar = user.hd_profile_pic_versions.at(LARGEST_AVATAR)
 
-  const avatarUrl = await uploadMedia({
-    mediaUrl: userAvatar.url,
-    type: MEDIA_TYPES.AVATAR
-  })
+  if (avatar !== undefined) {
+    const uploadedAvatar = await uploadMedia({
+      mediaUrl: avatar.url,
+      type: MEDIA_TYPES.AVATAR
+    })
 
-  if (avatarUrl) user.profile_pic_url = avatarUrl.url
+    if (uploadedAvatar !== undefined) {
+      const { url } = uploadedAvatar
+      user.profile_pic_url = url
+    }
+  }
 
   return user
 })

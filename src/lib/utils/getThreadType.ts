@@ -1,15 +1,33 @@
-import { CarouselMedia, ThreadItem } from '~/lib/interfaces/threads'
+import type { CarouselMedia, ThreadItem } from '~/lib/interfaces/threads'
 
 interface CombinedInterface
-  extends Partial<CarouselMedia>,
-    Partial<ThreadItem> {}
+  extends Partial<CarouselMedia>, Partial<ThreadItem> {}
 
-export default function getThreadType(thread: CombinedInterface) {
-  if (!thread.post) {
-    const isVideoPost = thread.video_versions?.length ? true : false
+const NO_ITEMS = 0
 
+function hasItems(items: unknown[] | null | undefined) {
+  return items !== null && items !== undefined && items.length > NO_ITEMS
+}
+
+interface MediaType {
+  isVideoPost: boolean
+  isImagePost: boolean
+}
+
+interface PostType extends MediaType {
+  isQuotedPost: boolean
+  isCarouselPost: boolean
+}
+
+export default function getThreadType(thread: ThreadItem): PostType
+export default function getThreadType(thread: CarouselMedia): MediaType
+export default function getThreadType(
+  thread: CombinedInterface
+): MediaType | PostType {
+  if (thread.post === undefined) {
+    const isVideoPost = hasItems(thread.video_versions)
     const isImagePost =
-      thread.image_versions2?.candidates.length && !isVideoPost ? true : false
+      hasItems(thread.image_versions2?.candidates) && !isVideoPost
 
     return {
       isVideoPost,
@@ -19,17 +37,12 @@ export default function getThreadType(thread: CombinedInterface) {
 
   const isQuotedPost =
     thread.post.text_post_app_info.share_info.quoted_post !== null
-
-  const isVideoPost = thread.post.video_versions?.length ? true : false
-
-  const isCarouselPost = thread.post.carousel_media?.length ? true : false
-
+  const isVideoPost = hasItems(thread.post.video_versions)
+  const isCarouselPost = hasItems(thread.post.carousel_media)
   const isImagePost =
-    thread.post.image_versions2.candidates.length &&
+    hasItems(thread.post.image_versions2.candidates) &&
     !isCarouselPost &&
     !isVideoPost
-      ? true
-      : false
 
   return {
     isQuotedPost,

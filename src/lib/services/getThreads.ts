@@ -1,28 +1,30 @@
 import { server$ } from '@builder.io/qwik-city'
 import { getUserId } from '~/lib/services/getUserId'
 import { fetchData } from '~/lib/utils/fetchData'
+import { isThreadsResponse } from '~/lib/utils/guards'
 import { ENDPOINTS_DOCUMENT_ID } from '~/lib/constants'
-import type { UserThreadsInterface } from '~/lib/interfaces/threads'
+
+const FIRST_THREAD = 0
+const MAX_PROFILE_THREADS = 5
 
 export const getThreads = server$(
   async ({ username }: { username?: string }) => {
-    if (!username) return null
+    if (username === undefined || username === '') return null
 
     const userId = await getUserId({ username })
 
-    if (!userId) return null
+    if (userId === undefined) return null
 
-    const documentId = ENDPOINTS_DOCUMENT_ID.USER_PROFILE_THREADS
-
-    const data: UserThreadsInterface = await fetchData({
+    const response = await fetchData({
       userId,
-      documentId
+      documentId: ENDPOINTS_DOCUMENT_ID.USER_PROFILE_THREADS
     })
 
-    console.log('userThreads', data)
+    if (!isThreadsResponse(response)) return undefined
 
-    const threads = data?.data?.mediaData?.threads.slice(0, 5)
-
-    return threads
+    return response.data.mediaData.threads.slice(
+      FIRST_THREAD,
+      MAX_PROFILE_THREADS
+    )
   }
 )

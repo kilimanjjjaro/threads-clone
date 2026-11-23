@@ -1,0 +1,15 @@
+[
+  { "secondsAgo": 0, "expected": "Just now" },
+  { "secondsAgo": 5, "expected": "Just now" },
+  { "secondsAgo": 6, "expected": "6s" },
+  { "secondsAgo": 59, "expected": "59s" },
+  { "secondsAgo": 60, "expected": "1m" },
+  { "secondsAgo": 3599, "expected": "59m" },
+  { "secondsAgo": 3600, "expected": "1h" },
+  { "secondsAgo": 86399, "expected": "23h" },
+  { "secondsAgo": 86400, "expected": "1d" },
+  { "secondsAgo": 604799, "expected": "6d" },
+  { "secondsAgo": 604800, "expected": "1w" },
+  { "secondsAgo": 2591999, "expected": "4w" },
+  { "secondsAgo": 2592000, "expected": "10/24/26" }
+]

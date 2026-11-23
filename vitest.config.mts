@@ -1,0 +1,18 @@
+import { fileURLToPath } from 'node:url'
+import { defineConfig } from 'vitest/config'
+
+export default defineConfig({
+  resolve: {
+    alias: {
+      '~': fileURLToPath(new URL('./src', import.meta.url))
+    }
+  },
+  test: {
+    environment: 'node',
+    env: { TZ: 'UTC' },
+    include: ['tests/unit/**/*.test.ts'],
+    restoreMocks: true,
+    unstubEnvs: true,
+    unstubGlobals: true
+  }
+})

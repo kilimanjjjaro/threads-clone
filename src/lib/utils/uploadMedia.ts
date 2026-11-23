@@ -1,99 +1,89 @@
 import { Cloudinary } from '@cloudinary/url-gen'
-import { format } from '@cloudinary/url-gen/actions/delivery'
 import { scale } from '@cloudinary/url-gen/actions/resize'
-import { webp, videoWebm } from '@cloudinary/url-gen/qualifiers/format'
-import { CLOUDINARY_URL, MEDIA_TYPES } from '~/lib/constants'
+import { CLOUDINARY_CLOUD_NAME, MEDIA_TYPES } from '~/lib/constants'
+import { isUploadResponse } from '~/lib/utils/guards'
+import { logError } from '~/lib/utils/logger'
+import { cloudinaryApiOrigin } from '~/lib/utils/origins'
+
+const DELIVERY_WIDTH = 600
+const DELIVERY_QUALITY = 70
 
 interface Props {
   mediaUrl: string
   type: string
 }
 
+interface UploadTarget {
+  resource: 'image' | 'video'
+  preset: string
+  folder: string
+}
+
+const UPLOAD_TARGETS: Partial<Record<string, UploadTarget>> = {
+  [MEDIA_TYPES.IMAGE]: {
+    resource: 'image',
+    preset: 'threads-clone-images',
+    folder: 'threads-clone/thread-images'
+  },
+  [MEDIA_TYPES.AVATAR]: {
+    resource: 'image',
+    preset: 'threads-clone-images',
+    folder: 'threads-clone/user-avatars'
+  },
+  [MEDIA_TYPES.VIDEO]: {
+    resource: 'video',
+    preset: 'threads-clone-videos',
+    folder: 'threads-clone/thread-videos'
+  }
+}
+
+const cloudinary = new Cloudinary({
+  cloud: { cloudName: CLOUDINARY_CLOUD_NAME },
+  url: { secure: true }
+})
+
 export const uploadMedia = async ({ mediaUrl, type }: Props) => {
-  let body = {}
-  let cloudinaryUrl = ''
-  let folder = ''
+  const { [type]: target } = UPLOAD_TARGETS
 
-  if (type === MEDIA_TYPES.IMAGE) folder = 'threads-clone/thread-images'
-  if (type === MEDIA_TYPES.VIDEO) folder = 'threads-clone/thread-videos'
-  if (type === MEDIA_TYPES.AVATAR) folder = 'threads-clone/user-avatars'
+  if (target === undefined) return undefined
 
-  if (type === MEDIA_TYPES.IMAGE || type === MEDIA_TYPES.AVATAR) {
-    cloudinaryUrl = 'https://api.cloudinary.com/v1_1/dfzzgyj7r/image/upload'
-
-    body = {
-      file: mediaUrl,
-      upload_preset: 'threads-clone-images',
-      folder
-    }
-  }
-
-  if (type === MEDIA_TYPES.VIDEO) {
-    cloudinaryUrl = 'https://api.cloudinary.com/v1_1/dfzzgyj7r/video/upload'
-
-    body = {
-      file: mediaUrl,
-      upload_preset: 'threads-clone-videos',
-      folder
-    }
-  }
+  const { resource, preset, folder } = target
 
   try {
-    const response = await fetch(cloudinaryUrl, {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: {
-        'content-type': 'application/json'
+    const response = await fetch(
+      `${cloudinaryApiOrigin()}/v1_1/${CLOUDINARY_CLOUD_NAME}/${resource}/upload`,
+      {
+        method: 'POST',
+        body: JSON.stringify({ file: mediaUrl, upload_preset: preset, folder }),
+        headers: { 'content-type': 'application/json' }
       }
-    })
+    )
 
-    const data = await response.json()
+    const data: unknown = await response.json()
 
-    const cloudinary = new Cloudinary({
-      cloud: {
-        cloudName: 'dfzzgyj7r'
-      },
-      url: {
-        secure: true
-      }
-    })
+    if (!isUploadResponse(data)) return undefined
 
-    if (type === MEDIA_TYPES.VIDEO) {
-      const video = cloudinary.video(data.public_id)
+    const asset =
+      resource === 'video'
+        ? cloudinary.video(data.public_id)
+        : cloudinary.image(data.public_id)
 
-      const transformedVideo = video
-        .resize(
-          scale()
-            .width(600)
-            .aspectRatio(data.width / data.height)
-        )
-        .quality(70)
+    const transformedAsset = asset
+      .resize(
+        scale()
+          .width(DELIVERY_WIDTH)
+          .aspectRatio(data.width / data.height)
+      )
+      .quality(DELIVERY_QUALITY)
 
-      return {
-        url: transformedVideo.toURL(),
-        width: data.width,
-        height: data.height,
-        type: MEDIA_TYPES.VIDEO
-      }
-    } else {
-      const image = cloudinary.image(data.public_id)
-
-      const transformedImage = image
-        .resize(
-          scale()
-            .width(600)
-            .aspectRatio(data.width / data.height)
-        )
-        .quality(70)
-
-      return {
-        url: transformedImage.toURL(),
-        width: data.width,
-        height: data.height,
-        type: MEDIA_TYPES.IMAGE
-      }
+    return {
+      url: transformedAsset.toURL(),
+      width: data.width,
+      height: data.height,
+      type: resource === 'video' ? MEDIA_TYPES.VIDEO : MEDIA_TYPES.IMAGE
     }
   } catch (error) {
-    console.error(error)
+    logError(error)
+    return undefined
   }
 }

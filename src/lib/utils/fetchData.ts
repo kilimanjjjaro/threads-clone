@@ -1,23 +1,25 @@
-import { server$ } from '@builder.io/qwik-city'
 import {
   THREADS_APP_ID,
   THREADS_APP_LSD,
-  THREADS_ENDPOINT
+  THREADS_GRAPHQL_PATH
 } from '~/lib/constants'
+import { logError } from '~/lib/utils/logger'
+import { threadsOrigin } from '~/lib/utils/origins'
 
 interface Props {
   documentId: number
   userId: string
 }
 
-export const fetchData = server$(async ({ documentId, userId }: Props) => {
+export async function fetchData({
+  documentId,
+  userId
+}: Props): Promise<unknown> {
   const variables = {
     userID: userId,
     __relay_internal__pv__BarcelonaIsSableEnabledrelayprovider: false,
-    __relay_internal__pv__BarcelonaIsSuggestedUsersOnProfileEnabledrelayprovider:
-      false,
-    __relay_internal__pv__BarcelonaShouldShowFediverseM075Featuresrelayprovider:
-      false
+    __relay_internal__pv__BarcelonaIsSuggestedUsersOnProfileEnabledrelayprovider: false,
+    __relay_internal__pv__BarcelonaShouldShowFediverseM075Featuresrelayprovider: false
   }
 
   const body = `lsd=${THREADS_APP_LSD}&jazoest=2931&variables=${JSON.stringify(
@@ -25,7 +27,7 @@ export const fetchData = server$(async ({ documentId, userId }: Props) => {
   )}&doc_id=${documentId}`
 
   try {
-    const response = await fetch(THREADS_ENDPOINT, {
+    const response = await fetch(`${threadsOrigin()}${THREADS_GRAPHQL_PATH}`, {
       method: 'POST',
       headers: {
         'content-type': 'application/x-www-form-urlencoded',
@@ -35,13 +37,13 @@ export const fetchData = server$(async ({ documentId, userId }: Props) => {
         'x-fb-lsd': THREADS_APP_LSD,
         'sec-fetch-site': 'same-site'
       },
-      body: body
+      body
     })
 
-    const data = await response.json()
-
+    const data: unknown = await response.json()
     return data
   } catch (error) {
-    console.error(error)
+    logError(error)
+    return undefined
   }
-})
+}

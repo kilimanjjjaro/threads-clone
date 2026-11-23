@@ -4,19 +4,26 @@ import { useEffect, useRef, useState } from 'react'
 import { qwikify$ } from '@builder.io/qwik-react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { uploadMedia } from '~/lib/utils/uploadMedia'
+import getThreadType from '~/lib/utils/getThreadType'
+import { imageUrl, videoUrl } from '~/lib/utils/mediaUrls'
 import { MEDIA_TYPES } from '~/lib/constants'
 import type { CarouselMedia } from '~/lib/interfaces/threads'
 import type { CloudinaryImageInterface } from '~/lib/interfaces/general'
 import 'swiper/css'
 
+const FULLY_VISIBLE = 1
+const MANY_SLIDES = 3
+const TWO_SLIDES = 2
+const SLIDE_WIDTH_PX = 230
+const SLIDES_GAP_PX = 6
+
 interface Props {
   images: CarouselMedia[] | null
-  imagesCount: number | null
   username: string
 }
 
-function ReactComponent({ images, imagesCount, username }: Props) {
-  if (images === null || imagesCount === null) return null
+function ReactComponent({ images, username }: Props) {
+  if (images === null) return null
 
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isMuted, setIsMuted] = useState(true)
@@ -25,50 +32,28 @@ function ReactComponent({ images, imagesCount, username }: Props) {
   >([])
 
   useEffect(() => {
-    const cloudinaryMedia = images.map(async (image) => {
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      const isVideoPost = image.video_versions?.length ? true : false
-      let file = ''
+    const uploads = images.map(async (media) => {
+      const { isVideoPost } = getThreadType(media)
 
-      if (!isVideoPost) {
-        file = image.image_versions2.candidates[0].url
-      } else {
-        file = image.video_versions[0].url
-      }
-
-      const media = {
-        mediaUrl: file,
-        type: !isVideoPost ? MEDIA_TYPES.IMAGE : MEDIA_TYPES.VIDEO
-      }
-
-      try {
-        const uploadedImage = await uploadMedia(media)
-
-        return uploadedImage
-      } catch (error) {
-        console.error(error)
-      }
+      return await uploadMedia({
+        mediaUrl: isVideoPost ? videoUrl(media) : imageUrl(media),
+        type: isVideoPost ? MEDIA_TYPES.VIDEO : MEDIA_TYPES.IMAGE
+      })
     })
 
-    Promise.all(cloudinaryMedia).then((images) => {
-      const filteredImages = images.filter(
-        (image) => image !== undefined
-      ) as CloudinaryImageInterface[]
-
-      setCloudinaryMedia(filteredImages)
+    void Promise.all(uploads).then((uploaded) => {
+      setCloudinaryMedia(uploaded.filter((media) => media !== undefined))
     })
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          videoRef.current?.play()
+          void videoRef.current?.play()
         } else {
           videoRef.current?.pause()
         }
       },
-      {
-        threshold: 1
-      }
+      { threshold: FULLY_VISIBLE }
     )
 
     if (videoRef.current !== null) observer.observe(videoRef.current)
@@ -78,36 +63,35 @@ function ReactComponent({ images, imagesCount, username }: Props) {
     }
   }, [])
 
-  const slidesPerView = imagesCount >= 3 ? 'auto' : 2
+  const slidesPerView = images.length >= MANY_SLIDES ? 'auto' : TWO_SLIDES
 
   const handleClick = () => {
-    if (videoRef.current === null) return null
+    if (videoRef.current === null) return
 
-    if (videoRef.current.muted) {
-      videoRef.current.muted = false
-      setIsMuted(false)
-    } else {
-      videoRef.current.muted = true
-      setIsMuted(true)
-    }
+    videoRef.current.muted = !videoRef.current.muted
+    setIsMuted(videoRef.current.muted)
   }
 
   return (
     <div className='w-auto overflow-hidden'>
-      <Swiper className='mt-2' slidesPerView={slidesPerView} spaceBetween={6}>
+      <Swiper
+        className='mt-2'
+        slidesPerView={slidesPerView}
+        spaceBetween={SLIDES_GAP_PX}
+      >
         {cloudinaryMedia.map((media) => (
           <SwiperSlide
             key={media.url}
-            className='relative overflow-hidden border rounded-lg border-threads-light-gray/20'
+            className='relative overflow-hidden rounded-lg border border-threads-light-gray/20'
             style={{
               aspectRatio: `${media.width}/${media.height}`,
-              width: slidesPerView === 'auto' ? 230 : '100%',
+              width: slidesPerView === 'auto' ? SLIDE_WIDTH_PX : '100%',
               height: 'auto'
             }}
           >
             {MEDIA_TYPES.IMAGE === media.type && (
               <img
-                className='absolute object-cover object-center w-full h-full'
+                className='absolute h-full w-full object-cover object-center'
                 src={media.url}
                 alt={`${username}'s thread image`}
                 width={'auto'}
@@ -119,7 +103,7 @@ function ReactComponent({ images, imagesCount, username }: Props) {
               <div>
                 <video
                   ref={videoRef}
-                  className='absolute object-cover object-center w-full h-full'
+                  className='absolute h-full w-full object-cover object-center'
                   src={media.url}
                   width={'auto'}
                   height={'auto'}
@@ -128,12 +112,12 @@ function ReactComponent({ images, imagesCount, username }: Props) {
                   loop
                 />
                 <button
-                  className='absolute right-4 w-7 h-7 flex justify-center items-center bottom-4 rounded-full backdrop-blur-xl bg-[#282828]/50'
+                  className='absolute right-4 bottom-4 flex h-7 w-7 items-center justify-center rounded-full bg-[#282828]/50 backdrop-blur-xl'
                   onClick={handleClick}
                 >
                   {isMuted ? (
                     <svg
-                      className='w-3 h-3 text-threads-white'
+                      className='h-3 w-3 text-threads-white'
                       xmlns='http://www.w3.org/2000/svg'
                       aria-label='Audio is playing'
                       viewBox='0 0 24 24'
@@ -144,7 +128,7 @@ function ReactComponent({ images, imagesCount, username }: Props) {
                     </svg>
                   ) : (
                     <svg
-                      className='w-3 h-3 text-threads-white'
+                      className='h-3 w-3 text-threads-white'
                       xmlns='http://www.w3.org/2000/svg'
                       aria-label='Audo is muted'
                       viewBox='0 0 48 48'
@@ -168,4 +152,4 @@ function ReactComponent({ images, imagesCount, username }: Props) {
   )
 }
 
-export const CarouselItem = qwikify$(ReactComponent)
+export const CarouselItem = qwikify$(ReactComponent, { eagerness: 'visible' })

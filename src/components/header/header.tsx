@@ -12,41 +12,45 @@ import { MODAL_CODES } from '~/lib/constants'
 
 export default component$(() => {
   const { userData: user } = useContext(UserContext)
-  const { modalCode } = useContext(ModalContext)
+  const { openModal } = useContext(ModalContext)
   const dropdownStatus = useSignal(false)
   const nav = useNavigate()
 
   const formattedBiography = formatLinks(user.biography)
 
-  const openSoonModal = $(() => (modalCode.value = MODAL_CODES.SOON))
+  const openSoonModal = $(async () => {
+    await openModal(MODAL_CODES.SOON)
+  })
 
   return (
-    <header class='flex flex-col gap-4 justify-center mb-4'>
-      <div class='fixed top-0 left-0 flex justify-center w-full py-5 bg-threads-black/50 backdrop-blur-xl z-20'>
+    <header class='mb-4 flex flex-col justify-center gap-4'>
+      <div class='fixed top-0 left-0 z-20 flex w-full justify-center bg-threads-black/50 py-5 backdrop-blur-xl'>
         <button
           class='transition-transform duration-300 ease-in-out xl:hover:scale-105'
           aria-label='Change theme color'
-          onClick$={() => nav('/')}
+          onClick$={async () => {
+            await nav('/')
+          }}
         >
           <ThreadsLogo classes='w-8 h-8 text-threads-white' />
         </button>
         <Link
-          class='absolute right-5 px-4 h-[34px] flex items-center bg-threads-white text-threads-black font-semibold rounded-[10px] transition-transform ease-in-out xl:hover:scale-105 duration-300 active:scale-90'
+          class='absolute right-5 flex h-[34px] items-center rounded-[10px] bg-threads-white px-4 font-semibold text-threads-black transition-transform duration-300 ease-in-out active:scale-90 xl:hover:scale-105'
           href='/'
         >
           Log in
         </Link>
       </div>
-      <div class='flex justify-between items-center gap-2 mt-24'>
+      <div class='mt-24 flex items-center justify-between gap-2'>
         <div>
-          <h2 class='text-2xl text-threads-white font-bold mb-1'>
+          <h2 class='mb-1 text-2xl font-bold text-threads-white'>
             {user.full_name}
           </h2>
           <div class='flex gap-2'>
             <span class='text-threads-white'>{user.username}</span>
             <button
               onClick$={openSoonModal}
-              class='text-xs bg-threads-dark-gray text-threads-light-gray px-2 py-[6px] rounded-[30px] active:scale-90 xl:hover:bg-threads-dark-gray/50 ease-in-out duration-300'
+              class='rounded-[30px] bg-threads-dark-gray px-2 py-[6px] text-xs text-threads-light-gray duration-300 ease-in-out active:scale-90 xl:hover:bg-threads-dark-gray/50'
             >
               threads.net
             </button>
@@ -58,35 +62,35 @@ export default component$(() => {
           isVerified={user.is_verified}
         />
       </div>
-      {user.biography && (
+      {user.biography !== '' && (
         <p
-          class='text-threads-white whitespace-pre-line break-words blue-links'
+          class='blue-links wrap-break-word whitespace-pre-line text-threads-white'
           dangerouslySetInnerHTML={formattedBiography}
         />
       )}
-      <div class='flex justify-between gap-4 items-center'>
-        <div class='flex gap-1 items-center text-threads-light-gray overflow-hidden'>
+      <div class='flex items-center justify-between gap-4'>
+        <div class='flex items-center gap-1 overflow-hidden text-threads-light-gray'>
           <FollowerCount count={user.follower_count} />
           <BioLinks links={user.bio_links} />
         </div>
         <div class='flex gap-4'>
           <a
-            class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
+            class='group relative flex items-center justify-center transition-transform duration-300 ease-in-out active:scale-90'
             aria-label='Instagram'
             href={`https://instagram.com/${user.username}`}
           >
-            <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-[150%] h-[150%] transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
+            <div class='absolute h-[150%] w-[150%] scale-0 rounded-full bg-threads-dark-gray transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
             <InstagramIcon classes='z-10 w-6 h-6 text-threads-white' />
           </a>
           <button
             onClick$={() => (dropdownStatus.value = !dropdownStatus.value)}
-            class='relative flex justify-center items-center group transition-transform duration-300 ease-in-out active:scale-90'
+            class='group relative flex items-center justify-center transition-transform duration-300 ease-in-out active:scale-90'
             aria-label='More'
           >
-            <div class='absolute bg-threads-dark-gray rounded-full scale-0 w-[150%] h-[150%] transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
+            <div class='absolute h-[150%] w-[150%] scale-0 rounded-full bg-threads-dark-gray transition-transform duration-300 ease-in-out xl:group-hover:scale-100' />
             <MoreIcon classes='z-10 w-6 h-6 text-threads-white' />
             <ul
-              class={`absolute right-0 top-full mt-3 bg-[#181818] border border-threads-white/10 rounded-2xl px-4 py-3 min-w-[140px] w-full transition-transform duration-300 ease-in-out origin-top-right z-10 ${
+              class={`absolute top-full right-0 z-10 mt-3 w-full min-w-[140px] origin-top-right rounded-2xl border border-threads-white/10 bg-[#181818] px-4 py-3 transition-transform duration-300 ease-in-out ${
                 dropdownStatus.value ? 'scale-100' : 'scale-0'
               }`}
             >
