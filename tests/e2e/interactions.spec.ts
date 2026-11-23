@@ -107,10 +107,17 @@ test.describe('profile', () => {
     await expect(quotedPosts(page).first().locator('.swiper')).toHaveCount(1)
   })
 
-  test.fail('shows the media of quoted carousels', async ({ page }) => {
+  test('shows the media of quoted carousels', async ({
+    page,
+    browserErrors
+  }) => {
+    // The carousel hydrates when it scrolls into view.
     for (const quoted of await quotedPosts(page).all()) {
+      await quoted.scrollIntoViewIfNeeded()
+      await expect(quoted.locator('.swiper-slide')).toHaveCount(CAROUSEL_SLIDES)
       await expect(quoted.locator('.swiper-slide').first()).toBeVisible()
     }
+    expect(unexpectedErrors(browserErrors)).toEqual([])
   })
 
   test('opens the more menu', async ({ page }) => {

@@ -35,11 +35,17 @@ export const test = base.extend<{ browserErrors: BrowserError[] }>({
             : route.fulfill({ contentType: 'image/webp', body: image })
         )
       }
-      await page.route(CLOUDINARY_UPLOAD_API, (route) =>
-        route.fulfill({
-          json: { public_id: 'threads-clone/mock', width: 1280, height: 720 }
+      let uploads = 0
+      await page.route(CLOUDINARY_UPLOAD_API, (route) => {
+        uploads += 1
+        return route.fulfill({
+          json: {
+            public_id: `threads-clone/mock-${uploads}`,
+            width: 1280,
+            height: 720
+          }
         })
-      )
+      })
 
       await use(errors)
     },

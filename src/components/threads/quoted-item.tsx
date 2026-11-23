@@ -56,7 +56,6 @@ export default component$(({ thread }: Props) => {
       )}
       <CarouselItem
         images={thread.carousel_media}
-        imagesCount={thread.carousel_media_count}
         username={thread.user.username}
       />
       <div class='mt-2 flex items-center gap-3'>

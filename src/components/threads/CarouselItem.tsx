@@ -11,12 +11,11 @@ import 'swiper/css'
 
 interface Props {
   images: CarouselMedia[] | null
-  imagesCount: number | null
   username: string
 }
 
-function ReactComponent({ images, imagesCount, username }: Props) {
-  if (images === null || imagesCount === null) return null
+function ReactComponent({ images, username }: Props) {
+  if (images === null) return null
 
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isMuted, setIsMuted] = useState(true)
@@ -74,7 +73,8 @@ function ReactComponent({ images, imagesCount, username }: Props) {
     }
   }, [])
 
-  const slidesPerView = imagesCount >= 3 ? 'auto' : 2
+  // Threads no longer sends carousel_media_count, so count the media.
+  const slidesPerView = images.length >= 3 ? 'auto' : 2
 
   const handleClick = () => {
     if (videoRef.current === null) return null
@@ -164,4 +164,5 @@ function ReactComponent({ images, imagesCount, username }: Props) {
   )
 }
 
-export const CarouselItem = qwikify$(ReactComponent)
+// The media is uploaded from an effect, so React has to hydrate.
+export const CarouselItem = qwikify$(ReactComponent, { eagerness: 'visible' })
